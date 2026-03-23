@@ -1,7 +1,7 @@
 {
   "name": "Dino Idle",
   "short_name": "DinoIdle",
-  "start_url": "index.html",
+  "start_url": "dinosaurios_idle (10).html",
   "display": "standalone",
   "background_color": "#222222",
   "theme_color": "#222222",
