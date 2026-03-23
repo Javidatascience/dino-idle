@@ -1,0 +1,2844 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="manifest" href="manifest.json">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+<title>DINO LAB EVOLUTION</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Share+Tech+Mono&family=Crimson+Pro:ital,wght@0,300;0,600;1,300&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#15131c;--p1:#1f1d2b;--p2:#262438;--p3:#2e2c42;
+  --b1:#3e3a5c;--b2:#564f7a;
+  --a:#d4922e;--a2:#ffba50;--ag:rgba(212,146,46,.12);
+  --fo:#a0927a;--tx:#ece4d4;--dm:#9a8e80;
+  --bas:#a0a0b8;--med:#40e0d0;--rar:#ff5555;--leg:#ffd700;--ocu:#ff88ff;
+  --grn:#6ed87a;--pur:#b060ff;--red:#e05050;--blu:#5080e0;
+  --tierra:#c87840;--fuego:#ff5020;--agua:#2080ff;--aire:#80d8ff;--adn-ocu:#dd44ff;
+}
+*{box-sizing:border-box;margin:0;padding:0;}html,body{height:100%;overflow:hidden;}
+body{background:var(--bg);color:var(--tx);font-family:'Share Tech Mono',monospace;font-size:12px;
+  background-image:radial-gradient(ellipse at 15% 80%,rgba(60,40,10,.18) 0%,transparent 55%),
+  radial-gradient(ellipse at 85% 15%,rgba(40,20,80,.15) 0%,transparent 50%);}
+::-webkit-scrollbar{width:4px;height:4px;}::-webkit-scrollbar-track{background:var(--bg);}::-webkit-scrollbar-thumb{background:var(--b2);}
+/* HEADER */
+.hdr{height:50px;border-bottom:1px solid var(--b1);padding:0 14px;display:flex;align-items:center;justify-content:space-between;background:rgba(8,7,10,.97);z-index:50;flex-shrink:0;}
+.logo{font-family:'Cinzel Decorative',serif;font-size:13px;color:var(--a2);letter-spacing:4px;text-shadow:0 0 20px rgba(240,168,64,.4);}
+.logo sub{font-size:7px;color:var(--fo);letter-spacing:6px;display:block;margin-top:1px;}
+.hdr-r{display:flex;gap:12px;align-items:center;}
+.curr-disp{display:flex;align-items:center;gap:5px;padding:4px 10px;border:1px solid;font-size:11px;letter-spacing:1px;}
+.curr-mon{border-color:var(--a);color:var(--a2);}
+.curr-esen{border-color:var(--pur);color:var(--pur);}
+.curr-disp span{font-size:9px;opacity:.6;}
+.asc-btn{padding:4px 10px;border:1px solid var(--ocu);color:var(--ocu);background:rgba(255,136,255,.06);cursor:pointer;font-family:'Share Tech Mono',monospace;font-size:8px;letter-spacing:2px;animation:ascGlow 2s ease-in-out infinite alternate;display:none;}
+@keyframes ascGlow{from{box-shadow:0 0 4px rgba(255,136,255,.3);}to{box-shadow:0 0 14px rgba(255,136,255,.7);}}
+/* NAV */
+.nav-tabs{display:flex;border-bottom:1px solid var(--b1);background:var(--p1);flex-shrink:0;overflow-x:auto;}
+.nav-tab{padding:8px 14px;font-size:9px;letter-spacing:2px;color:var(--dm);cursor:pointer;border-bottom:2px solid transparent;transition:all .15s;white-space:nowrap;text-transform:uppercase;}
+.nav-tab.active{color:var(--a2);border-bottom-color:var(--a);}
+.nav-tab:hover{color:var(--tx);}
+.nbadge{background:var(--rar);color:#fff;font-size:8px;padding:1px 4px;margin-left:3px;border-radius:2px;display:none;}
+.main-area{height:calc(100vh - 50px);display:flex;flex-direction:column;}
+.page{display:none;flex:1;overflow:hidden;min-height:0;}.page.active{display:flex;}
+/* SHARED */
+.sec-title{font-size:9px;letter-spacing:4px;color:var(--fo);padding:9px 13px 7px;border-bottom:1px solid var(--b1);text-transform:uppercase;position:sticky;top:0;background:var(--p1);z-index:10;display:flex;align-items:center;gap:5px;}
+.btn{padding:5px 10px;border:1px solid var(--b2);background:var(--p2);color:var(--tx);cursor:pointer;font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:1px;text-transform:uppercase;transition:all .13s;}
+.btn:hover{border-color:var(--a);color:var(--a2);background:var(--ag);}.btn:disabled{opacity:.3;cursor:not-allowed;}
+.btn.primary{border-color:var(--a);color:var(--a2);background:rgba(200,134,42,.07);}
+.btn.primary:hover{background:rgba(200,134,42,.16);}
+.btn.danger{border-color:#4a2020;color:#c06060;}.btn.danger:hover{border-color:var(--rar);color:#ff8080;}
+.btn.purple{border-color:var(--pur);color:var(--pur);background:rgba(176,96,255,.05);}
+.btn.purple:hover{background:rgba(176,96,255,.15);}
+.dot{width:8px;height:8px;border-radius:50%;border:1px solid rgba(255,255,255,.15);display:inline-block;vertical-align:middle;flex-shrink:0;}
+.rbadge{font-size:7px;padding:1px 4px;border:1px solid;letter-spacing:1px;text-transform:uppercase;flex-shrink:0;}
+.r-basica{color:var(--bas);border-color:#555;}.r-media{color:var(--med);border-color:var(--med);}
+.r-rara{color:var(--rar);border-color:var(--rar);}
+.r-legendaria{color:var(--leg);border-color:var(--leg);text-shadow:0 0 5px rgba(255,215,0,.4);}
+.r-oculta{color:var(--ocu);border-color:var(--ocu);animation:ocP 2s ease-in-out infinite alternate;}
+@keyframes ocP{from{text-shadow:0 0 4px var(--ocu);}to{text-shadow:0 0 12px var(--ocu),0 0 20px #ff44ff;}}
+.adn-t{color:var(--tierra);border-color:var(--tierra);}
+.adn-f{color:var(--fuego);border-color:var(--fuego);}
+.adn-a{color:var(--agua);border-color:var(--agua);}
+.adn-ai{color:var(--aire);border-color:var(--aire);}
+.adn-o{color:var(--adn-ocu);border-color:var(--adn-ocu);}
+/* COLECCIÓN */
+.col-layout{display:grid;grid-template-columns:240px 1fr 258px;height:100%;width:100%;}
+.col-panel{overflow-y:auto;border-right:1px solid var(--b1);}
+.col-panel:last-child{border-right:none;}
+.dino-card{display:flex;align-items:center;gap:7px;padding:7px 10px;border-bottom:1px solid var(--b1);cursor:pointer;transition:background .12s;position:relative;}
+.dino-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:transparent;transition:background .15s;}
+.dino-card:hover{background:rgba(200,134,42,.05);}.dino-card:hover::before{background:var(--b2);}
+.dino-card.sel1::before{background:var(--a2);}.dino-card.sel1{background:rgba(200,134,42,.09);}
+.dino-card.sel2::before{background:var(--med);}.dino-card.sel2{background:rgba(40,200,190,.07);}
+.dino-card.working::after{content:'⚒';position:absolute;right:34px;font-size:9px;color:var(--a);}
+.cth{width:34px;height:34px;flex-shrink:0;}.cth svg{width:100%;height:100%;}
+.cnm{color:var(--a2);font-size:10px;display:flex;align-items:center;gap:3px;margin-bottom:2px;}
+.cst{display:flex;gap:5px;}.cs{font-size:9px;color:var(--dm);}
+.cgen{font-size:8px;color:var(--pur);font-style:italic;}
+/* CENTER SHOWCASE */
+.center-col{display:flex;flex-direction:column;overflow:hidden;}
+.showcase{flex:0 0 210px;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;border-bottom:1px solid var(--b1);}
+.sh-env{position:absolute;inset:0;pointer-events:none;overflow:hidden;}
+.env-star{position:absolute;width:2px;height:2px;border-radius:50%;animation:tw 2s ease-in-out infinite alternate;}
+@keyframes tw{from{opacity:.1;}to{opacity:1;}}
+.env-cloud{position:absolute;animation:cld linear infinite;}
+@keyframes cld{from{transform:translateX(-110px);}to{transform:translateX(110vw);}}
+.env-moon{position:absolute;top:14px;left:22px;width:28px;height:28px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#fffde0,#c8b060);box-shadow:0 0 14px rgba(255,230,80,.25);}
+.env-aurora{position:absolute;top:0;left:0;right:0;height:50%;opacity:.09;background:linear-gradient(180deg,var(--pur) 0%,transparent 100%);animation:aur 4s ease-in-out infinite alternate;}
+@keyframes aur{from{opacity:.05;}to{opacity:.14;}}
+.env-aurora2{position:absolute;top:0;left:0;right:0;height:50%;opacity:.07;background:linear-gradient(180deg,#00cc44 0%,transparent 100%);animation:aur 5s ease-in-out infinite alternate;}
+.env-volcano{position:absolute;bottom:0;right:8px;}
+.env-ff{position:absolute;width:3px;height:3px;border-radius:50%;background:#ffff80;animation:ff linear infinite;}
+@keyframes ff{0%{opacity:0;transform:translate(0,0);}50%{opacity:1;transform:translate(10px,-30px);}100%{opacity:0;transform:translate(5px,-50px);}}
+.env-rain{position:absolute;width:1px;background:linear-gradient(180deg,transparent,rgba(140,170,255,.4));animation:rf linear infinite;}
+@keyframes rf{from{transform:translateY(-20px);}to{transform:translateY(110vh);}}
+.env-crystal{position:absolute;bottom:16px;animation:cg 2s ease-in-out infinite alternate;}
+@keyframes cg{from{filter:drop-shadow(0 0 4px #88ffff);}to{filter:drop-shadow(0 0 12px #00ffff);}}
+.env-bone{position:absolute;opacity:.06;}
+.env-ground{position:absolute;bottom:0;left:0;right:0;height:20px;background:linear-gradient(180deg,transparent,rgba(40,30,10,.3));}
+.dino-stage{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:5px;}
+.dino-main{width:130px;height:130px;filter:drop-shadow(0 4px 16px rgba(200,134,42,.18));transition:filter .3s;}
+.dino-main svg{width:100%;height:100%;}
+.dino-main.oculta-glow{filter:drop-shadow(0 0 12px #ff88ff) drop-shadow(0 0 28px #ff00ff55);}
+.empty-hint{color:var(--dm);font-family:'Crimson Pro',serif;font-style:italic;font-size:14px;text-align:center;z-index:2;}
+.empty-hint em{display:block;font-size:34px;margin-bottom:7px;opacity:.18;}
+.dino-info{z-index:2;text-align:center;padding:0 10px 5px;}
+.d-bname{font-family:'Cinzel Decorative',serif;font-size:10px;letter-spacing:2px;color:var(--a2);margin-bottom:5px;}
+.traits-row{display:flex;gap:4px;justify-content:center;flex-wrap:wrap;margin-bottom:5px;}
+.tc{padding:2px 6px;border:1px solid var(--b2);background:var(--p2);font-size:9px;color:var(--fo);}.tc b{color:var(--tx);}
+.gen-b{padding:2px 6px;border:1px solid var(--pur);background:rgba(176,96,255,.06);font-size:9px;color:var(--pur);}
+.adn-b{padding:2px 6px;border:1px solid;font-size:9px;}
+.stats-row{display:flex;gap:8px;justify-content:center;}
+.stat-block{text-align:center;}
+.stat-lbl{font-size:8px;color:var(--dm);letter-spacing:2px;}
+.stat-track{width:44px;height:4px;background:var(--p2);border:1px solid var(--b1);margin-top:1px;}
+.stat-fill{height:100%;background:linear-gradient(90deg,var(--a),var(--a2));transition:width .4s;}
+.stat-val{font-size:10px;color:var(--a2);margin-top:1px;}
+.wsb{position:absolute;top:7px;right:7px;background:var(--p2);border:1px solid var(--a);padding:2px 7px;font-size:8px;color:var(--a);z-index:3;}
+/* BREEDING PANEL */
+.breed-panel{flex:0 0 120px;border-bottom:1px solid var(--b1);background:var(--p1);display:flex;align-items:center;justify-content:center;gap:10px;padding:8px 14px;flex-shrink:0;}
+.breed-slot{width:56px;height:56px;border:1px dashed var(--b2);background:var(--p2);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .15s;position:relative;flex-shrink:0;}
+.breed-slot:hover{border-color:var(--a);border-style:solid;}
+.breed-slot.filled{border-style:solid;border-color:var(--b2);}
+.breed-slot svg{width:100%;height:100%;}
+.breed-slot .bs-lbl{font-size:8px;color:var(--dm);text-align:center;line-height:1.3;}
+.breed-slot .bs-rm{position:absolute;top:-5px;right:-5px;width:13px;height:13px;background:var(--rar);color:#fff;font-size:8px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:2;}
+.breed-sep{font-family:'Cinzel Decorative',serif;font-size:11px;color:var(--fo);}
+.breed-right{display:flex;flex-direction:column;align-items:center;gap:6px;flex-shrink:0;}
+.breed-pred{font-size:8px;color:var(--dm);text-align:center;max-width:90px;line-height:1.5;}
+.breed-big-btn{padding:7px 14px;border:1px solid var(--a);background:rgba(200,134,42,.07);color:var(--a2);cursor:pointer;font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:2px;transition:all .15s;}
+.breed-big-btn:hover:not(:disabled){background:rgba(200,134,42,.18);box-shadow:0 0 12px rgba(200,134,42,.2);}
+.breed-big-btn:disabled{opacity:.3;cursor:not-allowed;}
+/* EGGS & LOG */
+.eggs-section{border-bottom:1px solid var(--b1);background:var(--p1);flex-shrink:0;}
+.eggs-hdr{padding:5px 11px;font-size:9px;letter-spacing:3px;color:var(--fo);display:flex;align-items:center;gap:5px;}
+.eggs-grid{display:flex;gap:8px;padding:4px 11px 7px;flex-wrap:wrap;}
+.egg-wrap{display:flex;flex-direction:column;align-items:center;gap:2px;}
+.egg-box{width:40px;height:50px;}.egg-box svg{width:100%;height:100%;}
+.egg-bar-o{width:38px;height:4px;background:var(--p2);border:1px solid var(--b2);border-radius:2px;overflow:hidden;}
+.egg-bar-i{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--a),var(--a2));transition:width .5s;}
+.egg-lbl{font-size:8px;color:var(--dm);}
+.egg-wrap.hatching .egg-box{animation:esh .18s ease infinite alternate;}
+@keyframes esh{from{transform:rotate(-5deg);}to{transform:rotate(5deg);}}
+.log-area{flex:1;overflow-y:auto;padding:1px 0;min-height:0;}
+.log-row{padding:2px 11px;font-size:9px;color:var(--dm);border-bottom:1px solid rgba(46,40,64,.18);line-height:1.5;}
+.log-row.good{color:#6ed87a;}.log-row.warn{color:var(--a);}.log-row.legendary{color:var(--leg);}.log-row.oculta{color:var(--ocu);}.log-row.bad{color:var(--red);}
+.log-ts{margin-right:4px;opacity:.28;}
+/* SHOP (right panel of coleccion) */
+.shop-tabs{display:flex;border-bottom:1px solid var(--b1);flex-shrink:0;}
+.shop-tab{flex:1;padding:6px;font-size:8px;letter-spacing:1px;text-align:center;color:var(--dm);cursor:pointer;border-bottom:2px solid transparent;transition:all .15s;text-transform:uppercase;}
+.shop-tab.active{color:var(--a2);border-bottom-color:var(--a);}
+.tab-content{display:none;overflow-y:auto;flex:1;min-height:0;}.tab-content.active{display:block;}
+.sb{padding:9px 11px;}.sbt{font-size:8px;letter-spacing:4px;color:var(--fo);border-bottom:1px solid var(--b1);padding-bottom:4px;margin-bottom:7px;text-transform:uppercase;}
+.shop-row{display:flex;align-items:center;gap:6px;padding:6px 8px;background:var(--p2);border:1px solid var(--b1);margin-bottom:4px;}
+.si{font-size:14px;flex-shrink:0;}.sm{flex:1;min-width:0;}.sn{font-size:10px;color:var(--tx);}.sd{font-size:8px;color:var(--dm);margin-top:1px;line-height:1.3;}
+.sp{font-size:10px;color:var(--a2);flex-shrink:0;}.sp::before{content:"💰 ";}
+.sp.esen::before{content:"✨ ";}
+.sbuy{padding:3px 7px;border:1px solid var(--a);background:transparent;color:var(--a);cursor:pointer;font-family:'Share Tech Mono',monospace;font-size:8px;transition:all .13s;flex-shrink:0;}
+.sbuy:hover{background:var(--ag);}.sbuy:disabled{opacity:.3;cursor:not-allowed;border-color:var(--b1);}
+/* TAREAS (task-based upgrades) */
+.task-row{padding:8px 10px;background:var(--p2);border:1px solid var(--b1);margin-bottom:5px;}
+.task-row.done{border-color:rgba(110,216,122,.3);background:rgba(110,216,122,.03);}
+.task-hdr{display:flex;align-items:center;gap:6px;margin-bottom:3px;}
+.task-ic{font-size:13px;}.task-nm{font-size:10px;color:var(--tx);}
+.task-nm.dn{color:var(--grn);}.task-nm.dn::after{content:" ✓";}
+.task-req{font-size:9px;color:var(--dm);margin-bottom:4px;}
+.task-rew{font-size:9px;color:var(--a2);font-style:italic;}
+.task-prog-bar{height:3px;background:var(--p1);border:1px solid var(--b1);border-radius:2px;overflow:hidden;margin-top:4px;}
+.task-prog-fill{height:100%;background:linear-gradient(90deg,var(--grn),#a0f0a0);transition:width .5s;}
+/* RANCHO */
+.rancho-layout{flex:1;display:flex;overflow:hidden;width:100%;}
+.rancho-l{width:280px;flex-shrink:0;border-right:1px solid var(--b1);display:flex;flex-direction:column;overflow:hidden;}
+.rancho-r{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;}
+.rancho-info{background:var(--p2);border:1px solid var(--b1);padding:12px;font-size:10px;color:var(--dm);line-height:1.9;}
+.rancho-info b{color:var(--a2);}
+.rancho-card{display:flex;align-items:center;gap:8px;padding:7px 10px;background:var(--p2);border:1px solid var(--b1);transition:all .13s;}
+.rancho-card:hover{border-color:var(--b2);}
+.rancho-card .cth{width:32px;height:32px;}
+.rancho-earn{font-size:10px;color:var(--grn);margin-left:auto;flex-shrink:0;}
+.rancho-earn::after{content:" 💰/s";}
+.rancho-empty{color:var(--dm);font-family:'Crimson Pro',serif;font-style:italic;text-align:center;padding:30px;font-size:14px;}
+/* TRABAJOS */
+.page-trab{flex:1;display:flex;flex-direction:column;overflow:hidden;width:100%;}
+.work-tabs{display:flex;border-bottom:1px solid var(--b1);background:var(--p1);flex-shrink:0;}
+.work-tab{flex:1;padding:8px;font-size:9px;letter-spacing:2px;text-align:center;color:var(--dm);cursor:pointer;border-bottom:2px solid transparent;transition:all .15s;text-transform:uppercase;}
+.work-tab.active{color:var(--a2);border-bottom-color:var(--a);}
+.work-page{display:none;flex:1;overflow:hidden;min-height:0;}.work-page.active{display:flex;}
+/* MINA */
+.mina-layout{flex:1;display:flex;overflow:hidden;}
+.mina-tiers{width:180px;flex-shrink:0;border-right:1px solid var(--b1);overflow-y:auto;}
+.mina-tier-btn{width:100%;padding:10px 13px;border-bottom:1px solid var(--b1);cursor:pointer;transition:background .13s;border-left:2px solid transparent;display:flex;flex-direction:column;gap:2px;}
+.mina-tier-btn:hover{background:rgba(200,134,42,.05);}
+.mina-tier-btn.active{background:rgba(200,134,42,.07);border-left-color:var(--a);}
+.mina-tier-btn.locked{opacity:.4;cursor:not-allowed;}
+.mina-tier-nm{font-size:10px;color:var(--a2);}
+.mina-tier-req{font-size:8px;color:var(--dm);}
+.mina-center{flex:1;display:flex;flex-direction:column;overflow:hidden;}
+.gems-grid{display:flex;gap:10px;padding:14px;flex-wrap:wrap;border-bottom:1px solid var(--b1);}
+.gem-node{width:98px;padding:10px;background:var(--p2);border:1px solid var(--b1);cursor:pointer;transition:all .15s;text-align:center;position:relative;}
+.gem-node:hover{border-color:var(--b2);transform:translateY(-1px);}
+.gem-node.mining{border-color:var(--a);}
+.gem-node.locked-gem{opacity:.35;cursor:not-allowed;}
+.gem-icon{font-size:24px;display:block;margin-bottom:5px;}
+.gem-nm{font-size:9px;color:var(--tx);margin-bottom:3px;}
+.gem-req{font-size:8px;margin-bottom:5px;}
+.gem-swatch{width:16px;height:16px;border-radius:50%;margin:0 auto 3px;border:1px solid rgba(255,255,255,.15);}
+.gem-prog{height:3px;background:var(--p1);border-radius:2px;overflow:hidden;margin-top:4px;}
+.gem-prog-fill{height:100%;background:linear-gradient(90deg,var(--a),var(--a2));transition:width .4s;}
+.gem-slot-txt{font-size:8px;color:var(--dm);margin-top:3px;}
+.mina-log{border-top:1px solid var(--b1);padding:8px 13px;max-height:120px;overflow-y:auto;flex-shrink:0;}
+.mina-log-t{font-size:8px;letter-spacing:3px;color:var(--fo);margin-bottom:4px;}
+.mlog-r{font-size:9px;color:var(--dm);padding:1px 0;}
+.mlog-r.win{color:var(--grn);}
+/* EXPLORACIÓN */
+.expl-layout{flex:1;display:flex;overflow:hidden;}
+.expl-dests{width:180px;flex-shrink:0;border-right:1px solid var(--b1);overflow-y:auto;}
+.dest-btn{width:100%;padding:10px 13px;border-bottom:1px solid var(--b1);cursor:pointer;transition:background .13s;border-left:2px solid transparent;}
+.dest-btn:hover{background:rgba(176,96,255,.05);}
+.dest-btn.active{background:rgba(176,96,255,.07);border-left-color:var(--pur);}
+.dest-btn.locked{opacity:.4;cursor:not-allowed;}
+.dest-nm{font-size:10px;color:var(--pur);}
+.dest-req{font-size:8px;color:var(--dm);margin-top:2px;}
+.expl-center{flex:1;display:flex;flex-direction:column;overflow:hidden;}
+.manchas-encontradas{padding:10px 14px;border-bottom:1px solid var(--b1);flex-shrink:0;}
+.mex-title{font-size:8px;letter-spacing:3px;color:var(--fo);margin-bottom:7px;text-transform:uppercase;}
+.mex-grid{display:flex;gap:6px;flex-wrap:wrap;}
+.mex-chip{padding:3px 8px;border:1px solid var(--b1);background:var(--p2);font-size:9px;color:var(--dm);}
+.mex-chip.found{color:var(--pur);border-color:var(--pur);}
+.expl-slot-area{flex:1;overflow-y:auto;padding:10px 14px;}
+.expl-log{border-top:1px solid var(--b1);padding:8px 13px;max-height:110px;overflow-y:auto;flex-shrink:0;}
+/* ARENA TRABAJO */
+.arena-trab-layout{flex:1;display:flex;overflow:hidden;}
+.arena-tiers{width:180px;flex-shrink:0;border-right:1px solid var(--b1);overflow-y:auto;}
+.arena-tier-btn{width:100%;padding:10px 13px;border-bottom:1px solid var(--b1);cursor:pointer;transition:background .13s;border-left:2px solid transparent;}
+.arena-tier-btn:hover{background:rgba(255,50,50,.04);}
+.arena-tier-btn.active{background:rgba(255,50,50,.06);border-left-color:var(--rar);}
+.arena-tier-btn.locked{opacity:.4;cursor:not-allowed;}
+.arena-center{flex:1;display:flex;flex-direction:column;overflow:hidden;padding:12px;}
+.vestidos-grid{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;}
+.vest-reward-item{padding:6px 10px;background:var(--p2);border:1px solid var(--b1);font-size:9px;color:var(--dm);display:flex;align-items:center;gap:5px;}
+.vest-reward-item.found{color:var(--rar);border-color:rgba(255,80,80,.3);}
+.arena-slot-area{flex:1;overflow-y:auto;}
+.arena-log{border-top:1px solid var(--b1);padding:8px 13px;max-height:110px;overflow-y:auto;flex-shrink:0;}
+/* GRANJA */
+.granja-layout{flex:1;display:flex;overflow:hidden;}
+.granja-l{width:260px;flex-shrink:0;border-right:1px solid var(--b1);display:flex;flex-direction:column;overflow:hidden;}
+.granja-r{flex:1;overflow-y:auto;padding:12px;}
+.granja-rules{padding:10px 12px;font-size:9px;color:var(--dm);line-height:1.9;border-bottom:1px solid var(--b1);}
+.granja-rules h4{color:var(--grn);margin-bottom:5px;letter-spacing:2px;font-size:8px;text-transform:uppercase;}
+.seed-item2{display:flex;align-items:center;gap:6px;padding:5px 8px;background:var(--p2);border:1px solid var(--b1);margin-bottom:3px;}
+.seed-req{font-size:8px;color:var(--fo);font-style:italic;}
+/* WORK SLOTS SHARED */
+.work-slot{display:flex;align-items:center;gap:8px;padding:7px 9px;background:var(--p2);border:1px solid var(--b1);margin-bottom:5px;}
+.ws-th{width:28px;height:28px;flex-shrink:0;}.ws-th svg{width:100%;height:100%;}
+.ws-info{flex:1;min-width:0;}.ws-nm{font-size:9px;color:var(--a2);}
+.wp-bar{width:100%;height:4px;background:var(--p1);border:1px solid var(--b1);border-radius:2px;overflow:hidden;margin-top:2px;}
+.wp-fill{height:100%;background:linear-gradient(90deg,var(--blu),#80c0ff);transition:width .4s;}
+.wp-txt{font-size:8px;color:var(--dm);margin-top:1px;}
+.ws-rem{padding:2px 5px;border:1px solid var(--rar);background:transparent;color:var(--rar);cursor:pointer;font-family:'Share Tech Mono',monospace;font-size:8px;flex-shrink:0;}
+.assign-btn{width:100%;padding:6px;border:1px dashed var(--b2);background:transparent;color:var(--dm);cursor:pointer;font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:1px;transition:all .13s;margin-top:4px;}
+.assign-btn:hover{border-color:var(--a);color:var(--a2);}
+/* LAB */
+.page-lab{flex:1;display:grid;grid-template-columns:210px 1fr 258px;overflow:hidden;width:100%;}
+.lab-col{overflow-y:auto;border-right:1px solid var(--b1);}.lab-col:last-child{border-right:none;}
+.lab-drow{display:flex;align-items:center;gap:7px;padding:7px 10px;border-bottom:1px solid var(--b1);cursor:pointer;transition:all .13s;}
+.lab-drow:hover{background:rgba(200,134,42,.04);}
+.lab-drow.sel-lab{background:rgba(176,96,255,.08);border-left:2px solid var(--pur);}
+.lab-pw{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px;gap:7px;overflow-y:auto;}
+.lab-prev{width:145px;height:145px;filter:drop-shadow(0 0 14px rgba(176,96,255,.2));}
+.lab-prev svg{width:100%;height:100%;}
+.inv-section{padding:7px 11px;border-bottom:1px solid var(--b1);}
+.inv-stitle{font-size:8px;letter-spacing:3px;color:var(--fo);margin-bottom:5px;text-transform:uppercase;}
+.inv-item{display:flex;align-items:center;gap:6px;padding:4px 7px;background:var(--p2);border:1px solid var(--b1);margin-bottom:3px;cursor:pointer;transition:all .13s;}
+.inv-item:hover{border-color:var(--a);}.inv-item.sel-inv{border-color:var(--pur);background:rgba(176,96,255,.06);}
+.inv-nm{font-size:9px;color:var(--tx);flex:1;}
+.inv-cnt{font-size:9px;color:var(--a2);background:var(--p3);padding:0 4px;border-radius:2px;}
+.inject-btn{padding:7px 16px;border:1px solid var(--pur);background:rgba(176,96,255,.07);color:var(--pur);cursor:pointer;font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:2px;transition:all .13s;}
+.inject-btn:hover{background:rgba(176,96,255,.18);}.inject-btn:disabled{opacity:.3;cursor:not-allowed;}
+/* JARDÍN */
+.page-jard{flex:1;display:flex;overflow:hidden;width:100%;}
+.jard-l{width:258px;flex-shrink:0;border-right:1px solid var(--b1);display:flex;flex-direction:column;overflow:hidden;}
+.jard-r{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;overflow:auto;padding:12px;}
+.garden-grid{display:grid;grid-template-columns:repeat(8,46px);grid-template-rows:repeat(8,46px);gap:3px;margin-bottom:8px;}
+.gc{width:46px;height:46px;background:var(--p2);border:1px solid var(--b1);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;transition:all .15s;position:relative;}
+.gc:hover{border-color:var(--a);}
+.gc.has-plant{background:rgba(20,55,15,.3);}
+.gc .g-prog{position:absolute;bottom:0;left:0;height:3px;background:var(--grn);transition:width .8s;}
+.gc .g-ripe{position:absolute;top:2px;right:2px;width:5px;height:5px;border-radius:50%;background:var(--grn);}
+.seed-item-jard{display:flex;align-items:center;gap:6px;padding:5px 8px;background:var(--p2);border:1px solid var(--b1);margin-bottom:3px;cursor:pointer;transition:all .13s;}
+.seed-item-jard:hover{border-color:var(--a);}.seed-item-jard.sel-seed{border-color:var(--grn);background:rgba(110,216,122,.05);}
+.seed-icon{font-size:16px;flex-shrink:0;}.seed-nm{font-size:9px;color:var(--tx);flex:1;}
+.seed-cnt{font-size:9px;color:var(--a2);background:var(--p3);padding:0 4px;border-radius:2px;}
+.recipe-panel{overflow-y:auto;flex:1;min-height:0;}
+.recipe-item{padding:6px 10px;border-bottom:1px solid var(--b1);font-size:9px;color:var(--dm);line-height:1.6;}
+.recipe-item .combo-result{color:var(--grn);font-weight:bold;}
+/* ARENA JEFES */
+.page-arena{flex:1;display:flex;overflow:hidden;width:100%;}
+.boss-lc{width:220px;flex-shrink:0;border-right:1px solid var(--b1);overflow-y:auto;}
+.boss-card{padding:9px 11px;border-bottom:1px solid var(--b1);cursor:pointer;transition:all .13s;border-left:2px solid transparent;}
+.boss-card:hover{background:rgba(200,134,42,.04);}.boss-card.sel-boss{background:rgba(200,134,42,.08);border-left-color:var(--a);}
+.boss-card.def-boss{background:rgba(110,216,122,.03);border-left-color:var(--grn);}
+.boss-nm{font-family:'Cinzel Decorative',serif;font-size:9px;color:var(--a2);letter-spacing:1px;margin-bottom:2px;}
+.boss-diff{font-size:8px;margin-bottom:1px;}.boss-inf{font-size:8px;color:var(--dm);}
+.boss-center{flex:1;display:flex;flex-direction:column;overflow:hidden;}
+.boss-vis{height:180px;display:flex;align-items:center;justify-content:space-evenly;padding:10px;border-bottom:1px solid var(--b1);flex-shrink:0;}
+.boss-team-col{display:flex;flex-direction:column;gap:5px;align-items:center;}
+.boss-slot{width:38px;height:38px;border:1px dashed var(--b2);background:var(--p2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:15px;transition:all .13s;position:relative;}
+.boss-slot:hover{border-color:var(--a);}.boss-slot.filled{border-style:solid;border-color:var(--b2);}
+.boss-slot svg{width:100%;height:100%;}
+.boss-slot .rm-bs{position:absolute;top:-5px;right:-5px;width:12px;height:12px;background:var(--rar);color:#fff;font-size:7px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;}
+.boss-sprite{width:88px;height:88px;}.boss-sprite svg{width:100%;height:100%;}
+.boss-hp-bar{width:90px;height:5px;background:var(--p2);border:1px solid var(--b1);border-radius:3px;overflow:hidden;margin:3px auto;}
+.boss-hp-fill{height:100%;background:linear-gradient(90deg,var(--rar),#ff8888);transition:width .5s;}
+.boss-vs{font-family:'Cinzel Decorative',serif;font-size:14px;color:var(--a);text-shadow:0 0 12px var(--a);}
+.boss-ctrl{padding:9px 12px;border-bottom:1px solid var(--b1);background:var(--p1);flex-shrink:0;display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+.fight-btn{padding:6px 14px;border:1px solid var(--rar);background:rgba(255,50,50,.07);color:var(--rar);cursor:pointer;font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:2px;transition:all .13s;}
+.fight-btn:hover{background:rgba(255,50,50,.16);}.fight-btn:disabled{opacity:.3;cursor:not-allowed;}
+.boss-log{flex:1;overflow-y:auto;padding:7px 12px;}
+.bl-row{font-size:9px;padding:2px 0;border-bottom:1px solid rgba(46,40,64,.15);}
+.bl-row.hit{color:var(--a);}.bl-row.crit{color:var(--rar);}.bl-row.won{color:var(--grn);}.bl-row.lose{color:var(--red);}
+.boss-explain{width:210px;flex-shrink:0;border-left:1px solid var(--b1);overflow-y:auto;padding:12px;font-size:9px;color:var(--dm);line-height:1.8;}
+.boss-explain h3{color:var(--a2);font-size:8px;margin-bottom:6px;letter-spacing:2px;border-bottom:1px solid var(--b1);padding-bottom:3px;text-transform:uppercase;}
+/* LOGROS */
+.page-logros{flex:1;overflow-y:auto;padding:14px;width:100%;}
+.logros-hdr{margin-bottom:12px;}
+.logros-title{font-family:'Cinzel Decorative',serif;font-size:12px;color:var(--a2);letter-spacing:3px;margin-bottom:3px;}
+.logros-sub{font-size:10px;color:var(--dm);}
+.logros-cats{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:10px;}
+.lcat-btn{padding:4px 9px;border:1px solid var(--b2);background:transparent;color:var(--dm);cursor:pointer;font-family:'Share Tech Mono',monospace;font-size:8px;letter-spacing:1px;transition:all .13s;}
+.lcat-btn:hover{border-color:var(--a);color:var(--a2);}.lcat-btn.active{border-color:var(--a);color:var(--a2);background:var(--ag);}
+.logros-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:8px;}
+.logro-card{background:var(--p2);border:1px solid var(--b1);padding:11px;position:relative;transition:all .2s;}
+.logro-card.unlocked{border-color:var(--a);background:rgba(200,134,42,.04);}
+.logro-card.unlocked::after{content:'✓';position:absolute;top:8px;right:10px;color:var(--a2);font-size:11px;}
+.logro-card.sec-card{border-style:dashed;opacity:.65;}
+.logro-icon{font-size:18px;margin-bottom:4px;}
+.logro-nm{font-family:'Cinzel Decorative',serif;font-size:8px;color:var(--a2);letter-spacing:2px;margin-bottom:2px;}
+.logro-desc{font-size:9px;color:var(--dm);line-height:1.4;margin-bottom:3px;}
+.logro-how{font-size:8px;color:var(--fo);line-height:1.4;font-style:italic;padding:3px 6px;background:rgba(255,255,255,.02);border-left:2px solid var(--b2);margin-bottom:4px;}
+.logro-prog{margin-top:4px;display:flex;align-items:center;gap:6px;}
+.logro-bar{flex:1;height:3px;background:var(--p1);border:1px solid var(--b1);border-radius:2px;overflow:hidden;}
+.logro-bar-f{height:100%;background:linear-gradient(90deg,var(--a),var(--a2));transition:width .5s;}
+.logro-bar-t{font-size:8px;color:var(--dm);}
+/* ENCICLOPEDIA */
+.page-ency{flex:1;display:flex;flex-direction:column;overflow:hidden;width:100%;}
+.ency-tabs{display:flex;border-bottom:1px solid var(--b1);flex-shrink:0;background:var(--p1);overflow-x:auto;}
+.ency-tab{padding:7px 10px;font-size:8px;letter-spacing:2px;color:var(--dm);cursor:pointer;border-bottom:2px solid transparent;transition:all .15s;white-space:nowrap;text-transform:uppercase;}
+.ency-tab.active{color:var(--a2);border-bottom-color:var(--a);}
+.ency-body{flex:1;overflow-y:auto;padding:12px;}
+.ency-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(108px,1fr));gap:8px;}
+.ency-item{background:var(--p2);border:1px solid var(--b1);padding:10px 8px;text-align:center;cursor:pointer;transition:all .2s;position:relative;}
+.ency-item:hover{border-color:var(--b2);transform:translateY(-1px);}
+.ency-item.discovered{border-color:var(--b2);}
+.ency-item.undiscovered{border-style:dashed;opacity:.58;}
+.ency-item.oculta-item{border-color:var(--ocu);box-shadow:0 0 8px rgba(255,136,255,.1);}
+.ency-swatch{width:30px;height:30px;border-radius:50%;margin:0 auto 5px;border:2px solid rgba(255,255,255,.08);}
+.ency-svg{width:38px;height:38px;margin:0 auto 5px;}.ency-svg svg{width:100%;height:100%;}
+.ency-nm{font-size:9px;color:var(--tx);letter-spacing:1px;margin-bottom:2px;}
+.ency-rar{font-size:7px;letter-spacing:2px;text-transform:uppercase;}
+.ency-how{font-size:8px;color:var(--fo);margin-top:3px;line-height:1.4;font-style:italic;}
+/* ASCENSIÓN */
+.asc-overlay{position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:300;display:none;flex-direction:column;align-items:center;justify-content:center;gap:16px;}
+.asc-overlay.show{display:flex;}
+.asc-panel{background:var(--p1);border:1px solid var(--ocu);padding:28px 36px;max-width:480px;text-align:center;}
+.asc-title{font-family:'Cinzel Decorative',serif;font-size:16px;color:var(--ocu);letter-spacing:4px;margin-bottom:12px;text-shadow:0 0 20px var(--ocu);}
+.asc-desc{font-size:10px;color:var(--dm);line-height:1.9;margin-bottom:16px;}
+.asc-bonus{color:var(--ocu);font-size:11px;margin-bottom:16px;}
+.asc-warn{font-size:9px;color:var(--rar);margin-bottom:14px;}
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.78);z-index:200;display:flex;align-items:center;justify-content:center;}
+.modal{background:var(--p1);border:1px solid var(--b2);padding:16px;width:350px;max-height:80vh;display:flex;flex-direction:column;box-shadow:0 0 40px rgba(0,0,0,.5);}
+.modal-title{font-family:'Cinzel Decorative',serif;font-size:9px;color:var(--a2);letter-spacing:3px;margin-bottom:10px;border-bottom:1px solid var(--b1);padding-bottom:6px;}
+.modal-body{overflow-y:auto;flex:1;max-height:50vh;}
+.modal-drow{display:flex;align-items:center;gap:7px;padding:6px;border:1px solid var(--b1);margin-bottom:3px;cursor:pointer;transition:all .13s;}
+.modal-drow:hover{border-color:var(--a);background:var(--ag);}
+.modal-drow.unavail{opacity:.3;cursor:not-allowed;pointer-events:none;}
+.modal-dt{width:28px;height:28px;flex-shrink:0;}.modal-dt svg{width:100%;height:100%;}
+.modal-dn{font-size:10px;color:var(--a2);}.modal-ds{font-size:8px;color:var(--dm);margin-top:1px;}
+.modal-cls{margin-top:8px;width:100%;padding:5px;border:1px solid var(--b2);background:transparent;color:var(--dm);cursor:pointer;font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:2px;transition:all .13s;}
+.modal-cls:hover{border-color:var(--a);color:var(--a2);}
+/* MODAL ZOOM ENCICLOPEDIA */
+#ency-zoom-modal { position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:9999;display:none;flex-direction:column;align-items:center;justify-content:center;backdrop-filter:blur(5px); }
+#ency-zoom-content { width:300px; height:300px; filter:drop-shadow(0 0 20px var(--a2)); margin-bottom:20px; }
+#ency-zoom-content svg { width:100%; height:100%; }
+/* NOTIF */
+.notif{position:fixed;bottom:12px;right:12px;z-index:999;background:var(--p1);border:1px solid var(--a);padding:6px 12px;font-size:10px;color:var(--a2);opacity:0;transform:translateY(8px);transition:all .25s;pointer-events:none;max-width:230px;}
+.notif.show{opacity:1;transform:translateY(0);}
+.notif.leg{border-color:var(--leg);color:var(--leg);}
+.notif.ocu{border-color:var(--ocu);color:var(--ocu);}
+.logro-popup{position:fixed;bottom:52px;right:12px;z-index:998;background:var(--p1);border:1px solid var(--grn);padding:9px 13px;min-width:190px;opacity:0;transform:translateX(16px);transition:all .3s;pointer-events:none;}
+.logro-popup.show{opacity:1;transform:translateX(0);}
+.lp-t{font-size:8px;letter-spacing:3px;color:var(--grn);margin-bottom:2px;}
+.lp-n{font-size:10px;color:var(--tx);}
+
+/* ═══════════════════════════════════════════════════
+   MOBILE  (portrait-first, ≤ 600 px)
+   Panel switching via parent data-show + CSS selectors
+   ═══════════════════════════════════════════════════ */
+
+/* ── Panel-switcher bar ── */
+.mp-bar{display:none;flex-shrink:0;background:var(--p2);
+        border-bottom:2px solid var(--b1);width:100%;}
+.mp-btn{flex:1;padding:12px 4px;font-size:10px;color:var(--dm);
+        background:transparent;border:none;border-bottom:3px solid transparent;
+        cursor:pointer;font-family:'Share Tech Mono',monospace;
+        text-transform:uppercase;letter-spacing:.5px;
+        -webkit-tap-highlight-color:transparent;transition:color .15s;}
+.mp-btn.active{color:var(--a2);border-bottom-color:var(--a);
+               background:rgba(212,146,46,.08);}
+
+@media (max-width:600px){
+  .hdr{height:44px;padding:0 9px;}
+  .logo{font-size:10px;letter-spacing:2px;}
+  .logo sub{display:none;}
+  .curr-disp{padding:3px 8px;font-size:10px;letter-spacing:0;}
+  .hdr-r{gap:6px;}
+  .main-area{height:calc(100dvh - 44px);}
+  .nav-tabs{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+  .nav-tab{padding:10px 10px;font-size:8px;letter-spacing:0;}
+
+  /* Colección: 3 columnas → apiladas con scroll */
+  .col-layout{display:flex!important;flex-direction:column!important;
+              grid-template-columns:unset!important;overflow-y:auto;}
+  .col-panel,.center-col{border-right:none;border-bottom:1px solid var(--b1);
+                          width:100%!important;min-height:200px;overflow-y:auto;}
+  .col-panel:last-child{border-bottom:none;}
+  .showcase{flex:0 0 170px!important;}
+  .dino-main{width:105px!important;height:105px!important;}
+  .breed-panel{flex:0 0 82px!important;padding:5px 8px!important;gap:6px!important;}
+  .breed-slot{width:42px!important;height:42px!important;}
+  .log-area{min-height:80px;max-height:140px;}
+  .shop-tab{padding:10px 4px!important;font-size:8px!important;}
+
+  /* Rancho */
+  .rancho-layout{flex-direction:column!important;}
+  .rancho-l{width:100%!important;max-height:200px;border-right:none;
+             border-bottom:1px solid var(--b1);}
+  .rancho-r{overflow-y:auto;padding:8px 10px;}
+  .rancho-info{padding:8px!important;font-size:9px!important;line-height:1.65!important;}
+  .rancho-card{padding:4px 8px!important;}
+  .rancho-card .cth{width:26px!important;height:26px!important;}
+
+  /* Trabajos: barras laterales → tira horizontal */
+  .mina-layout,.expl-layout,.arena-trab-layout{flex-direction:column!important;}
+  .mina-tiers,.expl-dests,.arena-tiers{
+    width:100%!important;height:auto!important;
+    border-right:none!important;border-bottom:1px solid var(--b1)!important;
+    display:flex!important;flex-direction:row!important;
+    overflow-x:auto!important;overflow-y:hidden!important;flex-shrink:0!important;}
+  .mina-tiers .sec-title,.expl-dests .sec-title,.arena-tiers .sec-title{display:none!important;}
+  .mina-tier-btn,.dest-btn,.arena-tier-btn{
+    width:auto!important;min-width:90px!important;flex-shrink:0!important;
+    padding:10px 12px!important;border-left:none!important;
+    border-bottom:2px solid transparent!important;
+    border-right:1px solid var(--b1)!important;}
+  .mina-tier-btn.active{border-bottom-color:var(--a)!important;border-left:none!important;}
+  .dest-btn.active{border-bottom-color:var(--pur)!important;border-left:none!important;}
+  .arena-tier-btn.active{border-bottom-color:var(--rar)!important;border-left:none!important;}
+  .mina-center,.expl-center,.arena-center{overflow-y:auto!important;}
+  .gem-node{width:calc(50% - 5px)!important;}
+  .gems-grid{flex-wrap:wrap!important;padding:8px!important;gap:8px!important;}
+  .arena-trab-layout .arena-log{
+    width:100%!important;border-left:none!important;
+    border-top:1px solid var(--b1)!important;max-height:80px!important;}
+
+  /* Granja */
+  .granja-layout{flex-direction:column!important;}
+  .granja-l{width:100%!important;border-right:none!important;
+             border-bottom:1px solid var(--b1)!important;
+             max-height:190px!important;flex-shrink:0!important;}
+  .granja-r{flex:1;overflow-y:auto;padding:8px 10px;}
+  .granja-rules{padding:7px 10px!important;font-size:8px!important;line-height:1.6!important;}
+
+  /* Laboratorio: 3 columnas → apiladas */
+  .page-lab{display:flex!important;flex-direction:column!important;
+             grid-template-columns:unset!important;overflow-y:auto;}
+  .lab-col{border-right:none!important;border-bottom:1px solid var(--b1);
+            width:100%!important;min-height:150px;}
+
+  /* Jardín */
+  .page-jard{flex-direction:column!important;}
+  .jard-l{width:100%!important;border-right:none!important;
+           border-bottom:1px solid var(--b1)!important;
+           max-height:34%!important;flex-shrink:0!important;}
+  .jard-r{flex:1;overflow-y:auto;padding:8px;}
+  .garden-grid{grid-template-columns:repeat(8,36px)!important;
+                grid-template-rows:repeat(8,36px)!important;gap:2px!important;}
+  .gc{width:36px!important;height:36px!important;font-size:13px!important;}
+
+  /* Arena Jefes */
+  .page-arena{flex-direction:column!important;}
+  .boss-lc{width:100%!important;height:auto!important;
+            border-right:none!important;border-bottom:1px solid var(--b1)!important;
+            flex-shrink:0!important;display:flex!important;
+            flex-direction:row!important;overflow-x:auto!important;overflow-y:hidden!important;}
+  .boss-lc .sec-title{display:none!important;}
+  .boss-card{flex-shrink:0!important;width:115px!important;
+              border-bottom:none!important;border-right:1px solid var(--b1)!important;}
+  .boss-center{flex:1;overflow-y:auto;min-height:0;}
+  .boss-vis{height:145px!important;}
+  .boss-explain{display:none!important;}
+
+  /* Logros */
+  .logros-grid{grid-template-columns:repeat(2,1fr)!important;}
+
+  /* Modal */
+  .modal{width:calc(100vw - 14px)!important;max-height:86vh!important;}
+  .notif{left:8px;right:8px;max-width:none;}
+}
+</style>
+</head>
+<body>
+<div class="hdr">
+  <div class="logo">DINO LAB <sub>LABORATORIO PREHISTÓRICO</sub></div>
+  <div class="hdr-r">
+    <div class="curr-disp curr-mon"><span>💰</span><span id="money-display">0</span></div>
+    <div class="curr-disp curr-esen"><span>✨</span><span id="esen-display">0</span></div>
+    <button class="asc-btn" id="asc-btn" onclick="showAscension()">⬆ ASCENDER</button>
+  </div>
+</div>
+<div class="main-area">
+  <div class="nav-tabs">
+    <div class="nav-tab active" onclick="switchPage('coleccion',this)">Colección</div>
+    <div class="nav-tab" onclick="switchPage('rancho',this)">Rancho</div>
+    <div class="nav-tab" onclick="switchPage('trabajos',this)">Trabajos</div>
+    <div class="nav-tab" onclick="switchPage('lab',this)">Laboratorio</div>
+    <div class="nav-tab" onclick="switchPage('jardin',this)">Jardín</div>
+    <div class="nav-tab" onclick="switchPage('arena',this)">Arena Jefes</div>
+    <div class="nav-tab" onclick="switchPage('logros',this)">Logros <span class="nbadge" id="logros-badge">!</span></div>
+    <div class="nav-tab" onclick="switchPage('enciclopedia',this)">Enciclopedia</div>
+  </div>
+
+  <div class="page active" id="page-coleccion">
+    <div class="mp-bar" id="col-bar">
+      <button class="mp-btn active" onclick="mpSwitch('col-layout','col-bar',0)">📋 Lista</button>
+      <button class="mp-btn" onclick="mpSwitch('col-layout','col-bar',1)">🦕 Dino</button>
+      <button class="mp-btn" onclick="mpSwitch('col-layout','col-bar',2)">🛒 Tienda</button>
+    </div>
+    <div class="col-layout" id="col-layout" data-show="0">
+      <div class="col-panel mp-panel" id="col-list">
+        <div class="sec-title">Colección <span id="dino-count" style="color:var(--a2)"></span></div>
+        <div id="dino-list"></div>
+      </div>
+      <div class="center-col mp-panel" id="col-center">
+        <div class="showcase" id="showcase">
+          <div class="sh-env" id="env-layer"></div>
+          <div class="empty-hint" id="empty-hint"><em>🦕</em>Selecciona un dinosaurio</div>
+          <div id="dino-stage" class="dino-stage" style="display:none">
+            <div class="dino-main" id="dino-main"></div>
+            <div class="dino-info"><div class="d-bname" id="d-name"></div><div class="traits-row" id="d-traits"></div><div class="stats-row" id="d-stats"></div></div>
+          </div>
+          <div id="wsb" class="wsb" style="display:none"></div>
+          <div class="env-ground"></div>
+        </div>
+        <div class="breed-panel">
+          <div class="breed-slot" id="bslot0" onclick="breedSlotClick(0)">
+            <div class="bs-lbl">Padre<br>▼</div>
+          </div>
+          <div class="breed-sep">×</div>
+          <div class="breed-slot" id="bslot1" onclick="breedSlotClick(1)">
+            <div class="bs-lbl">Madre<br>▼</div>
+          </div>
+          <div class="breed-right">
+            <div class="breed-pred" id="breed-pred">Elige 2 dinos</div>
+            <button class="breed-big-btn" id="breed-btn" onclick="accionCriar()" disabled>⚗ CRIAR</button>
+            <button class="btn danger" style="font-size:8px;padding:3px 7px" onclick="liberarDino()">⬆ LIBERAR</button>
+          </div>
+        </div>
+        <div class="log-area" id="log-area"></div>
+      </div>
+      <div class="col-panel mp-panel" id="col-shop" style="display:flex;flex-direction:column;">
+        <div class="shop-tabs">
+          <div class="shop-tab active" onclick="switchShopTab('tienda',this)">Tienda</div>
+          <div class="shop-tab" onclick="switchShopTab('altar',this)">Altar</div>
+          <div class="shop-tab" onclick="switchShopTab('deco',this)">Deco</div>
+          <div class="shop-tab" onclick="switchShopTab('info',this)">Info</div>
+        </div>
+        <div class="tab-content active" id="stab-tienda">
+          <div class="sb">
+            <div class="sbt">HUEVOS (con 💰 Monedas)</div>
+            <div class="shop-row"><span class="si">🥚</span><div class="sm"><div class="sn" style="color:var(--bas)">Básico</div><div class="sd">Dino básico garantizado</div></div><span class="sp">20</span><button class="sbuy" onclick="comprar('basica')">BUY</button></div>
+            <div class="shop-row" id="srow-media" style="opacity:.4"><span class="si">🥚</span><div class="sm"><div class="sn" style="color:var(--med)">Medio</div><div class="sd" id="sd-media">🔒 Completa mejoras</div></div><span class="sp">60</span><button class="sbuy" id="buy-media" disabled onclick="comprar('media')">🔒</button></div>
+            <div class="shop-row" id="srow-rara" style="opacity:.4"><span class="si">🥚</span><div class="sm"><div class="sn" style="color:var(--rar)">Raro</div><div class="sd" id="sd-rara">🔒 Completa mejoras</div></div><span class="sp">180</span><button class="sbuy" id="buy-rara" disabled onclick="comprar('rara')">🔒</button></div>
+            <div class="shop-row" id="srow-leg" style="opacity:.4"><span class="si">✨</span><div class="sm"><div class="sn" style="color:var(--leg)">Legendario</div><div class="sd" id="sd-leg">🔒 Completa mejoras</div></div><span class="sp">500</span><button class="sbuy" id="buy-leg" disabled onclick="comprar('legendaria')">🔒</button></div>
+            
+            <div class="sbt" style="margin-top:10px">INCUBADORA <span id="egg-count" style="color:var(--a2);font-size:9px">(0)</span> <span id="slot-info" style="color:var(--dm);font-size:8px"></span></div>
+            <div class="eggs-grid" id="eggs-grid" style="margin-bottom:4px"></div>
+            <div class="shop-row"><span class="si">🥚</span><div class="sm"><div class="sn">2ª Incubadora</div><div class="sd">Hasta 4 huevos · 150💰</div></div><button class="sbuy" id="buy-slots" onclick="buySlots()">BUY</button></div>
+            
+            <div id="tasks-panel" style="margin-top:15px; border-top:1px solid var(--b1); padding-top:10px;">
+              <div class="sbt">MEJORAS <span id="tasks-badge" style="color:var(--a2);font-size:8px;text-transform:none;margin-left:5px;"></span></div>
+              <div id="tasks-list"></div>
+            </div>
+
+            <div class="sbt" style="margin-top:15px">ENTRENAMIENTO 💰</div>
+            <div style="font-size:8px;color:var(--dm);padding:4px 2px;line-height:1.6">Gasta monedas para entrenar un dino seleccionado directamente.<br>Selecciona un dino de Colección primero.</div>
+            <div id="train-panel"></div>
+          </div>
+        </div>
+        <div class="tab-content" id="stab-altar">
+          <div class="sb">
+            <div class="sbt">ALTAR DE EVOLUCIÓN <span style="font-size:8px;color:var(--a2)" id="altar-esencias"></span></div>
+            <div style="font-size:8px;color:var(--dm);padding:4px 2px 8px;line-height:1.7">Gasta ✨ Esencias para potenciar un dino seleccionado de forma permanente.<br><b style="color:var(--a2)">Libera dinos para obtener esencias.</b><br>Selecciona un dino en Colección y elige un ritual.</div>
+            <div id="altar-panel"></div>
+          </div>
+        </div>
+        <div class="tab-content" id="stab-deco"><div class="sb"><div class="sbt">AMBIENTE (con 💰 Monedas)</div><div id="deco-list"></div></div></div>
+        <div class="tab-content" id="stab-info">
+          <div class="sb" style="font-size:9px;color:var(--dm);line-height:1.9">
+            <div class="sbt">HERENCIA DE RAREZA</div>
+            B+B → 85%B 15%M<br>B+M → 65%B 30%M 5%R<br>M+M → 78%M 22%R<br>M+R → 60%M 35%R 5%L<br>R+R → 75%R 25%L<br>R+L → 40%R 60%L<br>L+L → 100%L<br>
+            <div class="sbt" style="margin-top:8px">LIBERACIÓN → Esencias ✨</div>
+            Básico: 3✨ · Medio: 8✨ · Raro: 20✨ · Legendario: 60✨ · Oculto: 200✨<br>
+            <div class="sbt" style="margin-top:8px">EL DESPERTAR 👁</div>
+            <span style="color:var(--a)">Hay un 2% de probabilidad de que un dino nazca con <b>ADN Oculto</b>. Este ADN es especial: desbloquea contenido oculto en todos los trabajos. La probabilidad aumenta con cada Ascensión. Una vez que tienes un dino oculto, desbloquea los <b>huevos legendarios</b> en la pestaña Mejoras.</span><br>
+            <div class="sbt" style="margin-top:8px">ADN</div>
+            🌍 Tierra: mina básica<br>🔥 Fuego: CP arena +15%<br>💧 Agua: granja semillas<br>💨 Aire: exploración manchas<br>👁 Oculto: todo lo secreto
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page" id="page-rancho">
+    <div class="rancho-layout">
+      <div class="rancho-l">
+        <div class="sec-title">Dinos en Rancho <span id="rancho-cnt" style="color:var(--a2)"></span></div>
+        <div style="overflow-y:auto;flex:1;padding:8px 10px;" id="rancho-dino-list"></div>
+      </div>
+      <div class="rancho-r">
+        <div class="rancho-info">
+          <div style="font-family:'Cinzel Decorative',serif;font-size:10px;color:var(--a2);margin-bottom:8px;letter-spacing:2px">RANCHO PREHISTÓRICO</div>
+          Los dinos en el rancho generan <b>💰 Monedas</b> pasivamente según su estadística de <b>Salud</b>.<br>
+          <b>Salud / 10 = monedas/segundo</b> por dino.<br>
+          Asigna dinos desde Colección. Los dinos en el rancho no pueden trabajar.
+        </div>
+        <div style="font-size:9px;color:var(--dm)">Ganancia total: <b id="rancho-rate" style="color:var(--a2)">0</b> 💰/s</div>
+        <div id="rancho-info-list"></div>
+        <div style="margin-top:8px">
+          <button class="btn primary" onclick="ranchoAddSelected()">+ Añadir seleccionado</button>
+          <button class="btn danger" style="margin-left:6px" onclick="ranchoRemoveAll()">✕ Vaciar rancho</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page" id="page-trabajos">
+    <div class="page-trab">
+      <div class="work-tabs">
+        <div class="work-tab active" onclick="switchWorkTab('mina',this)">⛏ Mina</div>
+        <div class="work-tab" onclick="switchWorkTab('exploracion',this)">🗺 Exploración</div>
+        <div class="work-tab" onclick="switchWorkTab('arena-trab',this)">⚔ Arena</div>
+        <div class="work-tab" onclick="switchWorkTab('granja',this)">🌱 Granja</div>
+      </div>
+      <div class="work-page active" id="wp-mina">
+        <div class="mina-layout">
+          <div class="mina-tiers">
+            <div class="sec-title">Tipos</div>
+            <div class="mina-tier-btn active" id="mt-carbon" onclick="switchMinaTier('carbon',this)">
+              <div class="mina-tier-nm">⚫ Carbón</div><div class="mina-tier-req">Cualquier dino</div>
+            </div>
+            <div class="mina-tier-btn locked" id="mt-vapor" onclick="switchMinaTier('vapor',this)">
+              <div class="mina-tier-nm">💨 Vapor</div><div class="mina-tier-req">SAL ≥ 20</div>
+            </div>
+            <div class="mina-tier-btn locked" id="mt-info" onclick="switchMinaTier('info',this)">
+              <div class="mina-tier-nm">💻 Informática</div><div class="mina-tier-req">SAL ≥ 40</div>
+            </div>
+            <div class="mina-tier-btn locked" id="mt-espacial" onclick="switchMinaTier('espacial',this)">
+              <div class="mina-tier-nm">🚀 Espacial</div><div class="mina-tier-req">SAL ≥ 60</div>
+            </div>
+          </div>
+          <div class="mina-center">
+            <div class="gems-grid" id="gems-grid"></div>
+            <div style="flex:1;overflow-y:auto;padding:10px 14px;" id="mina-slots"></div>
+            <div class="mina-log"><div class="mina-log-t">RESULTADOS</div><div id="mina-log"></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="work-page" id="wp-exploracion">
+        <div class="expl-layout">
+          <div class="expl-dests">
+            <div class="sec-title">Destinos</div>
+            <div class="dest-btn active" id="dest-jungla" onclick="switchDest('jungla',this)">
+              <div class="dest-nm">🌿 Jungla</div><div class="dest-req">Cualquier dino</div>
+            </div>
+            <div class="dest-btn locked" id="dest-ciudad" onclick="switchDest('ciudad',this)">
+              <div class="dest-nm">🏙 Ciudad</div><div class="dest-req">VEL ≥ 20</div>
+            </div>
+            <div class="dest-btn locked" id="dest-continente" onclick="switchDest('continente',this)">
+              <div class="dest-nm">🌍 Continente</div><div class="dest-req">VEL ≥ 40</div>
+            </div>
+            <div class="dest-btn locked" id="dest-espacio" onclick="switchDest('espacio',this)">
+              <div class="dest-nm">🚀 Espacio</div><div class="dest-req">VEL ≥ 60</div>
+            </div>
+          </div>
+          <div class="expl-center">
+            <div class="manchas-encontradas">
+              <div class="mex-title">Manchas especiales descubiertas</div>
+              <div class="mex-grid" id="manchas-found"></div>
+            </div>
+            <div class="expl-slot-area" id="expl-slots"></div>
+            <div class="expl-log"><div class="mina-log-t">HALLAZGOS</div><div id="expl-log"></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="work-page" id="wp-arena-trab">
+        <div class="arena-trab-layout">
+          <div class="arena-tiers">
+            <div class="sec-title">Ligas</div>
+            <div class="arena-tier-btn active" id="at-local" onclick="switchArenaTier('local',this)">
+              <div class="dest-nm" style="color:var(--bas)">⚔ Local</div><div class="dest-req">Cualquier dino</div>
+            </div>
+            <div class="arena-tier-btn locked" id="at-pais" onclick="switchArenaTier('pais',this)">
+              <div class="dest-nm" style="color:var(--med)">⚔ País</div><div class="dest-req">FUE ≥ 20</div>
+            </div>
+            <div class="arena-tier-btn locked" id="at-mundial" onclick="switchArenaTier('mundial',this)">
+              <div class="dest-nm" style="color:var(--rar)">⚔ Mundial</div><div class="dest-req">FUE ≥ 40</div>
+            </div>
+            <div class="arena-tier-btn locked" id="at-galactica" onclick="switchArenaTier('galactica',this)">
+              <div class="dest-nm" style="color:var(--leg)">⚔ Galáctica</div><div class="dest-req">FUE ≥ 60</div>
+            </div>
+          </div>
+          <div class="arena-center">
+            <div style="font-size:9px;color:var(--dm);margin-bottom:8px">Victorias: <b id="arena-wins" style="color:var(--a2)">0</b> · Vestidos ganados:</div>
+            <div class="vestidos-grid" id="vestidos-ganados"></div>
+            <div id="arena-slots" class="arena-slot-area"></div>
+          </div>
+          <div class="arena-log" style="width:200px;flex-shrink:0;border-left:1px solid var(--b1);overflow-y:auto;padding:8px;"><div class="mina-log-t">COMBATES</div><div id="arena-log"></div></div>
+        </div>
+      </div>
+      <div class="work-page" id="wp-granja">
+        <div class="granja-layout">
+          <div class="granja-l">
+            <div class="sec-title">Asignados</div>
+            <div style="flex:1;overflow-y:auto;padding:8px 10px;" id="granja-slots"></div>
+            <div style="padding:8px 10px;border-top:1px solid var(--b1);">
+              <button class="assign-btn" onclick="openAssignModal('granja')">+ Asignar dino</button>
+            </div>
+          </div>
+          <div class="granja-r">
+            <div class="granja-rules">
+              <h4>REGLAS DE COSECHA</h4>
+              🌿 Cualquier dino → Hierba, Musgo básico<br>
+              💧 ADN Agua → Mejores semillas acuáticas<br>
+              🔥 ADN Fuego → Semillas ardientes y cactus<br>
+              🌍 ADN Tierra → Semillas de bosque<br>
+              💨 ADN Aire → Semillas aladas y etéreas<br>
+              👁 ADN Oculto → Semillas ocultas raras<br>
+              ✨ Rareza legendaria → Orquídea<br>
+              🪷 Vestido Alas → Flor Alada<br>
+              👑 Vestido Corona → Musgo Noble
+            </div>
+            <div style="margin-top:10px;font-size:9px;color:var(--dm)">Semillas cosechadas: <b id="seeds-total" style="color:var(--grn)">0</b></div>
+            <div id="semillas-list" style="margin-top:8px;display:grid;grid-template-columns:1fr 1fr;gap:5px"></div>
+            <div style="margin-top:10px;max-height:120px;overflow-y:auto;" id="granja-log"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page" id="page-lab">
+    <div class="mp-bar" id="lab-bar">
+      <button class="mp-btn active" onclick="mpSwitch('lab-layout','lab-bar',0)">📋 Sujetos</button>
+      <button class="mp-btn" onclick="mpSwitch('lab-layout','lab-bar',1)">🔬 Aplicar</button>
+      <button class="mp-btn" onclick="mpSwitch('lab-layout','lab-bar',2)">🧪 Inventario</button>
+    </div>
+    <div class="page-lab" id="lab-layout" data-show="0">
+      <div class="lab-col mp-panel" id="lab-c0">
+        <div class="sec-title">Elige Sujeto</div>
+        <div id="lab-dino-list"></div>
+      </div>
+      <div class="lab-col mp-panel" id="lab-c1" style="overflow-y:auto">
+        <div class="sec-title">Sujeto de Prueba</div>
+        <div class="lab-pw">
+          <div class="lab-prev" id="lab-preview"><div style="color:var(--dm);text-align:center;margin-top:50px;font-family:'Crimson Pro',serif;font-style:italic;font-size:12px">Elige un dino</div></div>
+          <div id="lab-prev-name" style="font-family:'Cinzel Decorative';font-size:9px;color:var(--a2);text-align:center;letter-spacing:2px"></div>
+          <div id="lab-prev-stats" style="font-size:9px;color:var(--dm);text-align:center"></div>
+          <div id="lab-prev-equip" style="font-size:9px;color:var(--fo);text-align:center;margin-top:2px"></div>
+          <button class="inject-btn" id="inject-btn" onclick="doInject()" disabled>💉 INYECTAR / EQUIPAR</button>
+          <div id="lab-result-txt" style="font-size:9px;color:var(--dm);text-align:center;max-width:180px;line-height:1.5;margin-top:3px"></div>
+        </div>
+      </div>
+      <div class="lab-col mp-panel" id="lab-c2">
+        <div class="sec-title">Inventario</div>
+        <div id="lab-inventory"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page" id="page-jardin">
+    <div class="page-jard">
+      <div class="jard-l">
+        <div class="sec-title">Semillas <span id="seed-total" style="color:var(--a2)"></span></div>
+        <div style="overflow-y:auto;flex:0 0 auto;max-height:35%;padding:6px 8px;" id="seed-panel"></div>
+        <div style="border-top:1px solid var(--b1);padding:7px 10px;font-size:8px;letter-spacing:3px;color:var(--fo);text-transform:uppercase;flex-shrink:0">Recetario</div>
+        <div class="recipe-panel" id="recipe-panel"></div>
+      </div>
+      <div class="jard-r">
+        <div style="font-family:'Cinzel Decorative',serif;font-size:10px;color:var(--a2);letter-spacing:3px;margin-bottom:3px">JARDÍN BOTÁNICO 8×8</div>
+        <div style="font-size:9px;color:var(--dm);margin-bottom:8px" id="garden-hint">Selecciona semilla → clic celda</div>
+        <div class="garden-grid" id="garden-grid"></div>
+        <div id="garden-status" style="font-size:9px;color:var(--dm);margin-top:5px;text-align:center"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page" id="page-arena">
+    <div class="page-arena">
+      <div class="boss-lc">
+        <div class="sec-title">Jefes</div>
+        <div id="boss-list"></div>
+      </div>
+      <div class="boss-center">
+        <div class="boss-vis">
+          <div style="text-align:center">
+            <div style="font-size:8px;color:var(--dm);margin-bottom:5px;letter-spacing:2px">EQUIPO</div>
+            <div class="boss-team-col" id="team-slots">
+              <div class="boss-slot" id="bs0" onclick="teamSlotClick(0)">+</div>
+              <div class="boss-slot" id="bs1" onclick="teamSlotClick(1)">+</div>
+              <div class="boss-slot" id="bs2" onclick="teamSlotClick(2)">+</div>
+              <div class="boss-slot" id="bs3" onclick="teamSlotClick(3)">+</div>
+            </div>
+          </div>
+          <div class="boss-vs">VS</div>
+          <div style="text-align:center">
+            <div id="boss-display-name" style="font-family:'Cinzel Decorative',serif;font-size:9px;color:var(--rar);margin-bottom:4px">Elige un jefe</div>
+            <div id="boss-sprite" class="boss-sprite"></div>
+            <div class="boss-hp-bar"><div class="boss-hp-fill" id="boss-hp-fill" style="width:100%"></div></div>
+            <div id="boss-hp-text" style="font-size:8px;color:var(--dm)"></div>
+          </div>
+        </div>
+        <div class="boss-ctrl">
+          <div style="font-size:9px;color:var(--dm)">CP Equipo: <b id="team-power" style="color:var(--a2)">0</b> / Req: <b id="boss-req-power" style="color:var(--rar)">-</b></div>
+          <button class="fight-btn" id="fight-btn" onclick="startFight()" disabled>⚔ COMBATIR</button>
+          <div id="fight-result" style="font-size:9px;color:var(--dm)"></div>
+        </div>
+        <div class="boss-log" id="boss-log"></div>
+      </div>
+      <div class="boss-explain">
+        <h3>¿CÓMO FUNCIONA?</h3>
+        Elige un jefe de la izquierda.<br><br>
+        Añade <b style="color:var(--a2)">4 dinos</b> con los botones +.<br><br>
+        El combate necesita CP combinado <b style="color:var(--a2)">&gt; CP del jefe</b>.<br><br>
+        CP = (SAL + FUE) × bonos ADN Fuego.<br><br>
+        <b style="color:var(--a2)">Vestidos</b> de arena son estéticos, no aumentan CP.<br><br>
+        <b style="color:var(--leg)">Recompensa</b>: Logro exclusivo.<br><br>
+        <b style="color:var(--ocu)">Jefe Oculto</b>: solo visible con dino oculto en equipo.
+      </div>
+    </div>
+  </div>
+
+  <div class="page" id="page-logros">
+    <div class="page-logros">
+      <div class="logros-hdr">
+        <div class="logros-title">SALÓN DE LOGROS</div>
+        <div class="logros-sub" id="logros-prog-txt"></div>
+      </div>
+      <div class="logros-cats" id="logros-cats"></div>
+      <div class="logros-grid" id="logros-grid"></div>
+    </div>
+  </div>
+
+  <div class="page" id="page-enciclopedia">
+    <div class="page-ency">
+      <div class="ency-tabs">
+        <div class="ency-tab active" onclick="switchEncyTab('colores',this)">Colores</div>
+        <div class="ency-tab" onclick="switchEncyTab('manchas',this)">Manchas</div>
+        <div class="ency-tab" onclick="switchEncyTab('manchas_expl',this)">M.Especiales</div>
+        <div class="ency-tab" onclick="switchEncyTab('vestidos',this)">Vestidos</div>
+        <div class="ency-tab" onclick="switchEncyTab('adn',this)">ADN</div>
+        <div class="ency-tab" onclick="switchEncyTab('plantas',this)">Plantas</div>
+        <div class="ency-tab" onclick="switchEncyTab('gemas',this)">Gemas</div>
+      </div>
+      <div class="ency-body" id="ency-body"></div>
+    </div>
+  </div>
+</div>
+
+<div class="asc-overlay" id="asc-overlay">
+  <div class="asc-panel">
+    <div class="asc-title">✦ ASCENSIÓN ✦</div>
+    <div class="asc-desc" id="asc-desc">
+      Has demostrado tu dominio sobre la evolución.<br>
+      La ascensión reinicia los dinosaurios, huevos, jardín e inventario,<br>
+      pero <b style="color:var(--grn)">conserva todos tus logros y descubrimientos</b>.<br>
+      Cada ascensión aumenta permanentemente la probabilidad de rareza oculta.
+    </div>
+    <div class="asc-bonus" id="asc-bonus">Bonus actual: <b>+3% probabilidad oculta</b></div>
+    <div class="asc-warn">⚠ Esta acción no se puede deshacer</div>
+    <div style="display:flex;gap:10px;justify-content:center">
+      <button class="btn primary" onclick="doAscension()">✦ ASCENDER AHORA</button>
+      <button class="btn" onclick="document.getElementById('asc-overlay').classList.remove('show')">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-overlay" style="display:none" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div class="modal-title" id="modal-title">SELECCIONAR</div>
+    <div class="modal-body" id="modal-body"></div>
+    <button class="modal-cls" onclick="closeModal()">✕ CANCELAR</button>
+  </div>
+</div>
+
+<div id="ency-zoom-modal" onclick="this.style.display='none'">
+    <div id="ency-zoom-content"></div>
+    <div style="color:var(--dm); letter-spacing:2px; font-size:10px;">Haz clic en cualquier parte para cerrar</div>
+</div>
+
+<div class="notif" id="notif"></div>
+<div class="logro-popup" id="logro-popup"><div class="lp-t">🏆 LOGRO DESBLOQUEADO</div><div class="lp-n" id="lp-name"></div></div>
+<script>
+// ═══ DATA ═══
+const RAREZAS=["basica","media","rara","legendaria","oculta"];
+const RORD={basica:0,media:1,rara:2,legendaria:3,oculta:4};
+
+const COLORES={
+  basica:["verde","rojo","azul","amarillo","marron"],
+  media:["turquesa","naranja","rosa","lima","violeta"],
+  rara:["negro","plata","cobre","azul_oscuro","verde_oscuro"],
+  legendaria:["dorado","lava","cristal","fantasma","arcoiris"],
+  oculta:["abismo","prisma","sombra_viva"]
+};
+const CHEX={
+  verde:"#4fc87a",rojo:"#d94444",azul:"#4472d9",amarillo:"#e8d040",marron:"#8a5c30",
+  turquesa:"#30d4c0",naranja:"#ff8c30",rosa:"#ff60a8",lima:"#90e840",violeta:"#9040d0",
+  negro:"#2a2835",plata:"#b8b8cc",cobre:"#b47040",azul_oscuro:"#283888",verde_oscuro:"#1e7844",
+  dorado:"#ffc820",lava:"#ff4010",cristal:"#a8e8ff",fantasma:"#d0d0ff",arcoiris:"#ff50ff",
+  abismo:"#060012",prisma:"#f8f8ff",sombra_viva:"#1a0a2a"
+};
+
+const MANCHAS={
+  basica:["ninguna","puntos","rayas"],
+  media:["manchas","hexagonos","zigzag"],
+  rara:["escamas","espiral","llamas"],
+  legendaria:["galaxia","cristales","plasma"],
+  oculta:["vacio","runa","fractal"]
+};
+
+const VESTIDOS={
+  basica:["ninguno","panuelo","sombrero"],
+  media:["capa","corona","bufanda"],
+  rara:["armadura","gafas","alas"],
+  legendaria:["halo","cosmico","traje_rex"],
+  oculta:["dios_rex","sombra_vest"]
+};
+
+// ADN: tierra, fuego, agua, aire, oculto
+const ADN_TIPOS=["tierra","fuego","agua","aire","oculto"];
+const ADN_INFO={
+  tierra:{name:"ADN Tierra",  icon:"🌍",color:"#c87840",cls:"adn-t", desc:"Mejor rendimiento en mina.",                             howto:"Aleatorio al nacer"},
+  fuego: {name:"ADN Fuego",   icon:"🔥",color:"#ff5020",cls:"adn-f", desc:"Mayor CP en combate (+15%).",                            howto:"Aleatorio al nacer"},
+  agua:  {name:"ADN Agua",    icon:"💧",color:"#2080ff",cls:"adn-a", desc:"Semillas más raras en granja.",                          howto:"Aleatorio al nacer"},
+  aire:  {name:"ADN Aire",    icon:"💨",color:"#80d8ff",cls:"adn-ai",desc:"Mejores manchas en exploración.",                       howto:"Aleatorio al nacer"},
+  oculto:{name:"ADN Oculto",  icon:"👁",color:"#dd44ff",cls:"adn-o", desc:"+5% prob. de conseguir cualquier cosa oculta.",         howto:"Muy raro: 2% al nacer o mutación"},
+};
+
+// Herencia tabla (reduced upward probability)
+const TABLA={
+  "basica+basica":{basica:.85,media:.15},
+  "basica+media":{basica:.65,media:.30,rara:.05},
+  "media+basica":{basica:.65,media:.30,rara:.05},
+  "media+media":{media:.78,rara:.22},
+  "media+rara":{media:.60,rara:.35,legendaria:.05},
+  "rara+media":{media:.60,rara:.35,legendaria:.05},
+  "rara+rara":{rara:.75,legendaria:.25},
+  "rara+legendaria":{rara:.40,legendaria:.60},
+  "legendaria+rara":{rara:.40,legendaria:.60},
+  "legendaria+legendaria":{legendaria:1},
+  "basica+rara":{basica:.45,media:.40,rara:.15},
+  "rara+basica":{basica:.45,media:.40,rara:.15},
+  "basica+legendaria":{basica:.30,media:.40,rara:.25,legendaria:.05},
+  "legendaria+basica":{basica:.30,media:.40,rara:.25,legendaria:.05},
+  "media+legendaria":{media:.30,rara:.50,legendaria:.20},
+  "legendaria+media":{media:.30,rara:.50,legendaria:.20},
+  "oculta+oculta":{oculta:.70,legendaria:.30},
+  "legendaria+oculta":{legendaria:.40,oculta:.60},
+  "oculta+legendaria":{legendaria:.40,oculta:.60},
+};
+
+// GEMAS POR MINA - 4 básicas + 1 oculta por tier
+const MINAS_DEF={
+  carbon:{
+    name:"Carbón", icon:"⚫", minSal:0,
+    gemas:[
+      {id:"rubi",     name:"Rubí",     icon:"🔴",color:"#ff2244",rareza:"basica",   reqAdn:"tierra", desc:"ADN Tierra requerido"},
+      {id:"zafiro",   name:"Zafiro",   icon:"💙",color:"#2244ff",rareza:"basica",   reqAdn:"agua",   desc:"ADN Agua requerido"},
+      {id:"topacio",  name:"Topacio",  icon:"🟡",color:"#ffcc22",rareza:"basica",   reqAdn:"fuego",  desc:"ADN Fuego requerido"},
+      {id:"esmeralda",name:"Esmeralda",icon:"💚",color:"#22cc44",rareza:"basica",   reqAdn:"aire",   desc:"ADN Aire requerido"},
+      {id:"carb_ocu", name:"???",      icon:"🖤",color:"#110022",rareza:"oculta",   reqAdn:"oculto", desc:"ADN Oculto + suerte", hidden:true},
+    ]
+  },
+  vapor:{
+    name:"Vapor",icon:"💨",minSal:20,
+    gemas:[
+      {id:"amatista",  name:"Amatista",  icon:"💜",color:"#cc22ff",rareza:"media",   reqAdn:"tierra", desc:"ADN Tierra, SAL≥20"},
+      {id:"diamante",  name:"Diamante",  icon:"💎",color:"#eeeeff",rareza:"media",   reqAdn:"agua",   desc:"ADN Agua, SAL≥20"},
+      {id:"rubino",    name:"Rubino",    icon:"🔶",color:"#ff8800",rareza:"media",   reqAdn:"fuego",  desc:"ADN Fuego, SAL≥20"},
+      {id:"celeste",   name:"Celeste",   icon:"🔷",color:"#44ccff",rareza:"media",   reqAdn:"aire",   desc:"ADN Aire, SAL≥20"},
+      {id:"vap_ocu",   name:"???",       icon:"🌀",color:"#8800ff",rareza:"oculta",  reqAdn:"oculto", desc:"ADN Oculto + suerte", hidden:true},
+    ]
+  },
+  info:{
+    name:"Informática",icon:"💻",minSal:40,
+    gemas:[
+      {id:"chip_rojo",  name:"Chip Rojo",  icon:"🔴",color:"#ff0044",rareza:"rara",   reqAdn:"tierra", desc:"ADN Tierra, SAL≥40"},
+      {id:"chip_azul",  name:"Chip Azul",  icon:"💙",color:"#0044ff",rareza:"rara",   reqAdn:"agua",   desc:"ADN Agua, SAL≥40"},
+      {id:"chip_oro",   name:"Chip Oro",   icon:"✨",color:"#ffdd00",rareza:"rara",   reqAdn:"fuego",  desc:"ADN Fuego, SAL≥40"},
+      {id:"chip_verde", name:"Chip Verde", icon:"💚",color:"#00ff88",rareza:"rara",   reqAdn:"aire",   desc:"ADN Aire, SAL≥40"},
+      {id:"info_ocu",   name:"???",        icon:"⬛",color:"#000011",rareza:"oculta", reqAdn:"oculto", desc:"ADN Oculto + suerte", hidden:true},
+    ]
+  },
+  espacial:{
+    name:"Espacial",icon:"🚀",minSal:60,
+    gemas:[
+      {id:"nebulosa",   name:"Nebulosa",  icon:"🌌",color:"#8800ff",rareza:"legendaria",reqAdn:"tierra",desc:"ADN Tierra, SAL≥60"},
+      {id:"quasar",     name:"Quásar",    icon:"⭐",color:"#ffff00",rareza:"legendaria",reqAdn:"agua",  desc:"ADN Agua, SAL≥60"},
+      {id:"antimatter", name:"Antimateria",icon:"🔮",color:"#ff00ff",rareza:"legendaria",reqAdn:"fuego", desc:"ADN Fuego, SAL≥60"},
+      {id:"darkstar",   name:"Estrella Oscura",icon:"🌑",color:"#001133",rareza:"legendaria",reqAdn:"aire",  desc:"ADN Aire, SAL≥60"},
+      {id:"esp_ocu",    name:"???",       icon:"👁",color:"#0000ff",rareza:"oculta",  reqAdn:"oculto", desc:"ADN Oculto + suerte", hidden:true},
+    ]
+  }
+};
+
+// EXPLORACIÓN - manchas por destino
+const DESTINOS_DEF={
+  jungla:{name:"Jungla",icon:"🌿",minVel:0,manchas:[
+    {id:"tribal",  name:"Tribal",   color:"#aa6622",rareza:"basica",   reqAdn:null,    desc:"Velocidad básica"},
+    {id:"musgo_m", name:"Musgo",    color:"#448822",rareza:"basica",   reqAdn:"tierra",desc:"ADN Tierra"},
+    {id:"lluvia",  name:"Lluvia",   color:"#4488cc",rareza:"media",    reqAdn:"agua",  desc:"ADN Agua"},
+    {id:"viento",  name:"Viento",   color:"#88ccff",rareza:"media",    reqAdn:"aire",  desc:"ADN Aire"},
+    {id:"jun_ocu", name:"???",      color:"#220022",rareza:"oculta",   reqAdn:"oculto",desc:"ADN Oculto"},
+  ]},
+  ciudad:{name:"Ciudad",icon:"🏙",minVel:20,manchas:[
+    {id:"neon",    name:"Neón",     color:"#00ffcc",rareza:"media",    reqAdn:null,    desc:"VEL≥20"},
+    {id:"metal",   name:"Metal",    color:"#aabbcc",rareza:"media",    reqAdn:"tierra",desc:"ADN Tierra, VEL≥20"},
+    {id:"digital", name:"Digital",  color:"#00ff88",rareza:"rara",     reqAdn:"aire",  desc:"ADN Aire, VEL≥20"},
+    {id:"plasma_m",name:"Plasma",   color:"#ff00aa",rareza:"rara",     reqAdn:"fuego", desc:"ADN Fuego, VEL≥20"},
+    {id:"ciu_ocu", name:"???",      color:"#110033",rareza:"oculta",   reqAdn:"oculto",desc:"ADN Oculto"},
+  ]},
+  continente:{name:"Continente",icon:"🌍",minVel:40,manchas:[
+    {id:"glacial", name:"Glacial",  color:"#88ddff",rareza:"rara",     reqAdn:null,    desc:"VEL≥40"},
+    {id:"volcan",  name:"Volcán",   color:"#ff4400",rareza:"rara",     reqAdn:"fuego", desc:"ADN Fuego, VEL≥40"},
+    {id:"fosil",   name:"Fósil",    color:"#c8a866",rareza:"rara",     reqAdn:"tierra",desc:"ADN Tierra, VEL≥40"},
+    {id:"tormenta",name:"Tormenta", color:"#334466",rareza:"legendaria",reqAdn:"agua", desc:"ADN Agua, VEL≥40"},
+    {id:"con_ocu", name:"???",      color:"#000022",rareza:"oculta",   reqAdn:"oculto",desc:"ADN Oculto"},
+  ]},
+  espacio:{name:"Espacio",icon:"🚀",minVel:60,manchas:[
+    {id:"cosmos",  name:"Cosmos",   color:"#3300aa",rareza:"legendaria",reqAdn:null,   desc:"VEL≥60"},
+    {id:"aurora3", name:"Aurora",   color:"#00ffaa",rareza:"legendaria",reqAdn:"aire", desc:"ADN Aire, VEL≥60"},
+    {id:"void_r",  name:"Void Rift",color:"#5500ff",rareza:"legendaria",reqAdn:"oculto",desc:"ADN Oculto VEL≥60"},
+    {id:"esp_ocu2",name:"???",      color:"#000000",rareza:"oculta",   reqAdn:"oculto",desc:"ADN Oculto x2"},
+  ]}
+};
+
+// ARENA tiers - dan vestidos
+const ARENA_TIERS={
+  local:{name:"Local",icon:"⚔",minFue:0,color:"var(--bas)",vestidos:[
+    {id:"casco_bronce",name:"Casco Bronce",icon:"⛑",rareza:"basica"},
+    {id:"escudo_madera",name:"Escudo Madera",icon:"🛡",rareza:"basica"},
+    {id:"espada_basica",name:"Espada Básica",icon:"⚔",rareza:"basica"},
+  ]},
+  pais:{name:"País",icon:"🏆",minFue:20,color:"var(--med)",vestidos:[
+    {id:"armadura_hierro",name:"Armadura Hierro",icon:"🦺",rareza:"media"},
+    {id:"lanza_bronce",name:"Lanza de Bronce",icon:"🏹",rareza:"media"},
+    {id:"corona_laurel",name:"Corona Laurel",icon:"👑",rareza:"media"},
+  ]},
+  mundial:{name:"Mundial",icon:"🌍",minFue:40,color:"var(--rar)",vestidos:[
+    {id:"armadura_rex",name:"Armadura Rex",icon:"🧱",rareza:"rara"},
+    {id:"hacha_fosil",name:"Hacha Fósil",icon:"🪓",rareza:"rara"},
+    {id:"tridente",name:"Tridente",icon:"🔱",rareza:"rara"},
+  ]},
+  galactica:{name:"Galáctica",icon:"🌌",minFue:60,color:"var(--leg)",vestidos:[
+    {id:"manto_cosmos",name:"Manto Cosmos",icon:"🌌",rareza:"legendaria"},
+    {id:"filo_abismo",name:"Filo del Abismo",icon:"🌑",rareza:"legendaria"},
+    {id:"arena_ocu",name:"???",icon:"👁",rareza:"oculta"},
+  ]}
+};
+
+// PLANTAS
+const PLANTAS_DEF={
+  hierba:      {name:"Hierba",          icon:"🌿",rareza:"basica",    grow:20, howto:"Granja: cualquier dino"},
+  musgo:       {name:"Musgo",           icon:"🍀",rareza:"basica",    grow:25, howto:"Granja: ADN Tierra o Agua"},
+  violeta:     {name:"Violeta",         icon:"💜",rareza:"basica",    grow:22, howto:"Granja: ADN Agua"},
+  cactus:      {name:"Cactus Rex",      icon:"🌵",rareza:"basica",    grow:30, howto:"Granja: ADN Fuego"},
+  hongo:       {name:"Hongo",           icon:"🍄",rareza:"media",     grow:40, howto:"Granja: ADN Tierra"},
+  diente_leon: {name:"Diente León",     icon:"🌼",rareza:"basica",    grow:28, howto:"Mutación: Hierba + Hierba adj."},
+  flor_roja:   {name:"Flor Roja",       icon:"🌹",rareza:"media",     grow:35, howto:"Mutación: Violeta + Violeta adj."},
+  flor_azul:   {name:"Flor Azul",       icon:"🌸",rareza:"media",     grow:38, howto:"Mutación: Hierba + Violeta adj."},
+  lirio:       {name:"Lirio",           icon:"🌷",rareza:"media",     grow:42, howto:"Mutación: Flor Roja + Flor Azul adj."},
+  trebol:      {name:"Trébol Dorado",   icon:"🍃",rareza:"media",     grow:35, howto:"Mutación: Hierba + Musgo adj."},
+  margarita:   {name:"Margarita",       icon:"🌻",rareza:"media",     grow:50, howto:"Mutación: Flor Roja + Flor Roja adj."},
+  aloe:        {name:"Aloe Ancestral",  icon:"🌱",rareza:"rara",      grow:80, howto:"Mutación: Hongo + Margarita adj."},
+  girasol:     {name:"Girasol",         icon:"🌞",rareza:"rara",      grow:70, howto:"Mutación: Margarita + Flor Azul adj."},
+  flor_solar:  {name:"Flor Solar",      icon:"🌟",rareza:"rara",      grow:110,howto:"Mutación: Girasol + Girasol adj."},
+  hoja_esm:    {name:"Hoja Esmeralda",  icon:"🥬",rareza:"rara",      grow:90, howto:"Mutación: Musgo + Girasol adj."},
+  flor_alada:  {name:"Flor Alada",      icon:"🌺",rareza:"rara",      grow:120,howto:"Granja: vestido Alas"},
+  musgo_noble: {name:"Musgo Noble",     icon:"🌿",rareza:"rara",      grow:100,howto:"Granja: vestido Corona"},
+  orquidea:    {name:"Orquídea",        icon:"🪷",rareza:"legendaria",grow:200,howto:"Granja: rareza Legendaria"},
+  bambu:       {name:"Bambú Titán",     icon:"🎋",rareza:"legendaria",grow:180,howto:"Mutación: 3 Cactus misma columna"},
+  bambu_vivo:  {name:"Bambú Vivo",      icon:"🎍",rareza:"legendaria",grow:260,howto:"Mutación: Bambú + Aloe adj."},
+  loto:        {name:"Loto Prisma",     icon:"💮",rareza:"legendaria",grow:300,howto:"Mutación: Orquídea + Flor Alada adj."},
+  cristal_veg: {name:"Cristal Vegetal", icon:"💫",rareza:"legendaria",grow:350,howto:"Mutación: Flor Solar + Loto adj."},
+  raiz_void:   {name:"Raíz del Vacío",  icon:"🖤",rareza:"oculta",    grow:600,howto:"Granja: ADN Oculto (muy raro)"},
+  hongo_cosmico:{name:"Hongo Cósmico",  icon:"🌙",rareza:"oculta",    grow:500,howto:"Mutación: Aloe + Raíz del Vacío adj."},
+};
+
+// Combinaciones — [A, B, resultado, prob]
+const COMBOS=[
+  ["hierba",    "hierba",   "diente_leon",.55],
+  ["violeta",   "violeta",  "flor_roja",  .55],
+  ["hierba",    "violeta",  "flor_azul",  .45],
+  ["hierba",    "musgo",    "trebol",     .42],
+  ["flor_roja", "flor_azul","lirio",      .45],
+  ["flor_roja", "flor_roja","margarita",  .40],
+  ["margarita", "flor_azul","girasol",    .35],
+  ["hongo",     "margarita","aloe",       .30],
+  ["musgo",     "girasol",  "hoja_esm",   .28],
+  ["girasol",   "girasol",  "flor_solar", .26],
+  ["orquidea",  "flor_alada","loto",      .20],
+  ["bambu",     "aloe",     "bambu_vivo", .22],
+  ["flor_solar","loto",     "cristal_veg",.15],
+  ["aloe",      "raiz_void","hongo_cosmico",.12],
+];
+// Special: cactus x3 same col → bambu (checked separately)
+
+const DECOS=[
+  {id:"stars",    name:"Estrellas",     icon:"⭐",cost:80},
+  {id:"moon",     name:"Luna Fósil",    icon:"🌕",cost:120},
+  {id:"cloud1",   name:"Nube",          icon:"☁️",cost:90},
+  {id:"aurora",   name:"Aurora",        icon:"🌌",cost:250},
+  {id:"volcano",  name:"Volcán",        icon:"🌋",cost:200},
+  {id:"fireflies",name:"Luciérnagas",   icon:"✨",cost:150},
+  {id:"rain",     name:"Lluvia",        icon:"🌧️",cost:160},
+];
+
+// UPGRADES: click to claim when req met, permanently visible
+const UPGRADES=[
+  // Crianza
+  {id:"u_media",  cat:"🧬 Crianza",     icon:"🥚",name:"Gama Media",        desc:"Cría 5 descendientes",              req:()=>stats.totalBreeds>=5,   progV:()=>stats.totalBreeds,progMax:5,   unlock:"shop_media",   req_label:"Cría 5 dinos"},
+  {id:"u_rara",   cat:"🧬 Crianza",     icon:"⭐",name:"Gama Rara",         desc:"Cría 25 descendientes",             req:()=>stats.totalBreeds>=25,  progV:()=>stats.totalBreeds,progMax:25,  unlock:"shop_rara",    req_label:"Cría 25 dinos"},
+  {id:"u_leg",    cat:"🧬 Crianza",     icon:"✨",name:"Gama Legendaria",   desc:"Obtén un dino con ADN Oculto",      req:()=>stats.ocultaFound>0,    progV:()=>stats.ocultaFound,progMax:1,   unlock:"shop_leg",     req_label:"ADN Oculto descubierto"},
+  {id:"u_inc",    cat:"🧬 Crianza",     icon:"🥚",name:"2ª Incubadora",     desc:"Cría 10 descendientes",             req:()=>stats.totalBreeds>=10,  progV:()=>stats.totalBreeds,progMax:10,  unlock:"extra_slots",  req_label:"Cría 10 dinos"},
+  {id:"u_hatch2", cat:"🥚 Incubación",  icon:"⏩",name:"Eclosión Rápida",   desc:"Un dino con SAL≥30 en tu manada",   req:()=>misDinos.some(d=>d.sal>=30), progV:()=>Math.max(...misDinos.map(d=>d.sal),0),progMax:30, unlock:"hatch_fast",   req_label:"SAL≥30"},
+  {id:"u_hatch3", cat:"🥚 Incubación",  icon:"⚡",name:"Eclosión Turbo",    desc:"Un dino con SAL≥60 en tu manada",   req:()=>misDinos.some(d=>d.sal>=60), progV:()=>Math.max(...misDinos.map(d=>d.sal),0),progMax:60, unlock:"hatch_turbo",  req_label:"SAL≥60"},
+  // Mina
+  {id:"u_mv",     cat:"⛏ Mina",        icon:"💨",name:"Mina de Vapor",     desc:"Consigue un dino SAL≥20",           req:()=>misDinos.some(d=>d.sal>=20),  progV:()=>Math.max(...misDinos.map(d=>d.sal),0),progMax:20, unlock:"mina_vapor",   req_label:"SAL≥20"},
+  {id:"u_mi",     cat:"⛏ Mina",        icon:"💻",name:"Mina Informática",  desc:"Consigue un dino SAL≥40",           req:()=>misDinos.some(d=>d.sal>=40),  progV:()=>Math.max(...misDinos.map(d=>d.sal),0),progMax:40, unlock:"mina_info",    req_label:"SAL≥40"},
+  {id:"u_me",     cat:"⛏ Mina",        icon:"🚀",name:"Mina Espacial",     desc:"Consigue un dino SAL≥60",           req:()=>misDinos.some(d=>d.sal>=60),  progV:()=>Math.max(...misDinos.map(d=>d.sal),0),progMax:60, unlock:"mina_espacial",req_label:"SAL≥60"},
+  {id:"u_mslot",  cat:"⛏ Mina",        icon:"⛏",name:"Slots de Mina ×2",  desc:"Minera 50 gemas en total",          req:()=>stats.gemasMinadas>=50, progV:()=>stats.gemasMinadas,progMax:50,  unlock:"mina_slots2",  req_label:"50 gemas minadas"},
+  // Exploración
+  {id:"u_ec",     cat:"🗺 Exploración", icon:"🏙",name:"Ciudad",            desc:"Consigue un dino VEL≥20",           req:()=>misDinos.some(d=>d.vel>=20),  progV:()=>Math.max(...misDinos.map(d=>d.vel),0),progMax:20, unlock:"expl_ciudad",  req_label:"VEL≥20"},
+  {id:"u_ect",    cat:"🗺 Exploración", icon:"🌍",name:"Continente",        desc:"Consigue un dino VEL≥40",           req:()=>misDinos.some(d=>d.vel>=40),  progV:()=>Math.max(...misDinos.map(d=>d.vel),0),progMax:40, unlock:"expl_continente",req_label:"VEL≥40"},
+  {id:"u_ees",    cat:"🗺 Exploración", icon:"🚀",name:"Espacio",           desc:"Consigue un dino VEL≥60",           req:()=>misDinos.some(d=>d.vel>=60),  progV:()=>Math.max(...misDinos.map(d=>d.vel),0),progMax:60, unlock:"expl_espacio", req_label:"VEL≥60"},
+  {id:"u_exra",   cat:"🗺 Exploración", icon:"🎒",name:"Mochila Doble",     desc:"Descubre 8 manchas distintas",      req:()=>discovered.manchasExpl.size>=8, progV:()=>discovered.manchasExpl.size,progMax:8, unlock:"expl_double", req_label:"8 manchas descubiertas"},
+  // Arena
+  {id:"u_ap",     cat:"⚔ Arena",       icon:"🏆",name:"Arena País",        desc:"Consigue un dino FUE≥20",           req:()=>misDinos.some(d=>d.fue>=20),  progV:()=>Math.max(...misDinos.map(d=>d.fue),0),progMax:20, unlock:"arena_pais",   req_label:"FUE≥20"},
+  {id:"u_am",     cat:"⚔ Arena",       icon:"🌍",name:"Arena Mundial",     desc:"Consigue un dino FUE≥40",           req:()=>misDinos.some(d=>d.fue>=40),  progV:()=>Math.max(...misDinos.map(d=>d.fue),0),progMax:40, unlock:"arena_mundial",req_label:"FUE≥40"},
+  {id:"u_ag",     cat:"⚔ Arena",       icon:"🌌",name:"Arena Galáctica",   desc:"Consigue un dino FUE≥60",           req:()=>misDinos.some(d=>d.fue>=60),  progV:()=>Math.max(...misDinos.map(d=>d.fue),0),progMax:60, unlock:"arena_galactica",req_label:"FUE≥60"},
+  {id:"u_awins",  cat:"⚔ Arena",       icon:"⚔",name:"Instinto Guerrero",  desc:"Gana 25 combates de arena",         req:()=>stats.combatWins>=25,   progV:()=>stats.combatWins,progMax:25,   unlock:"arena_bonus",  req_label:"25 victorias de arena"},
+];
+
+const BOSSES_DEF=[
+  {id:"raptor",   name:"Raptus Veloz",    icon:"⚡",color:"#4fc87a",reqCP:60,  maxHp:500,  diff:"Fácil",     money:0, logro:"boss_raptor", desc:"Primer combate real.",defeated:false},
+  {id:"trikron",  name:"Trikrón Cornudo", icon:"🔱",color:"#f0a840",reqCP:150, maxHp:1200, diff:"Medio",     money:0, logro:"boss_trikron",desc:"Tres cuernos letales.",defeated:false},
+  {id:"rex_magno",name:"Rex Magno",       icon:"🦖",color:"#ff5555",reqCP:320, maxHp:3000, diff:"Difícil",   money:0, logro:"boss_rex",    desc:"El rey clásico.",defeated:false},
+  {id:"criogerus",name:"Criogénus",       icon:"❄️",color:"#a8e8ff",reqCP:600, maxHp:6000, diff:"Épico",     money:0, logro:"boss_crio",   desc:"Ser de hielo primordial.",defeated:false},
+  {id:"gigrex",   name:"Gigante Rex",     icon:"👑",color:"#ffd700",reqCP:850, maxHp:15000,diff:"Legendario",money:0, logro:"boss_gigrex", desc:"El coloso definitivo.",defeated:false},
+  {id:"devorador",name:"El Devorador",    icon:"👁",color:"#ff88ff",reqCP:750, maxHp:15000,diff:"OCULTO",    money:0, logro:"boss_devorador",desc:"Solo visible con dino oculto.",defeated:false,hidden:true},
+];
+
+const LOGROS_DEF=[
+  {cat:"coleccion",id:"first_dino", name:"El Primero",       icon:"🦕",desc:"Tu primer dinosaurio.",       how:"Empieza el juego.",          check:()=>misDinos.length>=1?1:0,max:1},
+  {cat:"coleccion",id:"dino5",      name:"Pequeña Manada",   icon:"🦕",desc:"5 dinosaurios.",               how:"Cría o libera y compra.",     check:()=>misDinos.length,max:5},
+  {cat:"coleccion",id:"dino10",     name:"Manada",           icon:"🦖",desc:"10 dinosaurios.",              how:"Sigue criando.",              check:()=>misDinos.length,max:10},
+  {cat:"coleccion",id:"dino25",     name:"Colonia",          icon:"🌍",desc:"25 dinosaurios.",              how:"Cría sin parar.",             check:()=>misDinos.length,max:25},
+  {cat:"crianza",  id:"breed5",     name:"Primer Cruce",     icon:"💞",desc:"Cría 5 descendientes.",        how:"Selecciona 2 dinos → Criar.", check:()=>stats.totalBreeds,max:5},
+  {cat:"crianza",  id:"breed25",    name:"Criador",          icon:"🔬",desc:"25 descendientes.",            how:"Sigue criando.",              check:()=>stats.totalBreeds,max:25},
+  {cat:"crianza",  id:"breed100",   name:"Maestro Criador",  icon:"🧬",desc:"100 descendientes.",           how:"Mucha crianza.",              check:()=>stats.totalBreeds,max:100},
+  {cat:"crianza",  id:"gen5",       name:"5ª Gen",           icon:"🌿",desc:"Gen 5.",                       how:"Cría varias veces.",          check:()=>stats.maxGen>=5?1:0,max:1},
+  {cat:"crianza",  id:"gen10",      name:"10ª Gen",          icon:"🧬",desc:"Gen 10.",                      how:"Muchas generaciones.",        check:()=>stats.maxGen>=10?1:0,max:1},
+  {cat:"crianza",  id:"gen20",      name:"Linaje Eterno",    icon:"👑",desc:"Gen 20.",                      how:"20 generaciones.",            hint:"Cría sin parar generaciones encadenadas...",         check:()=>stats.maxGen>=20?1:0,max:1,secret:true},
+  {cat:"rareza",   id:"first_media",name:"Media Rareza",     icon:"💫",desc:"Tu primer dino medio.",        how:"Cría básicos repetidamente.", check:()=>misDinos.filter(d=>RORD[d.rc]>=1).length,max:1},
+  {cat:"rareza",   id:"first_rara", name:"Rareza",           icon:"⭐",desc:"Tu primer dino raro.",         how:"Cría medios.",                check:()=>misDinos.filter(d=>RORD[d.rc]>=2).length,max:1},
+  {cat:"rareza",   id:"first_leg",  name:"Legendario",       icon:"✨",desc:"Tu primer legendario.",        how:"Cría raros.",                 check:()=>misDinos.filter(d=>RORD[d.rc]>=3).length,max:1},
+  {cat:"rareza",   id:"first_ocu",  name:"El Despertar",     icon:"👁",desc:"Tu primer dino oculto.",       how:"Cría legendarios repetidamente. Hay un 2% de probabilidad de ADN Oculto al nacer. La ascensión aumenta la probabilidad.",        hint:"Dicen que en lo más profundo de la genética... hay algo que no debería existir. Cría muchos legendarios.",        check:()=>stats.ocultaFound,max:1,secret:true},
+  {cat:"rareza",   id:"max_stat",   name:"Perfecto",         icon:"💯",desc:"Un dino con 100 en un stat.",  how:"Muchas generaciones.",        check:()=>misDinos.some(d=>d.sal>=100||d.fue>=100||d.vel>=100)?1:0,max:1},
+  {cat:"rareza",   id:"full100",    name:"Máximo Potencial", icon:"🌟",desc:"3 stats a 100.",               how:"~15 gen con ADN óptimo.",     hint:"Cría selectivamente priorizando siempre los stats más altos. Muchas generaciones...", check:()=>misDinos.filter(d=>d.sal>=100&&d.fue>=100&&d.vel>=100).length,max:1,secret:true},
+  {cat:"trabajo",  id:"mine5",      name:"Minero",           icon:"⛏",desc:"5 gemas minadas.",             how:"Asigna dino en Trabajos→Mina.",check:()=>stats.gemasMinadas,max:5},
+  {cat:"trabajo",  id:"mine25",     name:"Minero Experto",   icon:"⛏",desc:"25 gemas.",                    how:"Sigue minando.",              check:()=>stats.gemasMinadas,max:25},
+  {cat:"trabajo",  id:"expl5",      name:"Explorador",       icon:"🗺",desc:"5 manchas descubiertas.",     how:"Exploración en Trabajos.",    check:()=>discovered.manchasExpl.size,max:5},
+  {cat:"trabajo",  id:"expl_all",   name:"Cartógrafo",       icon:"🌍",desc:"Descubre todas las manchas.",  how:"Explora todos los destinos.", hint:"Hay destinos ocultos en la exploración. Algunos requieren VEL muy alta...", check:()=>discovered.manchasExpl.size,max:18,secret:true},
+  {cat:"trabajo",  id:"arena_w5",   name:"Guerrero",         icon:"⚔",desc:"5 victorias en arena.",        how:"Asigna dino en Arena.",       check:()=>stats.combatWins,max:5},
+  {cat:"trabajo",  id:"arena_w25",  name:"Campeón",          icon:"🏆",desc:"25 victorias.",               how:"Sigue combatiendo.",          check:()=>stats.combatWins,max:25},
+  {cat:"trabajo",  id:"all_gems",   name:"Gema Coleccionista",icon:"💎",desc:"Obtén todas las gemas básicas.",how:"Mina con distintos ADN.",  check:()=>["rubi","zafiro","topacio","esmeralda"].filter(g=>(inventario.gemas[g]||0)>0).length,max:4},
+  {cat:"jefes",    id:"boss_raptor",name:"Cazador",          icon:"⚡",desc:"Derrota a Raptus.",            how:"Arena Jefes. CP≥60.",        check:()=>BOSSES_DEF.find(b=>b.id==="raptor")?.defeated?1:0,max:1},
+  {cat:"jefes",    id:"boss_trikron",name:"Cornudo",         icon:"🔱",desc:"Derrota a Trikrón.",           how:"CP≥150.",                    check:()=>BOSSES_DEF.find(b=>b.id==="trikron")?.defeated?1:0,max:1},
+  {cat:"jefes",    id:"boss_rex",   name:"Regicida",         icon:"🦖",desc:"Derrota al Rex Magno.",        how:"CP≥320.",                    check:()=>BOSSES_DEF.find(b=>b.id==="rex_magno")?.defeated?1:0,max:1},
+  {cat:"jefes",    id:"boss_crio",  name:"El Deshielo",      icon:"❄️",desc:"Derrota a Criogénus.",         how:"CP≥600.",                    check:()=>BOSSES_DEF.find(b=>b.id==="criogerus")?.defeated?1:0,max:1},
+  {cat:"jefes",    id:"boss_gigrex",name:"Titan Slayer",     icon:"👑",desc:"Derrota al Gigante Rex.",      how:"4 dinos CP≥850 total.",       hint:"El rey de reyes duerme en la Arena Jefes. Necesitarás 4 guerreros de élite.", check:()=>BOSSES_DEF.find(b=>b.id==="gigrex")?.defeated?1:0,max:1,secret:true},
+  {cat:"jefes",    id:"boss_devo",  name:"Más Allá del Velo",icon:"👁",desc:"Derrota al Devorador.",       how:"Dino oculto requerido.",       hint:"Hay algo que acecha en las sombras... solo el ADN prohibido puede verlo.", check:()=>BOSSES_DEF.find(b=>b.id==="devorador")?.defeated?1:0,max:1,secret:true},
+  {cat:"jardin",   id:"plant3",     name:"Jardinero",        icon:"🌿",desc:"Cultiva 3 plantas.",           how:"Planta semillas en el Jardín.",check:()=>stats.plantsGrown,max:3},
+  {cat:"jardin",   id:"plant15",    name:"Botánico",         icon:"🌻",desc:"Cultiva 15 plantas.",          how:"Sigue cultivando.",           check:()=>stats.plantsGrown,max:15},
+  {cat:"jardin",   id:"plant_loto", name:"Loto Místico",     icon:"💮",desc:"Cultiva el Loto Prisma.",      how:"Orquídea + Flor Alada adj.",  hint:"Dos flores de rareza alta, juntas en el jardín...", check:()=>discovered.plantas.has("loto")?1:0,max:1,secret:true},
+  {cat:"jardin",   id:"plant_void", name:"El Vacío Florece", icon:"🖤",desc:"Cultiva la Raíz del Vacío.",   how:"Granja: ADN Oculto.",         hint:"El jardín guarda un secreto oscuro. Necesitas un dino que no debería existir.", check:()=>discovered.plantas.has("raiz_void")?1:0,max:1,secret:true},
+  {cat:"adn",      id:"adn_all",    name:"Genética Completa",icon:"🧪",desc:"Ten los 5 tipos de ADN.",     how:"Cría muchos dinos.",          check:()=>new Set(misDinos.map(d=>d.adn)).size,max:5},
+  {cat:"adn",      id:"adn_ocu",    name:"ADN Forbidden",    icon:"👁",desc:"Obtén ADN Oculto.",           how:"2% al nacer. Muy raro.",      hint:"Cría muchos dinos legendarios. Hay un 2% de probabilidad oculta al nacer...", check:()=>misDinos.some(d=>d.adn==="oculto")?1:0,max:1,secret:true},
+  {cat:"ascension",id:"asc1",       name:"Primera Ascensión",icon:"⬆",desc:"Asciende por primera vez.",   how:"Derrota al Gigante Rex.",     hint:"El fin es el principio. Hay algo más allá del Gigante Rex...", check:()=>ascLevel>=1?1:0,max:1,secret:true},
+  {cat:"ascension",id:"asc3",       name:"El Ciclo",         icon:"🔄",desc:"Asciende 3 veces.",           how:"Sigue ascendiendo.",          hint:"La verdadera fuerza se forja en los reintentos.", check:()=>ascLevel,max:3,secret:true},
+];
+// ═══ STATE ═══
+let dinero=0, esencias=0;
+let misDinos=[], huevos=[];
+let selects=[];  
+let breedSlots=[null,null]; 
+let unlocked=new Set(), decos=new Set(), tareasCompleted=new Set();
+let logrosUnlocked=new Set();
+let encyTab="colores", logrosCat="all";
+let ascLevel=0, ocultaBaseChance=0.005;
+let discovered={colores:new Set(),manchas:new Set(),vestidos:new Set(),adn:new Set(),plantas:new Set(),manchasExpl:new Set(),gemas:new Set()};
+let inventario={gemas:{},manchas:{},semillas:{hierba:3,violeta:2}};
+let stats={totalBreeds:0,maxGen:1,ocultaFound:0,totalEarned:0,combatWins:0,explorations:0,gemasMinadas:0,plantsGrown:0};
+let selectedLabDino=null, selectedInvItem=null, selectedInvType=null;
+let jardinGrid=Array(64).fill(null);
+let semillaSeleccionada=null;
+let selBoss=null, bossTeam=[null,null,null,null];
+let ranchoSet=new Set(); 
+let ranchoAccum=0;
+
+let workSlots={
+  mina:{}, exploracion:{}, arena_trab:{}, granja:[]
+};
+let currentMinaTier="carbon", currentDest="jungla", currentArenaTier="local";
+
+// ═══ HELPERS ═══
+const MINA_TIERS_ORDER=["carbon","vapor","info","espacial"];
+const DEST_ORDER=["jungla","ciudad","continente","espacio"];
+const ARENA_TIER_ORDER=["local","pais","mundial","galactica"];
+
+function rnd(a){return a[Math.floor(Math.random()*a.length)];}
+function rndR(m,r){return rnd(m[r]||m.basica);}
+function clampR(r,max){return RAREZAS[Math.min(RORD[r]??0,RORD[max]??3)];}
+function rarezaDe(v,m){for(const[r,l]of Object.entries(m))if(Array.isArray(l)&&l.includes(v))return r;return"basica";}
+function heredarRareza(ra,rb){const k=`${ra}+${rb}`;const p=TABLA[k]||TABLA[`${rb}+${ra}`]||{basica:1};let acc=0,r2=Math.random();for(const[k2,v]of Object.entries(p)){acc+=v;if(r2<acc)return k2;}return"basica";}
+function darken(hex,a){try{const c=parseInt(hex.replace('#','').slice(0,6),16);return`rgb(${((c>>16)&255)*(1-a)|0},${((c>>8)&255)*(1-a)|0},${(c&255)*(1-a)|0})`;}catch{return hex;}}
+function lighten(hex,a){try{const c=parseInt(hex.replace('#','').slice(0,6),16);return`rgb(${Math.min(255,((c>>16)&255)+(255*a))|0},${Math.min(255,((c>>8)&255)+(255*a))|0},${Math.min(255,(c&255)+(255*a))|0})`;}catch{return hex;}}
+function maxUnlocked(type){
+  if(type==="col"){if(unlocked.has("shop_leg"))return"oculta";if(unlocked.has("shop_rara"))return"rara";if(unlocked.has("shop_media"))return"media";return"basica";}
+  return"legendaria";}
+function ocultaChance(){return ocultaBaseChance*(1+ascLevel*0.4);}
+
+// ═══ DINO CLASS ═══
+class Dino{
+  constructor(color,mancha,manchaCol,vestido,gen,adn){
+    this.id=`d${Date.now()}${(Math.random()*9999)|0}`;
+    this.color=color;this.mancha=mancha;this.manchaCol=manchaCol;this.vestido=vestido;
+    this.gen=gen||1;this.adn=adn||rnd(["tierra","fuego","agua","aire"]);
+    this.sal=1;this.fue=1;this.vel=1;
+    this.equippedVestido=null;
+  }
+  get rc(){return rarezaDe(this.color,COLORES);}
+  get rm(){
+    for(const d of Object.values(DESTINOS_DEF))for(const m of d.manchas)if(m.id===this.mancha)return m.rareza;
+    return rarezaDe(this.mancha,MANCHAS);
+  }
+  get rv(){return rarezaDe(this.vestido,VESTIDOS);}
+  get hasOculta(){return this.rc==="oculta"||this.rm==="oculta"||this.rv==="oculta"||this.adn==="oculto";}
+  get combatPower(){
+    const base=this.sal+this.fue;
+    const adnBonus=this.adn==="fuego"?1.15:this.adn==="oculto"?1.08:1;
+    return Math.round(base*adnBonus);
+  }
+  get esenciaVal(){const m={basica:3,media:8,rara:20,legendaria:60,oculta:200};return m[this.rc]||3;}
+  get isWorking(){return isInWork(this.id);}
+  get inRancho(){return ranchoSet.has(this.id);}
+  get ranchoEarn(){return this.sal/10;}
+}
+
+function isInWork(id){
+  for(const tier of Object.values(workSlots.mina))if(tier&&tier.dinoId===id)return true;
+  for(const slots of Object.values(workSlots.exploracion))if(slots&&slots.dinoId===id)return true;
+  for(const slotArr of Object.values(workSlots.arena_trab)){
+    if(Array.isArray(slotArr)){if(slotArr.some(s=>s&&s.dinoId===id))return true;}
+    else if(slotArr&&slotArr.dinoId===id)return true;
+  }
+  if(workSlots.granja.some(s=>s.dinoId===id))return true;
+  return false;
+}
+
+class Huevo{
+  constructor(p,m,rarOverride){
+    this.padre=p;this.madre=m;this.rarOverride=rarOverride||null;
+    this.id=`e${Date.now()}${(Math.random()*9999)|0}`;
+    this.creado=Date.now();
+    let dur=12000;
+    if(p?.adn==="aire"||m?.adn==="aire")dur*=.8;
+    if(unlocked.has("hatch_turbo"))dur*=.35;
+    else if(unlocked.has("hatch_fast"))dur*=.6;
+    this.dur=dur;
+  }
+  get prog(){return Math.min(1,(Date.now()-this.creado)/this.dur);}
+  get listo(){return this.prog>=1;}
+}
+
+function crearHijo(p,m){
+  const adnH=Math.random()<.5?p.adn:m.adn;
+  const finalAdn=(Math.random()<(adnH==="oculto"?0.5:0.02*(1+ascLevel)))?"oculto":adnH;
+  const boost=1+(p.gen+m.gen)*0.04;
+  function hR(ra,rb){return heredarRareza(ra,rb);}
+  const maxR=maxUnlocked("col");
+  let rC=clampR(hR(p.rc,m.rc),maxR),rM=clampR(hR(p.rm,m.rm),maxR),rV=clampR(hR(p.rv,m.rv),maxR);
+  const oc=ocultaChance();
+  if(Math.random()<oc)rC="oculta";
+  if(Math.random()<oc)rM="oculta";
+  if(Math.random()<oc)rV="oculta";
+  const col=rndR(COLORES,rC),man=rndR(MANCHAS,rM),vest=rndR(VESTIDOS,rV);
+  const mc=getManchaColor(man,rM);
+  const h=new Dino(col,man,mc,vest,Math.max(p.gen,m.gen)+1,finalAdn);
+  h.sal=Math.min(100,Math.max(p.sal,m.sal)+Math.floor(Math.random()*3*boost));
+  h.fue=Math.min(100,Math.max(p.fue,m.fue)+Math.floor(Math.random()*3*boost));
+  h.vel=Math.min(100,Math.max(p.vel,m.vel)+Math.floor(Math.random()*3*boost));
+  if(h.gen>stats.maxGen)stats.maxGen=h.gen;
+  return h;
+}
+function crearDinoSalvaje(rar){
+  const col=rndR(COLORES,rar),man=rndR(MANCHAS,rar),vest=rndR(VESTIDOS,rar);
+  return new Dino(col,man,getManchaColor(man,rar),vest,1,rnd(["tierra","fuego","agua","aire"]));
+}
+
+const MCOLORES={
+  ninguna:[],puntos:["#00000099","#ffffff88"],rayas:["#00000088","#ffffff66"],
+  manchas:["#00000088","#ff00ff55"],hexagonos:["#ffffff33","#00ffff55"],zigzag:["#ffffff77","#ff444477"],
+  escamas:["#ffffff33","#ff000044"],espiral:["#ffffff55","#ff88ff66"],llamas:["#ff660099","#ffcc0088"],
+  galaxia:["#6600ffcc","#ff00ffcc"],cristales:["#88ffffcc","#ffffaacc"],plasma:["#ff00aacc","#aa00ffcc"],
+  vacio:["#00000000"],runa:["#ff88ffcc"],fractal:["#ffffff99","#ff00ffbb"],
+  tribal:"#aa6622",musgo_m:"#448822",lluvia:"#4488cc",viento:"#88ccff",jun_ocu:"#220022",
+  neon:"#00ffcc",metal:"#aabbcc",digital:"#00ff88",plasma_m:"#ff00aa",ciu_ocu:"#110033",
+  glacial:"#88ddff",volcan:"#ff4400",fosil:"#c8a866",tormenta:"#334466",con_ocu:"#000022",
+  cosmos:"#3300aa",aurora3:"#00ffaa",void_r:"#5500ff",esp_ocu2:"#000000"
+};
+function getManchaColor(man,rar){
+  if(MCOLORES[man]){const c=MCOLORES[man];return Array.isArray(c)?(c[0]||null):c;}
+  return null;
+}
+function getManchaColorDisplay(man){
+  const c=MCOLORES[man];if(!c)return"#666";if(Array.isArray(c))return c[0]||"#666";return c;
+}
+
+function dinoSVG(d,uid){
+  const c=CHEX[d.color]||"#888",dark=darken(c,.35),light=lighten(c,.2);
+  let mc=d.manchaCol||getManchaColorDisplay(d.mancha)||"#00000066";
+  const vest=d.equippedVestido||d.vestido;
+  const id=(uid||d.id||'x').replace(/[^a-z0-9]/gi,'').slice(-8)||'x'+Date.now().toString(36).slice(-5);
+  let M="";
+  const man=d.mancha;
+  if(man==="puntos")M=[0,1,2,3].map(i=>`<circle cx="${35+i*12}" cy="68" r="3.5" fill="${mc}"/>`).join("")+[0,1,2].map(i=>`<circle cx="${41+i*14}" cy="79" r="2.5" fill="${mc}" opacity=".7"/>`).join("");
+  else if(man==="rayas")M=[0,1,2,3].map(i=>`<rect x="${36+i*13}" y="54" width="5" height="36" rx="2.5" fill="${mc}"/>`).join("");
+  else if(man==="manchas")M=`<ellipse cx="48" cy="63" rx="11" ry="9" fill="${mc}"/><ellipse cx="73" cy="77" rx="9" ry="7" fill="${mc}"/><ellipse cx="59" cy="85" rx="6" ry="5" fill="${mc}" opacity=".7"/>`;
+  else if(man==="hexagonos"){const H=(cx,cy,r)=>{const pts=Array.from({length:6},(_,i)=>{const a=Math.PI/3*i-Math.PI/6;return`${(cx+r*Math.cos(a)).toFixed(1)},${(cy+r*Math.sin(a)).toFixed(1)}`;}).join(" ");return`<polygon points="${pts}" fill="none" stroke="${mc}" stroke-width="1.8" opacity=".8"/>`;};M=H(50,64,10)+H(69,71,8)+H(44,80,7)+H(78,58,7);}
+  else if(man==="zigzag")M=`<polyline points="33,59 43,50 53,59 63,50 73,59 83,50 91,59" stroke="${mc}" stroke-width="3" fill="none" stroke-linejoin="round"/><polyline points="33,72 43,63 53,72 63,63 73,72 83,63 91,72" stroke="${mc}" stroke-width="2.2" fill="none" stroke-linejoin="round" opacity=".7"/>`;
+  else if(man==="escamas")M=[[43,55],[55,55],[67,55],[79,55],[37,64],[49,64],[61,64],[73,64],[43,73],[55,73],[67,73]].map(([cx,cy])=>`<path d="M${cx-6},${cy} a6,6 0 0,1 12,0" stroke="${mc}" stroke-width="1.5" fill="none" opacity=".75"/>`).join("");
+  else if(man==="espiral")M=`<path d="M62,68 C62,57 71,52 77,59 C83,66 78,76 69,79 C58,82 49,73 49,62 C49,50 62,41 75,45" stroke="${mc}" stroke-width="2.5" fill="none" opacity=".85"/>`;
+  else if(man==="llamas")M=`<path d="M41,94 C38,78 45,69 40,57 C47,67 45,76 52,69 C49,82 56,74 58,62 C62,74 60,85 66,78 C63,89 70,80 69,69 C74,80 72,92 78,87 C76,94 Z" fill="${mc}" opacity=".72"/>`;
+  else if(man==="galaxia")M=`<defs><radialGradient id="gx${id}" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="${mc}" stop-opacity=".7"/><stop offset="100%" stop-color="${mc}" stop-opacity="0"/></radialGradient></defs><ellipse cx="62" cy="70" rx="26" ry="21" fill="url(#gx${id})"/>`;
+  else if(man==="cristales")M=`<polygon points="54,51 61,66 47,66" fill="${mc}" opacity=".68"/><polygon points="69,57 77,72 61,72" fill="${mc}" opacity=".63"/><polygon points="44,70 51,85 37,85" fill="${mc}" opacity=".58"/>`;
+  else if(man==="plasma")M=`<path d="M45,54 Q57,43 71,54 Q82,64 71,78 Q57,88 45,78 Q33,66 45,54 Z" fill="none" stroke="${mc}" stroke-width="2" opacity=".82"/>`;
+  else if(man==="vacio")M=`<defs><radialGradient id="vd${id}" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#000" stop-opacity=".85"/><stop offset="100%" stop-color="#000" stop-opacity="0"/></radialGradient></defs><ellipse cx="62" cy="70" rx="28" ry="22" fill="url(#vd${id})"/>`;
+  else if(man==="runa")M=`<text x="46" y="65" font-size="11" fill="${mc}" opacity=".85" font-family="monospace">⎊⎈</text>`;
+  else if(man==="fractal")M=`<path d="M62,50 L70,65 L54,65 Z" fill="none" stroke="${mc}" stroke-width="1.5" opacity=".8"/><path d="M62,68 L73,87 L51,87 Z" fill="none" stroke="${mc}" stroke-width="1.5" opacity=".7"/>`;
+  else{
+    const ec=typeof MCOLORES[man]==="string"?MCOLORES[man]:"#88888866";
+    M=`<ellipse cx="62" cy="70" rx="28" ry="22" fill="${ec}" opacity=".5"/>`;
+  }
+  let V="";
+  if(vest==="panuelo")V=`<path d="M57,73 L74,73 L67,85 L64,80 L60,85 Z" fill="#e02828" opacity=".9"/>`;
+  else if(vest==="sombrero")V=`<rect x="75" y="16" width="30" height="11" fill="#333" rx="2"/><rect x="69" y="26" width="42" height="4" fill="#222" rx="1"/>`;
+  else if(vest==="bufanda")V=`<path d="M59,73 Q71,68 82,73 Q86,80 80,84 Q69,79 59,83 Q55,76 59,73 Z" fill="#cc3838" opacity=".82"/>`;
+  else if(vest==="capa")V=`<path d="M36,68 Q22,86 28,107 L96,107 Q102,86 94,68 Q80,74 64,72 Q50,74 36,68 Z" fill="#7020a0" opacity=".2" stroke="#9030c8" stroke-width="1.2"/>`;
+  else if(vest==="corona")V=`<polygon points="80,17 84,5 88,15 92,5 96,15 100,5 103,17" fill="#ffd700"/><rect x="80" y="17" width="23" height="5" fill="#aa8800" rx="1"/>`;
+  else if(vest==="armadura")V=`<rect x="38" y="52" width="55" height="43" rx="4" fill="none" stroke="#8898c0" stroke-width="2"/><line x1="65" y1="52" x2="65" y2="95" stroke="#8898c0" stroke-width="1.2" opacity=".7"/><line x1="38" y1="67" x2="93" y2="67" stroke="#8898c0" stroke-width="1.2" opacity=".7"/>`;
+  else if(vest==="gafas")V=`<circle cx="87" cy="35" r="7" fill="#604018" fill-opacity=".3" stroke="#b07828" stroke-width="2"/><circle cx="101" cy="35" r="7" fill="#604018" fill-opacity=".3" stroke="#b07828" stroke-width="2"/><line x1="80" y1="35" x2="74" y2="35" stroke="#b07828" stroke-width="1.8"/>`;
+  else if(vest==="alas")V=`<path d="M37,67 C18,54 8,38 16,25 C24,17 35,28 37,67 Z" fill="none" stroke="#50a050" stroke-width="1.8" opacity=".82"/>`;
+  else if(vest==="halo")V=`<ellipse cx="90" cy="11" rx="17" ry="5.5" fill="none" stroke="#ffe840" stroke-width="2.5"/>`;
+  else if(vest==="cosmico")V=`<rect x="27" y="30" width="75" height="71" rx="6" fill="none" stroke="#8800ff" stroke-width="1.5" opacity=".72"/>`;
+  else if(vest==="traje_rex")V=`<rect x="36" y="51" width="57" height="48" rx="5" fill="none" stroke="#ff00aa" stroke-width="1.5" opacity=".82"/>`;
+  else if(vest==="dios_rex")V=`<rect x="26" y="28" width="77" height="73" rx="8" fill="none" stroke="${mc||'#ff88ff'}" stroke-width="1" opacity=".88"/>`;
+  else if(vest==="sombra_vest")V=`<path d="M31,94 Q64,74 97,94 Q89,114 64,117 Q39,114 31,94 Z" fill="${mc||'#aa00ff'}" opacity=".28"/>`;
+  else if(vest==="casco_bronce")V=`<rect x="80" y="14" width="24" height="16" rx="5" fill="#b47040" opacity=".75"/>`;
+  else if(vest==="escudo_madera")V=`<ellipse cx="90" cy="65" rx="8" ry="11" fill="#6a4020" opacity=".65" stroke="#8a5830" stroke-width="1.5"/>`;
+  else if(vest==="espada_basica")V=`<line x1="82" y1="55" x2="97" y2="79" stroke="#9898c0" stroke-width="3" stroke-linecap="round"/>`;
+  else if(vest==="armadura_hierro")V=`<rect x="38" y="52" width="55" height="43" rx="4" fill="none" stroke="#888899" stroke-width="2.2"/>`;
+  else if(vest==="lanza_bronce")V=`<line x1="82" y1="51" x2="99" y2="79" stroke="#b47040" stroke-width="2"/><polygon points="95,73 103,71 101,81" fill="#c88040" opacity=".9"/>`;
+  else if(vest==="corona_laurel")V=`<path d="M76,18 Q90,10 104,18 Q98,8 90,6 Q82,8 76,18 Z" fill="#448822" opacity=".8"/>`;
+  else if(vest==="armadura_rex")V=`<rect x="36" y="51" width="57" height="48" rx="5" fill="none" stroke="#ff8840" stroke-width="2" opacity=".88"/>`;
+  else if(vest==="hacha_fosil")V=`<line x1="80" y1="56" x2="91" y2="79" stroke="#b47040" stroke-width="2.5"/><path d="M86,54 Q97,52 97,65 Q97,77 86,75 Z" fill="#c8a060" opacity=".78"/>`;
+  else if(vest==="tridente")V=`<line x1="83" y1="50" x2="83" y2="81" stroke="#c0c8e0" stroke-width="2"/><line x1="78" y1="54" x2="78" y2="66" stroke="#c0c8e0" stroke-width="1.8"/><line x1="88" y1="54" x2="88" y2="66" stroke="#c0c8e0" stroke-width="1.8"/>`;
+  else if(vest==="manto_cosmos")V=`<path d="M35,68 Q20,88 28,110 L100,110 Q108,88 94,68 Q80,75 64,73 Q50,75 35,68 Z" fill="#000033" opacity=".25" stroke="#4444ff" stroke-width="1.2"/>`;
+  else if(vest==="filo_abismo")V=`<path d="M80,50 L91,65 L85,65 L89,81 L79,81 L75,65 L68,65 Z" fill="#4400ff" opacity=".72" stroke="#8800ff" stroke-width="1.2"/>`;
+  
+  return`<svg viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+    <defs><radialGradient id="bg${id}" cx="40%" cy="35%" r="65%"><stop offset="0%" stop-color="${light}"/><stop offset="100%" stop-color="${dark}"/></radialGradient></defs>
+    <ellipse cx="64" cy="114" rx="23" ry="4" fill="#000" opacity=".12"/>
+    <path d="M31,73 Q14,62 8,70 Q10,80 29,77 Z" fill="url(#bg${id})"/>
+    <rect x="47" y="90" width="13" height="22" fill="${dark}" rx="4"/>
+    <rect x="65" y="90" width="13" height="22" fill="${dark}" rx="4"/>
+    <ellipse cx="53" cy="112" rx="6" ry="2.8" fill="${darken(c,.5)}"/>
+    <ellipse cx="71" cy="112" rx="6" ry="2.8" fill="${darken(c,.5)}"/>
+    <ellipse cx="64" cy="72" rx="34" ry="25" fill="url(#bg${id})"/>
+    <path d="M70,55 Q79,39 86,35 Q90,33 92,38 Q80,46 78,60 Z" fill="url(#bg${id})"/>
+    <ellipse cx="91" cy="36" rx="17" ry="16" fill="url(#bg${id})"/>
+    <path d="M99,38 Q115,43 115,49 Q115,54 106,56 Q95,56 95,49 Z" fill="${c}"/>
+    <path d="M100,51 L103,55 L106,51 L109,55 L112,51" stroke="${darken(c,.25)}" stroke-width="1.2" fill="none"/>
+    <circle cx="96" cy="31" r="4" fill="#14111a"/>
+    <circle cx="97.5" cy="29.5" r="1.5" fill="#fff"/>
+    ${M}${V}
+    ${d.hasOculta?`<rect x="0" y="0" width="128" height="128" fill="none" stroke="#ff88ff" stroke-width="2.5" opacity="0"><animate attributeName="opacity" values="0;0.25;0" dur="2s" repeatCount="indefinite"/></rect>`:""}
+  </svg>`;
+}
+function eggSVG(prog,rar){
+  const rc={basica:"#8888aa",media:"#30c8b8",rara:"#e04444",legendaria:"#ffc820",oculta:"#ff88ff"};
+  const c=rc[rar]||"#8888aa",crack=prog>.65;
+  return`<svg viewBox="0 0 52 62"><defs><radialGradient id="eg" cx="38%" cy="32%" r="65%"><stop offset="0%" stop-color="${c}" stop-opacity=".45"/><stop offset="100%" stop-color="${c}" stop-opacity=".1"/></radialGradient></defs>
+    <ellipse cx="26" cy="34" rx="17" ry="23" fill="url(#eg)" stroke="${c}" stroke-width="1.5"/>
+    ${crack?`<path d="M25,21 L23,30 L27,35 L22,43" stroke="${c}" stroke-width="1.5" fill="none" opacity=".8">`:""}
+    <text x="26" y="38" text-anchor="middle" font-size="9" fill="${c}" font-family="monospace">${Math.round(prog*100)}%</text>
+  </svg>`;
+}
+function bossSVG(b){
+  const c=b.color||"#ff5555",dark=darken(c,.4),light=lighten(c,.2),id="bs"+b.id;
+  return`<svg viewBox="0 0 128 128">
+    <defs><radialGradient id="bbg${id}" cx="45%" cy="40%" r="60%"><stop offset="0%" stop-color="${light}"/><stop offset="100%" stop-color="${dark}"/></radialGradient></defs>
+    <ellipse cx="64" cy="116" rx="28" ry="5.5" fill="#000" opacity=".18"/>
+    <rect x="44" y="90" width="15" height="25" fill="${dark}" rx="5"/>
+    <rect x="69" y="90" width="15" height="25" fill="${dark}" rx="5"/>
+    <ellipse cx="64" cy="75" rx="38" ry="28" fill="url(#bbg${id})"/>
+    <ellipse cx="64" cy="40" rx="21" ry="19" fill="url(#bbg${id})"/>
+    <path d="M42,65 Q24,58 18,67 Q20,77 37,74 Z" fill="url(#bbg${id})"/>
+    <path d="M86,65 Q104,58 110,67 Q108,77 91,74 Z" fill="url(#bbg${id})"/>
+    <path d="M54,28 Q60,18 64,14 Q68,18 74,28" stroke="${c}" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <circle cx="55" cy="36" r="4.5" fill="#14111a"/><circle cx="56.5" cy="34.5" r="1.8" fill="#fff"/>
+    <circle cx="73" cy="36" r="4.5" fill="#14111a"/><circle cx="74.5" cy="34.5" r="1.8" fill="#fff"/>
+    <text x="64" y="110" text-anchor="middle" font-size="18" fill="${light}" opacity=".65">${b.icon}</text>
+  </svg>`;
+}
+
+function showZoom(contentHtml) {
+    const modal = document.getElementById("ency-zoom-modal");
+    const content = document.getElementById("ency-zoom-content");
+    content.innerHTML = contentHtml;
+    modal.style.display = "flex";
+}
+
+// ═══ RENDER: COLECCIÓN ═══
+function renderList(){
+  const el=document.getElementById("dino-list");el.innerHTML="";
+  document.getElementById("dino-count").textContent=`(${misDinos.length})`;
+  misDinos.forEach((d,i)=>{
+    const b0=breedSlots[0]===d.id,b1=breedSlots[1]===d.id;
+    const div=document.createElement("div");
+    div.className=`dino-card ${b0?"sel1":b1?"sel2":""} ${(d.isWorking||d.inRancho)?"working":""}`;
+    div.onclick=()=>toggleSel(i);
+    div.innerHTML=`<div class="cth">${dinoSVG(d)}</div>
+      <div style="flex:1;min-width:0">
+        <div class="cnm"><span class="dot" style="background:${CHEX[d.color]||'#888'}"></span>#${i+1}<span class="cgen">G${d.gen}</span></div>
+        <div class="cst"><span class="cs">❤${d.sal}</span><span class="cs">⚔${d.fue}</span><span class="cs">⚡${d.vel}</span></div>
+        <div style="font-size:7px;margin-top:2px"><span class="${ADN_INFO[d.adn]?.cls||''}">${ADN_INFO[d.adn]?.icon||''} ${ADN_INFO[d.adn]?.name||''}</span></div>
+      </div>
+      <div class="rbadge r-${d.rc}">${d.rc==="oculta"?"??":d.rc.slice(0,3).toUpperCase()}</div>`;
+    el.appendChild(div);
+  });
+}
+function renderDetail(){
+  const last=selects[selects.length-1],d=last!=null?misDinos[last]:null;
+  document.getElementById("empty-hint").style.display=d?"none":"";
+  document.getElementById("dino-stage").style.display=d?"":"none";
+  if(!d)return;
+  const mainEl=document.getElementById("dino-main");
+  mainEl.innerHTML=dinoSVG(d,"main");
+  mainEl.className="dino-main"+(d.hasOculta?" oculta-glow":"");
+  const adni=ADN_INFO[d.adn];
+  document.getElementById("d-name").innerHTML=`<span class="dot" style="background:${CHEX[d.color]||'#888'};width:10px;height:10px;margin-right:5px"></span><span class="r-${d.rc}">${d.color.replace(/_/g," ").toUpperCase()}</span>`;
+  document.getElementById("d-traits").innerHTML=`
+    <div class="tc"><b>Color</b> <span class="r-${d.rc}">${d.color.replace(/_/g," ")}</span></div>
+    <div class="tc"><b>Mancha</b> <span class="r-${d.rm}">${d.mancha.replace(/_/g," ")}</span></div>
+    <div class="tc"><b>Vestido</b> <span class="r-${d.rv}">${d.vestido.replace(/_/g," ")}</span></div>
+    <div class="gen-b">GEN ${d.gen}</div>
+    <div class="adn-b ${adni.cls}">${adni.icon} ${adni.name}</div>`;
+  document.getElementById("d-stats").innerHTML=
+    [["sal","SAL"],["fue","FUE"],["vel","VEL"]].map(([k,l])=>`
+      <div class="stat-block"><div class="stat-lbl">${l}</div>
+      <div class="stat-track"><div class="stat-fill" style="width:${d[k]}%"></div></div>
+      <div class="stat-val">${d[k]}/100</div></div>`).join("");
+  const wsb=document.getElementById("wsb");
+  if(d.isWorking||d.inRancho){wsb.style.display="";wsb.textContent=d.inRancho?"🏡 Rancho":"⚒ Trabajando";}else wsb.style.display="none";
+}
+function renderBreedPanel(){
+  for(let i=0;i<2;i++){
+    const sl=document.getElementById(`bslot${i}`);
+    const id=breedSlots[i];const d=id?misDinos.find(x=>x.id===id):null;
+    if(d){
+      sl.innerHTML=dinoSVG(d,`bs${i}`)+`<div class="bs-rm" onclick="event.stopPropagation();clearBreedSlot(${i})">✕</div>`;
+      sl.className="breed-slot filled";
+    }else{
+      sl.innerHTML=`<div class="bs-lbl">${i===0?"Padre":"Madre"}<br>▼</div>`;
+      sl.className="breed-slot";
+    }
+  }
+  const p=breedSlots[0]?misDinos.find(x=>x.id===breedSlots[0]):null;
+  const m=breedSlots[1]?misDinos.find(x=>x.id===breedSlots[1]):null;
+  const btn=document.getElementById("breed-btn");
+  const maxS=unlocked.has("extra_slots")?4:2;
+  if(p&&m){
+    const rC=heredarRareza(p.rc,m.rc);
+    document.getElementById("breed-pred").innerHTML=`<span class="r-${rC}">~${rC}</span>`;
+    btn.disabled=huevos.length>=maxS;
+  }else{btn.disabled=true;document.getElementById("breed-pred").textContent="Elige 2 dinos";}
+}
+function clearBreedSlot(i){
+    breedSlots[i] = null;
+    renderBreedPanel();
+}
+function renderEggs(){
+  const grid=document.getElementById("eggs-grid");grid.innerHTML="";
+  document.getElementById("egg-count").textContent=`(${huevos.length})`;
+  const maxS=unlocked.has("extra_slots")?4:2;
+  document.getElementById("slot-info").textContent=`${huevos.length}/${maxS}`;
+  huevos.forEach(h=>{
+    let rMax="basica";
+    if(h.rarOverride)rMax=h.rarOverride;
+    else if(h.padre&&h.madre){const rp=RORD[h.padre.rc]||0,rm=RORD[h.madre.rc]||0;rMax=RAREZAS[Math.max(rp,rm)]||"basica";}
+    const div=document.createElement("div");div.className="egg-wrap"+(h.prog>.88?" hatching":"");
+    div.innerHTML=`<div class="egg-box">${eggSVG(h.prog,rMax)}</div>
+      <div class="egg-bar-o"><div class="egg-bar-i" style="width:${h.prog*100}%"></div></div>
+      <div class="egg-lbl">${rMax==="oculta"?"??":rMax.slice(0,3).toUpperCase()}</div>`;
+    grid.appendChild(div);
+  });
+}
+function renderMoney(){
+  document.getElementById("money-display").textContent=Math.floor(dinero).toLocaleString("es");
+  document.getElementById("esen-display").textContent=Math.floor(esencias).toLocaleString("es");
+}
+function renderShop(){
+  const prices={basica:20,media:60,rara:180,legendaria:500};
+  const rarMap=[["media","media"],["rara","rara"],["legendaria","leg"]];
+  rarMap.forEach(([rar,sfx])=>{
+    const ok=unlocked.has(`shop_${rar}`);
+    const row=document.getElementById(`srow-${sfx}`);
+    if(row)row.style.opacity=ok?"1":".4";
+    const btn=document.getElementById(`buy-${sfx}`);
+    if(btn){btn.disabled=!ok||dinero<prices[rar];btn.textContent=!ok?"🔒":"BUY";}
+    const sd=document.getElementById(`sd-${sfx}`);
+    if(sd&&!ok){const u=UPGRADES.find(x=>x.unlock===`shop_${rar}`);sd.textContent=`🔒 ${u?u.req_label:"Completa mejoras"}`;}
+    else if(sd&&ok)sd.textContent="✓ Desbloqueado";
+  });
+  const slotBtn=document.getElementById("buy-slots");
+  if(slotBtn)slotBtn.disabled=unlocked.has("extra_slots")||dinero<150;
+}
+function renderTareas(){
+  const el=document.getElementById("tasks-list");if(!el)return;el.innerHTML="";
+  const readyCount=UPGRADES.filter(u=>u.req()&&!unlocked.has(u.unlock)).length;
+  const badge=document.getElementById("tasks-badge");
+  if(badge)badge.textContent=readyCount>0?`${readyCount} listas para reclamar ▲`:"";
+  const cats=[...new Set(UPGRADES.map(u=>u.cat))];
+  cats.forEach(cat=>{
+    const catDiv=document.createElement("div");
+    catDiv.innerHTML=`<div style="font-size:7px;letter-spacing:2px;color:var(--fo);padding:5px 10px 3px;text-transform:uppercase;border-bottom:1px solid var(--b1)">${cat}</div>`;
+    el.appendChild(catDiv);
+    UPGRADES.filter(u=>u.cat===cat).forEach(u=>{
+      const ready=u.req()&&!unlocked.has(u.unlock);
+      const done=unlocked.has(u.unlock);
+      const prog=Math.min(u.progMax,u.progV());
+      const pct=prog/u.progMax*100;
+      const div=document.createElement("div");div.className=`task-row ${done?"done":""}`;
+      div.style.cssText="margin-bottom:3px;padding:6px 10px";
+      div.innerHTML=`
+        <div class="task-hdr">
+          <span class="task-ic">${u.icon}</span>
+          <span class="task-nm ${done?"dn":""}" style="font-size:9px">${u.name}${done?" ✓":""}</span>
+          ${ready?`<button style="margin-left:auto;padding:2px 7px;border:1px solid var(--grn);background:rgba(110,216,122,.12);color:var(--grn);cursor:pointer;font-family:'Share Tech Mono',monospace;font-size:8px" onclick="claimUpgrade('${u.id}')">✓ RECLAMAR</button>`:""}
+        </div>
+        <div style="font-size:8px;color:var(--dm)">${u.desc}</div>
+        ${!done?`<div class="task-prog-bar" style="margin-top:3px"><div class="task-prog-fill" style="width:${pct}%"></div></div>
+        <div style="font-size:7px;color:var(--dm)">${prog}/${u.progMax}</div>`:""}`;
+      el.appendChild(div);
+      if(ready&&!_notifiedUpgrades.has(u.id)){_notifiedUpgrades.add(u.id);notif(`✅ ¡${u.name} lista para reclamar!`);}
+    });
+  });
+}
+const _notifiedUpgrades=new Set();
+function claimUpgrade(id){
+  const u=UPGRADES.find(x=>x.id===id);if(!u)return;
+  if(!u.req()){notif("Requisito no cumplido aún");return;}
+  if(unlocked.has(u.unlock)){notif("Ya desbloqueado");return;}
+  unlocked.add(u.unlock);
+  addLog(`🔓 Mejora: ${u.name}!`,"good");notif(`🔓 ¡${u.name} desbloqueada!`);
+  renderTareas();renderShop();renderAllTrabajo();checkAscension();renderTrainPanel();
+}
+function renderDecos(){
+  const el=document.getElementById("deco-list");if(!el)return;el.innerHTML="";
+  DECOS.forEach(d=>{
+    const b=decos.has(d.id);const canBuy=dinero>=d.cost;
+    const div=document.createElement("div");div.className="shop-row";
+    div.innerHTML=`<span class="si">${d.icon}</span>
+      <div class="sm"><div class="sn" ${b?"style='color:var(--grn)'":" "}>${d.name}${b?" ✓":""}</div><div class="sd">${b?"Activo":"Ambienta tu laboratorio"}</div></div>
+      <span class="sp">${d.cost}💰</span>
+      <button class="sbuy" ${b||!canBuy?"disabled":""} onclick="buyDeco('${d.id}')">${b?"OK":"BUY"}</button>`;
+    el.appendChild(div);
+  });
+}
+
+// ═══ ALTAR DE EVOLUCIÓN ═══
+const ALTAR_RITUALS=[
+  {id:"al_sal3",  icon:"❤",name:"Elixir Menor SAL",   desc:"+4 Salud permanente",   cost:12,  stat:"sal", val:4},
+  {id:"al_fue3",  icon:"⚔",name:"Elixir Menor FUE",   desc:"+4 Fuerza permanente",  cost:12,  stat:"fue", val:4},
+  {id:"al_vel3",  icon:"⚡",name:"Elixir Menor VEL",   desc:"+4 Velocidad permanente",cost:12, stat:"vel", val:4},
+  {id:"al_sal8",  icon:"❤",name:"Elixir Mayor SAL",    desc:"+10 Salud permanente",  cost:35,  stat:"sal", val:10},
+  {id:"al_fue8",  icon:"⚔",name:"Elixir Mayor FUE",    desc:"+10 Fuerza permanente", cost:35,  stat:"fue", val:10},
+  {id:"al_vel8",  icon:"⚡",name:"Elixir Mayor VEL",    desc:"+10 Velocidad permanente",cost:35,stat:"vel", val:10},
+  {id:"al_all",   icon:"⚗",name:"Ritual Supremo",      desc:"+18 a todos los stats",  cost:80,  stat:"all", val:18},
+  {id:"al_adn",   icon:"🧬",name:"Transmutación ADN",   desc:"Reroll aleatorio del ADN",cost:60, stat:"adn", val:0},
+];
+function renderAltar(){
+  const e=document.getElementById("altar-esencias");
+  if(e)e.textContent=`${Math.floor(esencias)}✨`;
+  const el=document.getElementById("altar-panel");if(!el)return;el.innerHTML="";
+  const last=selects[selects.length-1],d=last!=null?misDinos[last]:null;
+  if(!d){
+    const hint=document.createElement("div");hint.style.cssText="font-size:9px;color:var(--a);padding:10px;text-align:center;border:1px dashed var(--b2);margin:8px 0;line-height:1.6";
+    hint.innerHTML="👆 Selecciona un dino<br>en Colección para ritualizarlo";
+    el.appendChild(hint);return;
+  }
+  const ds=document.createElement("div");ds.style.cssText="display:flex;align-items:center;gap:8px;padding:8px;background:var(--p2);border:1px solid var(--b2);margin-bottom:8px;";
+  ds.innerHTML=`<div style="width:28px;height:28px">${dinoSVG(d,"alt")}</div><div style="font-size:9px"><span class="r-${d.rc}">${d.color}</span><div style="color:var(--dm)">❤${d.sal} ⚔${d.fue} ⚡${d.vel}</div></div>`;
+  el.appendChild(ds);
+  ALTAR_RITUALS.forEach(r=>{
+    const canAfford=esencias>=r.cost;
+    const atCap=r.stat!=="all"&&r.stat!=="adn"&&d[r.stat]>=100;
+    const div=document.createElement("div");div.className="shop-row";div.style.marginBottom="4px";
+    div.innerHTML=`<span class="si" style="font-size:14px">${r.icon}</span>
+      <div class="sm"><div class="sn" style="font-size:9px">${r.name}</div><div class="sd">${r.desc}</div></div>
+      <span class="sp esen" style="color:var(--a2)">${r.cost}✨</span>
+      <button class="sbuy" ${!canAfford||atCap?"disabled":""} onclick="doAltar('${r.id}')">${atCap?"MAX":canAfford?"OK":"??"}</button>`;
+    el.appendChild(div);
+  });
+}
+function doAltar(ritualId){
+  const r=ALTAR_RITUALS.find(x=>x.id===ritualId);if(!r)return;
+  const last=selects[selects.length-1],d=last!=null?misDinos[last]:null;
+  if(!d){notif("Selecciona un dino");return;}
+  if(esencias<r.cost){notif("Sin esencias");return;}
+  esencias-=r.cost;
+  if(r.stat==="all"){d.sal=Math.min(100,d.sal+r.val);d.fue=Math.min(100,d.fue+r.val);d.vel=Math.min(100,d.vel+r.val);notif(`⚗ +${r.val} a todos los stats!`);}
+  else if(r.stat==="adn"){
+    const adns=ADN_TIPOS.filter(a=>a!==d.adn&&a!=="oculto");
+    d.adn=rnd(adns);discovered.adn.add(d.adn);
+    notif(`🧬 ADN cambiado a ${ADN_INFO[d.adn].name}`);
+  }else{d[r.stat]=Math.min(100,d[r.stat]+r.val);notif(`${r.icon} +${r.val} ${r.stat.toUpperCase()}!`);}
+  addLog(`⚗ Altar: ${r.name} → #${misDinos.indexOf(d)+1}`,"good");
+  renderAltar();renderList();renderDetail();renderMoney();checkLogros();
+}
+
+// ═══ ENTRENAMIENTO ═══
+const TRAIN_COSTS=[
+  {stat:"sal",icon:"❤",name:"Entrenar SAL",baseCost:25},
+  {stat:"fue",icon:"⚔",name:"Entrenar FUE",baseCost:25},
+  {stat:"vel",icon:"⚡",name:"Entrenar VEL",baseCost:25},
+];
+function renderTrainPanel(){
+  const el=document.getElementById("train-panel");if(!el)return;el.innerHTML="";
+  const last=selects[selects.length-1],d=last!=null?misDinos[last]:null;
+  if(!d){
+    el.innerHTML=`<div style="font-size:8px;color:var(--dm);text-align:center;padding:8px">Selecciona un dino</div>`;return;
+  }
+  TRAIN_COSTS.forEach(t=>{
+    const statVal=d[t.stat];const atCap=statVal>=100;
+    const cost=Math.round(t.baseCost*(1+statVal*0.04));
+    const canAfford=dinero>=cost;
+    const div=document.createElement("div");div.className="shop-row";div.style.marginBottom="3px";
+    div.innerHTML=`<span class="si" style="font-size:13px">${t.icon}</span>
+      <div class="sm"><div class="sn" style="font-size:9px">${t.name}</div><div class="sd">${t.stat.toUpperCase()}:${statVal}/100${atCap?" — MAX":""}</div></div>
+      <span class="sp">${atCap?"—":cost+"💰"}</span>
+      <button class="sbuy" ${!canAfford||atCap?"disabled":""} onclick="doTrain('${t.stat}')">${atCap?"MAX":"+1"}</button>`;
+    el.appendChild(div);
+  });
+}
+function doTrain(stat){
+  const last=selects[selects.length-1],d=last!=null?misDinos[last]:null;
+  if(!d){notif("Selecciona un dino");return;}
+  if(d[stat]>=100){notif("Estadística máxima");return;}
+  const cost=Math.round(25*(1+d[stat]*0.04));
+  if(dinero<cost){notif(`Sin fondos (${cost}💰)`);return;}
+  dinero-=cost;d[stat]=Math.min(100,d[stat]+1);
+  renderTrainPanel();renderList();renderDetail();renderMoney();checkLogros();renderTareas();
+}
+
+// ═══ RANCHO ═══
+function renderRancho(){
+  const listEl=document.getElementById("rancho-dino-list");if(!listEl)return;listEl.innerHTML="";
+  const infoEl=document.getElementById("rancho-info-list");if(infoEl)infoEl.innerHTML="";
+  const cnt=ranchoSet.size;
+  document.getElementById("rancho-cnt").textContent=`(${misDinos.length} dinos)`;
+  let totalRate=0;
+  misDinos.forEach((d,i)=>{
+    const inRancho=ranchoSet.has(d.id);
+    const card=document.createElement("div");card.className="dino-card";
+    card.style.cursor="pointer";
+    card.style.borderLeft=inRancho?"2px solid var(--grn)":"2px solid transparent";
+    card.style.background=inRancho?"rgba(110,216,122,.06)":"";
+    card.onclick=()=>{
+      if(inRancho){ranchoSet.delete(d.id);notif(`${d.color} sacado del rancho`);}
+      else{if(d.isWorking){notif("Está trabajando");return;}ranchoSet.add(d.id);notif(`${d.color} añadido al rancho ✓`);}
+      renderRancho();
+    };
+    card.innerHTML=`<div class="cth">${dinoSVG(d)}</div>
+      <div style="flex:1;min-width:0">
+        <div class="cnm" style="font-size:9px"><span class="dot" style="background:${CHEX[d.color]||'#888'}"></span>#${i+1} G${d.gen}</div>
+        <div class="cst"><span class="cs">❤${d.sal}</span><span class="cs">⚔${d.fue}</span></div>
+      </div>
+      <div style="text-align:right;flex-shrink:0">
+        ${inRancho?`<div style="color:var(--grn);font-size:9px">+${d.ranchoEarn.toFixed(1)}💰/s</div><div style="font-size:8px;color:var(--grn)">✓ Rancho</div>`:`<div style="color:var(--dm);font-size:8px">+ Añadir</div>`}
+      </div>`;
+    listEl.appendChild(card);
+    if(inRancho)totalRate+=d.ranchoEarn;
+  });
+  if(misDinos.length===0){
+    const emp=document.createElement("div");emp.className="rancho-empty";
+    emp.innerHTML="<div style='font-size:28px;opacity:.15'>🦕</div>Sin dinos";
+    listEl.appendChild(emp);
+  }
+  if(infoEl){
+    [...ranchoSet].forEach(id=>{
+      const d=misDinos.find(x=>x.id===id);if(!d){ranchoSet.delete(id);return;}
+      const card=document.createElement("div");card.className="rancho-card";
+      card.innerHTML=`<div class="cth">${dinoSVG(d)}</div>
+        <div style="flex:1"><div class="cnm" style="font-size:9px">#${misDinos.indexOf(d)+1} G${d.gen}</div>
+        <div class="cst"><span class="cs">❤${d.sal}</span></div></div>
+        <div class="rancho-earn">${d.ranchoEarn.toFixed(1)}</div>
+        <button class="btn" style="font-size:8px;padding:2px 6px;margin-left:5px" onclick="ranchoRemove('${id}')">✕</button>`;
+      infoEl.appendChild(card);
+    });
+    if(cnt===0){
+      const emp=document.createElement("div");emp.className="rancho-empty";
+      emp.innerHTML="<div style='font-size:22px;opacity:.15;margin-bottom:5px'>🏡</div>Clic en un dino<br>de la izquierda<br>para añadirlo";
+      infoEl.appendChild(emp);
+    }
+  }
+  const rateEl=document.getElementById("rancho-rate");if(rateEl)rateEl.textContent=totalRate.toFixed(1);
+}
+function ranchoAddSelected(){
+  openDinoPick("Añadir al Rancho",d=>{
+    if(d.isWorking){notif("Está trabajando");return false;}
+    ranchoSet.add(d.id);renderRancho();renderList();notif(`${d.color} en rancho ✓`);return true;
+  });
+}
+function ranchoRemove(id){ranchoSet.delete(id);renderRancho();renderList();}
+function ranchoRemoveAll(){ranchoSet.clear();renderRancho();renderList();}
+
+// ═══ TRABAJOS — MINA ═══
+let minaTier="carbon";
+function renderMina(){
+  MINA_TIERS_ORDER.forEach(t=>{
+    const btn=document.getElementById(`mt-${t}`);if(!btn)return;
+    const def=MINAS_DEF[t];const locked=!unlocked.has(`mina_${t}`)&&t!=="carbon";
+    btn.className=`mina-tier-btn ${locked?"locked":""} ${minaTier===t?"active":""}`;
+    if(!locked)btn.onclick=()=>switchMinaTier(t);else btn.onclick=()=>notif(`Requiere SAL≥${def.minSal} — Completa la tarea`);
+  });
+  const gg=document.getElementById("gems-grid");if(!gg)return;gg.innerHTML="";
+  const tier=MINAS_DEF[minaTier];
+  const showHidden=misDinos.some(d=>d.adn==="oculto")||ascLevel>0;
+  tier.gemas.forEach(g=>{
+    if(g.hidden&&!showHidden)return;
+    const slot=workSlots.mina[g.id];
+    const d=slot?misDinos.find(x=>x.id===slot.dinoId):null;
+    const prog=slot?Math.min(1,(Date.now()-slot.startTime)/slot.duration):0;
+    const div=document.createElement("div");div.className=`gem-node ${slot?"mining":""} ${g.hidden&&!d?"":""}`;
+    div.innerHTML=`<div class="gem-swatch" style="background:${g.color}"></div>
+      <div class="gem-nm r-${g.rareza}">${g.name}</div>
+      <div class="gem-req ${ADN_INFO[g.reqAdn]?.cls||""}">${ADN_INFO[g.reqAdn]?.icon||""} ${g.desc}</div>
+      ${d?`<div class="gem-prog"><div class="gem-prog-fill" style="width:${prog*100}%"></div></div>
+      <div class="gem-slot-txt">🦕 #${misDinos.indexOf(d)+1} (${d.adn})</div>
+      <button style="margin-top:3px;padding:1px 5px;border:1px solid var(--rar);background:transparent;color:var(--rar);cursor:pointer;font-size:8px" onclick="removeMiner('${g.id}')">✕</button>`:
+      `<button style="margin-top:4px;padding:3px 8px;border:1px solid var(--a);background:transparent;color:var(--a);cursor:pointer;font-family:'Share Tech Mono',monospace;font-size:8px" onclick="assignMiner('${g.id}','${g.reqAdn}',${tier.minSal})">+ Asignar</button>`}`;
+    gg.appendChild(div);
+  });
+}
+function switchMinaTier(t){
+  if(!unlocked.has(`mina_${t}`)&&t!=="carbon"){notif("Mina bloqueada");return;}
+  minaTier=t;renderMina();
+}
+function assignMiner(gemId,reqAdn,minSal){
+  openDinoPick(`Asignar a ${MINAS_DEF[minaTier].gemas.find(g=>g.id===gemId)?.name||gemId} (ADN: ${ADN_INFO[reqAdn]?.name||reqAdn})`,d=>{
+    if(d.adn!==reqAdn&&!(d.adn==="oculto")){notif(`Necesita ADN ${ADN_INFO[reqAdn]?.name||reqAdn}`);return false;}
+    if(d.sal<minSal){notif(`Necesita SAL≥${minSal}`);return false;}
+    if(d.isWorking){notif("Ya está trabajando");return false;}
+    if(d.inRancho){notif("Está en el rancho");return false;}
+    workSlots.mina[gemId]={dinoId:d.id,startTime:Date.now(),duration:getMinaDuration()};
+    addLog(`⛏ #${misDinos.indexOf(d)+1} (${d.adn}) → ${gemId}`,"warn");
+    renderMina();return true;
+  });
+}
+function removeMiner(gemId){delete workSlots.mina[gemId];renderMina();}
+function getMinaDuration(){return 30000;}
+function processMina(){
+  Object.entries(workSlots.mina).forEach(([gemId,slot])=>{
+    if(!slot)return;
+    const d=misDinos.find(x=>x.id===slot.dinoId);if(!d){delete workSlots.mina[gemId];return;}
+    if(Date.now()-slot.startTime>=slot.duration){
+      const qty=unlocked.has("mina_slots2")?2:1; 
+      inventario.gemas[gemId]=(inventario.gemas[gemId]||0)+qty;
+      discovered.gemas.add(gemId);
+      stats.gemasMinadas+=qty;
+      const g=MINAS_DEF[minaTier]?.gemas.find(x=>x.id===gemId);
+      if(Math.random()<0.03){
+        inventario.gemas[gemId]+=4;stats.gemasMinadas+=4;
+        addWorkMina(`⚡ ¡FILÓN! ${g?.name||gemId} ×${qty+4}!`,"win");
+        notif(`⛏ ¡FILÓN ESPECIAL! +${qty+4} ${g?.name||gemId}`);
+      }else{
+        if(g)addWorkMina(`⛏ ${g.name} ×${qty}`,"win");
+      }
+      workSlots.mina[gemId]={dinoId:slot.dinoId,startTime:Date.now(),duration:getMinaDuration()};
+      checkLogros();renderLab();
+    }
+  });
+  Object.entries(workSlots.mina).forEach(([gemId,slot])=>{
+    const tier=MINAS_DEF[minaTier];if(!tier)return;
+    const ocGem=tier.gemas.find(g=>g.hidden);if(!ocGem)return;
+    if(slot&&Math.random()<0.002*(1+ascLevel)){
+      inventario.gemas[ocGem.id]=(inventario.gemas[ocGem.id]||0)+1;
+      discovered.gemas.add(ocGem.id);
+      addWorkMina(`👁 ¡GEMA OCULTA: ${ocGem.id}!`,"win");
+      notif(`👁 ¡Gema oculta ${ocGem.id}!`);
+      checkLogros();renderLab();
+    }
+  });
+}
+function addWorkMina(msg,cls=""){
+  const el=document.getElementById("mina-log");if(!el)return;
+  const r=document.createElement("div");r.className=`mlog-r ${cls}`;r.textContent=msg;el.prepend(r);
+  while(el.children.length>12)el.removeChild(el.lastChild);
+}
+
+// ═══ EXPLORACIÓN ═══
+let explDest="jungla";
+function renderExploracion(){
+  DEST_ORDER.forEach(d=>{
+    const btn=document.getElementById(`dest-${d}`);if(!btn)return;
+    const def=DESTINOS_DEF[d];const locked=def.minVel>0&&!unlocked.has(`expl_${d}`);
+    btn.className=`dest-btn ${locked?"locked":""} ${explDest===d?"active":""}`;
+  });
+  const mf=document.getElementById("manchas-found");if(mf){
+    mf.innerHTML="";
+    let any=false;
+    Object.values(DESTINOS_DEF).forEach(dest=>{
+      dest.manchas.forEach(m=>{
+        if(m.rareza==="oculta"&&!misDinos.some(d=>d.adn==="oculto"))return;
+        const found=discovered.manchasExpl.has(m.id);
+        const chip=document.createElement("div");chip.className=`mex-chip ${found?"found":""}`;
+        chip.textContent=found?m.name:"???";chip.title=m.desc;
+        mf.appendChild(chip);any=true;
+      });
+    });
+    if(!any)mf.innerHTML=`<span style="font-size:9px;color:var(--dm)">Explora para descubrir manchas</span>`;
+  }
+  const sl=document.getElementById("expl-slots");if(!sl)return;sl.innerHTML="";
+  const dest=DESTINOS_DEF[explDest];
+  if(!dest)return;
+  sl.innerHTML=`<div style="font-size:9px;color:var(--dm);margin-bottom:8px">Destino: <b style="color:var(--pur)">${dest.icon} ${dest.name}</b> — VEL mínima: ${dest.minVel}</div>`;
+  dest.manchas.forEach(m=>{
+    const isOcu=m.rareza==="oculta";
+    if(isOcu&&!misDinos.some(d=>d.adn==="oculto")&&ascLevel===0)return;
+    const slot=workSlots.exploracion[m.id];
+    const d=slot?misDinos.find(x=>x.id===slot.dinoId):null;
+    const prog=slot?Math.min(1,(Date.now()-slot.startTime)/slot.duration):0;
+    const found=discovered.manchasExpl.has(m.id);
+    const div=document.createElement("div");
+    div.className="work-slot";div.style.marginBottom="6px";
+    div.innerHTML=`<div style="width:10px;height:10px;border-radius:50%;background:${m.color};border:1px solid rgba(255,255,255,.2);flex-shrink:0"></div>
+      <div style="flex:1;min-width:0">
+        <div style="font-size:9px;color:${found?"var(--pur)":"var(--dm)"}">${found?m.name:"???"} <span class="r-${m.rareza}" style="font-size:7px">${m.rareza}</span></div>
+        <div style="font-size:8px;color:var(--dm)">${ADN_INFO[m.reqAdn]?.icon||""} ${m.desc}</div>
+        ${d?`<div class="wp-bar"><div class="wp-fill" style="width:${prog*100}%"></div></div>
+        <div class="wp-txt">#${misDinos.indexOf(d)+1} (VEL:${d.vel})</div>`:""}
+      </div>
+      ${d?`<button class="ws-rem" onclick="removeExplorer('${m.id}')">✕</button>`:
+      `<button class="assign-btn" style="width:auto;padding:3px 8px;margin:0" onclick="assignExplorer('${m.id}',${m.reqAdn?`'${m.reqAdn}'`:'null'},${dest.minVel})">+ Asignar</button>`}`;
+    sl.appendChild(div);
+  });
+}
+function switchDest(d){
+  const def=DESTINOS_DEF[d];if(def.minVel>0&&!unlocked.has(`expl_${d}`)){notif("Destino bloqueado");return;}
+  explDest=d;renderExploracion();
+}
+function assignExplorer(manchaId,reqAdn,minVel){
+  openDinoPick(`Explorar: ${manchaId} (VEL≥${minVel}${reqAdn?", ADN "+ADN_INFO[reqAdn]?.name:""})`,d=>{
+    if(d.vel<minVel){notif(`Necesita VEL≥${minVel}`);return false;}
+    if(reqAdn&&d.adn!==reqAdn&&d.adn!=="oculto"){notif(`Necesita ADN ${ADN_INFO[reqAdn]?.name||reqAdn}`);return false;}
+    if(d.isWorking){notif("Ya trabajando");return false;}
+    if(d.inRancho){notif("Está en rancho");return false;}
+    workSlots.exploracion[manchaId]={dinoId:d.id,startTime:Date.now(),duration:60000};
+    renderExploracion();return true;
+  });
+}
+function removeExplorer(manchaId){delete workSlots.exploracion[manchaId];renderExploracion();}
+function procesarExploracion(){
+  Object.entries(workSlots.exploracion).forEach(([manchaId,slot])=>{
+    if(!slot)return;
+    const d=misDinos.find(x=>x.id===slot.dinoId);if(!d){delete workSlots.exploracion[manchaId];return;}
+    if(Date.now()-slot.startTime>=slot.duration){
+      let manchaData=null;
+      for(const dest of Object.values(DESTINOS_DEF)){const m=dest.manchas.find(x=>x.id===manchaId);if(m){manchaData=m;break;}}
+      if(manchaData){
+        const qty=unlocked.has("expl_double")?2:1;
+        inventario.manchas[manchaId]=(inventario.manchas[manchaId]||0)+qty;
+        discovered.manchasExpl.add(manchaId);
+        stats.explorations++;
+        const bonusMsg=unlocked.has("expl_double")?` ×${qty}`:"";
+        const logEl=document.getElementById("expl-log");
+        if(logEl){const r=document.createElement("div");r.className="mlog-r win";r.textContent=`🗺 ${manchaData.name}${bonusMsg}`;logEl.prepend(r);while(logEl.children.length>10)logEl.removeChild(logEl.lastChild);}
+        addLog(`🗺 Mancha ${manchaData.name}${bonusMsg}  obtenida`,"good");
+      }
+      workSlots.exploracion[manchaId]={dinoId:slot.dinoId,startTime:Date.now(),duration:60000};
+      checkLogros();renderExploracion();renderLab();
+    }
+  });
+}
+
+// ═══ ARENA TRABAJO ═══
+let arenaTier="local";
+function getArenaSlots(tier){
+  if(!workSlots.arena_trab[tier])workSlots.arena_trab[tier]=[];
+  return workSlots.arena_trab[tier];
+}
+function renderArenaTrab(){
+  ARENA_TIER_ORDER.forEach(t=>{
+    const btn=document.getElementById(`at-${t}`);if(!btn)return;
+    const locked=!unlocked.has(`arena_${t}`)&&t!=="local";
+    btn.className=`arena-tier-btn ${locked?"locked":""} ${arenaTier===t?"active":""}`;
+  });
+  const winsEl=document.getElementById("arena-wins");if(winsEl)winsEl.textContent=stats.combatWins;
+  const tier=ARENA_TIERS[arenaTier];
+  const vg=document.getElementById("vestidos-ganados");if(vg){
+    vg.innerHTML="";
+    tier.vestidos.forEach(v=>{
+      const found=(inventario.arenas||[]).includes(v.id)||discovered.vestidos.has(v.id);
+      const item=document.createElement("div");item.className=`vest-reward-item ${found?"found":""}`;
+      item.innerHTML=`${v.icon} ${v.id==="arena_ocu"&&!found?"???":v.name} <span class="r-${v.rareza}" style="font-size:7px">${v.rareza}</span>`;
+      vg.appendChild(item);
+    });
+  }
+  const sl=document.getElementById("arena-slots");if(!sl)return;sl.innerHTML="";
+  const info=document.createElement("div");info.style.cssText="font-size:9px;color:var(--dm);background:var(--p2);border:1px solid var(--b1);padding:8px 10px;margin-bottom:8px;line-height:1.8";
+  info.innerHTML=`<b style="color:var(--a2)">⚔ Cómo funciona la Arena</b><br>
+    • Asigna dinos a slots de combate. Cada dino pelea solo automáticamente.<br>
+    • <b style="color:var(--a2)">FUE</b> del dino vs nivel de la liga. Dinos con más FUE ganan más.<br>
+    • <b style="color:var(--fuego)">ADN Fuego</b> da +15% CP en combate.<br>
+    • Al ganar: consigues vestidos de arena (cosméticos, se equipan en el Lab).<br>
+    • Liga actual: <b style="color:${tier.color||'var(--a2)'}">${tier.icon} ${tier.name}</b> — Req FUE≥${tier.minFue}`;
+  sl.appendChild(info);
+  const slots=getArenaSlots(arenaTier);
+  const MAX_SLOTS=3;
+  for(let i=0;i<MAX_SLOTS;i++){
+    const slot=slots[i];const d=slot?misDinos.find(x=>x.id===slot.dinoId):null;
+    const prog=d?Math.min(1,(Date.now()-slot.startTime)/slot.duration):0;
+    const div=document.createElement("div");div.className="work-slot";div.style.marginBottom="5px";
+    if(d){
+      div.innerHTML=`<div class="ws-th">${dinoSVG(d)}</div>
+        <div class="ws-info"><div class="ws-nm">#${misDinos.indexOf(d)+1} FUE:${d.fue} CP:${d.combatPower} ${ADN_INFO[d.adn]?.icon||""}</div>
+        <div class="wp-bar"><div class="wp-fill" style="width:${prog*100}%"></div></div>
+        <div class="wp-txt">${Math.round(prog*100)}% · ${slot.wins||0}V/${slot.losses||0}D</div></div>
+        <button class="ws-rem" onclick="removeArenaTrab('${arenaTier}',${i})">✕</button>`;
+    }else{
+      div.innerHTML=`<div style="width:28px;height:28px;border:1px dashed var(--b2);background:var(--p2);display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--dm);flex-shrink:0">+</div>
+        <button class="assign-btn" style="margin:0;flex:1" onclick="assignArenaTrab('${arenaTier}',${i},${tier.minFue})">+ Asignar luchador (FUE≥${tier.minFue})</button>`;
+    }
+    sl.appendChild(div);
+  }
+}
+function switchArenaTier(t){
+  if(!unlocked.has(`arena_${t}`)&&t!=="local"){notif("Liga bloqueada");return;}
+  arenaTier=t;renderArenaTrab();
+}
+function assignArenaTrab(tier,slotIdx,minFue){
+  openDinoPick(`Asignar a Arena ${ARENA_TIERS[tier].name} (FUE≥${minFue})`,d=>{
+    if(d.fue<minFue){notif(`Necesita FUE≥${minFue}`);return false;}
+    if(d.isWorking){notif("Ya trabajando");return false;}
+    if(d.inRancho){notif("Está en rancho");return false;}
+    if(!workSlots.arena_trab[tier])workSlots.arena_trab[tier]=[];
+    workSlots.arena_trab[tier][slotIdx]={dinoId:d.id,startTime:Date.now(),duration:40000,wins:0,losses:0};
+    renderArenaTrab();return true;
+  });
+}
+function removeArenaTrab(tier,slotIdx){
+  if(workSlots.arena_trab[tier])workSlots.arena_trab[tier][slotIdx]=null;
+  renderArenaTrab();
+}
+function procesarArenaTrab(){
+  const tierPow={local:8,pais:25,mundial:55,galactica:85};
+  ARENA_TIER_ORDER.forEach(tier=>{
+    const slots=workSlots.arena_trab[tier];if(!slots)return;
+    const tierDef=ARENA_TIERS[tier];
+    slots.forEach((slot,i)=>{
+      if(!slot)return;
+      const d=misDinos.find(x=>x.id===slot.dinoId);if(!d){slots[i]=null;return;}
+      if(Date.now()-slot.startTime<slot.duration)return;
+      const threshold=tierPow[tier]*(0.5+Math.random()*.5);
+      const won=d.combatPower>=threshold;
+      const logEl=document.getElementById("arena-log");
+      if(won){
+        slot.wins=(slot.wins||0)+1;stats.combatWins++;
+        const vestChance=unlocked.has("arena_bonus")?0.5:0.3;
+        if(Math.random()<vestChance&&tierDef){
+          const rewardPool=tierDef.vestidos.filter(v=>!(v.id==="arena_ocu"&&d.adn!=="oculto"&&ascLevel===0));
+          if(rewardPool.length){
+            const vest=rnd(rewardPool);
+            if(!inventario.arenas)inventario.arenas=[];
+            if(!inventario.arenas.includes(vest.id)){
+              inventario.arenas.push(vest.id);discovered.vestidos.add(vest.id);
+              if(logEl){const r=document.createElement("div");r.className="mlog-r win";r.textContent=`⚔ #${misDinos.indexOf(d)+1} victoria! 🎁 ${vest.name}`;logEl.prepend(r);while(logEl.children.length>15)logEl.removeChild(logEl.lastChild);}
+              addLog(`⚔ Ganado vestido: ${vest.name}`,"good");checkLogros();
+            }else{
+              if(logEl){const r=document.createElement("div");r.className="mlog-r win";r.textContent=`⚔ #${misDinos.indexOf(d)+1} victoria!`;logEl.prepend(r);while(logEl.children.length>15)logEl.removeChild(logEl.lastChild);}
+            }
+          }
+        }else{
+          if(logEl){const r=document.createElement("div");r.className="mlog-r win";r.textContent=`⚔ #${misDinos.indexOf(d)+1} victoria! (${slot.wins}V)`;logEl.prepend(r);while(logEl.children.length>15)logEl.removeChild(logEl.lastChild);}
+        }
+      }else{
+        slot.losses=(slot.losses||0)+1;
+        if(logEl){const r=document.createElement("div");r.className="mlog-r";r.textContent=`⚔ #${misDinos.indexOf(d)+1} derrota. CP:${d.combatPower}`;logEl.prepend(r);while(logEl.children.length>15)logEl.removeChild(logEl.lastChild);}
+      }
+      slot.startTime=Date.now();
+    });
+  });
+}
+
+// ═══ GRANJA ═══
+function renderGranja(){
+  const sl=document.getElementById("granja-slots");if(!sl)return;sl.innerHTML="";
+  workSlots.granja.forEach((slot,i)=>{
+    const d=misDinos.find(x=>x.id===slot.dinoId);if(!d)return;
+    const prog=Math.min(1,(Date.now()-slot.startTime)/slot.duration);
+    const div=document.createElement("div");div.className="work-slot";
+    div.innerHTML=`<div class="ws-th">${dinoSVG(d)}</div>
+      <div class="ws-info"><div class="ws-nm">#${misDinos.indexOf(d)+1} ${d.adn} · ${d.rc}</div>
+      <div class="wp-bar"><div class="wp-fill" style="width:${prog*100}%"></div></div>
+      <div class="wp-txt">${Math.round(prog*100)}%</div></div>
+      <button class="ws-rem" onclick="removeGranja(${i})">✕</button>`;
+    sl.appendChild(div);
+  });
+  const sm=document.getElementById("semillas-list");if(sm){
+    sm.innerHTML="";
+    Object.entries(inventario.semillas).forEach(([k,cnt])=>{
+      if(cnt<=0)return;const pd=PLANTAS_DEF[k];if(!pd)return;
+      const item=document.createElement("div");item.className="seed-item2";
+      item.innerHTML=`<span>${pd.icon}</span><div style="flex:1"><div style="font-size:9px;color:var(--tx)">${pd.name}</div><div style="font-size:7px;color:var(--dm)">${pd.rareza}</div></div><span class="seed-cnt">${cnt}</span>`;
+      sm.appendChild(item);
+    });
+  }
+  const st=document.getElementById("seeds-total");if(st)st.textContent=Object.values(inventario.semillas).reduce((s,v)=>s+v,0);
+}
+function removeGranja(i){workSlots.granja.splice(i,1);renderGranja();}
+function openAssignModal(zone){
+  if(zone==="granja"){
+    openDinoPick("Asignar a Granja",d=>{
+      if(d.isWorking){notif("Ya trabajando");return false;}
+      if(d.inRancho){notif("Está en rancho");return false;}
+      workSlots.granja.push({dinoId:d.id,startTime:Date.now(),duration:50000});
+      renderGranja();return true;
+    });
+  }
+}
+function procesarGranja(){
+  workSlots.granja=workSlots.granja.filter(slot=>{
+    const d=misDinos.find(x=>x.id===slot.dinoId);return !!d;
+  });
+  workSlots.granja.forEach((slot,i)=>{
+    if(Date.now()-slot.startTime<slot.duration)return;
+    const d=misDinos.find(x=>x.id===slot.dinoId);if(!d)return;
+    let seed;
+    if(d.adn==="oculto"&&Math.random()<0.1*(1+ascLevel))seed="raiz_void";
+    else if(d.rc==="legendaria")seed="orquidea";
+    else if(d.vestido==="alas")seed="flor_alada";
+    else if(d.vestido==="corona")seed="musgo_noble";
+    else if(d.adn==="fuego")seed=Math.random()<.5?"cactus":"hongo";
+    else if(d.adn==="agua")seed=Math.random()<.6?"violeta":"flor_azul";
+    else if(d.adn==="tierra")seed=Math.random()<.5?"musgo":"hongo";
+    else if(d.adn==="aire")seed=Math.random()<.5?"flor_alada":"flor_azul";
+    else seed=Math.random()<.6?"hierba":"violeta";
+    inventario.semillas[seed]=(inventario.semillas[seed]||0)+1;
+    const pd=PLANTAS_DEF[seed];
+    const logEl=document.getElementById("granja-log");
+    if(logEl){const r=document.createElement("div");r.style.cssText="font-size:9px;color:var(--grn);padding:1px 0";r.textContent=`🌱 ${pd?.name||seed} obtenida`;logEl.prepend(r);while(logEl.children.length>8)logEl.removeChild(logEl.lastChild);}
+    slot.startTime=Date.now();
+    renderGranja();renderJardin();
+  });
+}
+
+// ═══ LABORATORIO ═══
+function renderLab(){
+  const listEl=document.getElementById("lab-dino-list");if(!listEl)return;listEl.innerHTML="";
+  misDinos.forEach((d,i)=>{
+    const div=document.createElement("div");div.className=`lab-drow ${selectedLabDino===d.id?"sel-lab":""}`;
+    div.onclick=()=>{selectedLabDino=d.id;selectedInvItem=null;selectedInvType=null;renderLab();};
+    div.innerHTML=`<div class="cth">${dinoSVG(d)}</div>
+      <div style="flex:1;min-width:0"><div class="cnm" style="font-size:9px"><span class="dot" style="background:${CHEX[d.color]||'#888'}"></span>#${i+1} <span class="cgen">G${d.gen}</span></div>
+      <div class="cst"><span class="cs r-${d.rc}">${d.rc.slice(0,3)}</span><span class="cs ${ADN_INFO[d.adn]?.cls}">${ADN_INFO[d.adn]?.icon}${d.adn}</span></div></div>`;
+    listEl.appendChild(div);
+  });
+  const d=misDinos.find(x=>x.id===selectedLabDino);
+  const pv=document.getElementById("lab-preview");
+  if(d){
+    pv.innerHTML=dinoSVG(d,"lab");
+    document.getElementById("lab-prev-name").textContent=`#${misDinos.indexOf(d)+1} ${d.color.replace(/_/g," ")}`;
+    document.getElementById("lab-prev-stats").textContent=`❤${d.sal} ⚔${d.fue} ⚡${d.vel} · CP:${d.combatPower}`;
+    document.getElementById("lab-prev-equip").textContent=d.equippedVestido?`🎭 Vestido: ${d.equippedVestido}`:"Sin vestido de arena";
+  }else{
+    pv.innerHTML=`<div style="color:var(--dm);text-align:center;margin-top:50px;font-family:'Crimson Pro',serif;font-style:italic;font-size:12px">Elige un dino</div>`;
+    ["lab-prev-name","lab-prev-stats","lab-prev-equip"].forEach(id=>{const e=document.getElementById(id);if(e)e.textContent="";});
+  }
+  document.getElementById("inject-btn").disabled=!d||!selectedInvItem;
+  document.getElementById("lab-result-txt").textContent=selectedInvItem?`Aplicar: ${selectedInvItem}`:"Elige item del inventario";
+  const invEl=document.getElementById("lab-inventory");if(!invEl)return;invEl.innerHTML="";
+  
+  const hasGemas=Object.keys(inventario.gemas||{}).some(k=>(inventario.gemas[k]||0)>0);
+  if(hasGemas){
+    const st=document.createElement("div");st.className="inv-section";
+    st.innerHTML=`<div class="inv-stitle">💎 Gemas</div>`;
+    Object.entries(inventario.gemas||{}).forEach(([k,cnt])=>{
+      if(!cnt)return;
+      let gDat=null;for(const t of Object.values(MINAS_DEF))for(const g of t.gemas)if(g.id===k)gDat=g;
+      const item=document.createElement("div");item.className=`inv-item ${selectedInvItem===k&&selectedInvType==="gema"?"sel-inv":""}`;
+      item.onclick=()=>{selectedInvItem=k;selectedInvType="gema";renderLab();};
+      item.innerHTML=`<span class="dot" style="background:${gDat?.color||'#888'};width:10px;height:10px"></span>
+        <span class="inv-nm">${gDat?.name||k}</span><span class="inv-cnt">${cnt}</span>`;
+      st.appendChild(item);
+    });
+    invEl.appendChild(st);
+  }
+  const hasManchas=Object.keys(inventario.manchas||{}).some(k=>(inventario.manchas[k]||0)>0);
+  if(hasManchas){
+    const st=document.createElement("div");st.className="inv-section";
+    st.innerHTML=`<div class="inv-stitle">🗺 Manchas Especiales</div>`;
+    Object.entries(inventario.manchas||{}).forEach(([k,cnt])=>{
+      if(!cnt)return;
+      let mDat=null;for(const d of Object.values(DESTINOS_DEF))for(const m of d.manchas)if(m.id===k)mDat=m;
+      const item=document.createElement("div");item.className=`inv-item ${selectedInvItem===k&&selectedInvType==="mancha"?"sel-inv":""}`;
+      item.onclick=()=>{selectedInvItem=k;selectedInvType="mancha";renderLab();};
+      item.innerHTML=`<span class="dot" style="background:${mDat?.color||'#888'};width:10px;height:10px"></span>
+        <span class="inv-nm">${mDat?.name||k}</span><span class="inv-cnt">${cnt}</span>`;
+      st.appendChild(item);
+    });
+    invEl.appendChild(st);
+  }
+  const hasArena=(inventario.arenas||[]).length>0;
+  if(hasArena){
+    const st=document.createElement("div");st.className="inv-section";
+    st.innerHTML=`<div class="inv-stitle">⚔ Vestidos de Arena</div>`;
+    [...new Set(inventario.arenas||[])].forEach(vid=>{
+      let vDat=null;for(const t of Object.values(ARENA_TIERS))for(const v of t.vestidos)if(v.id===vid)vDat=v;
+      const item=document.createElement("div");item.className=`inv-item ${selectedInvItem===vid&&selectedInvType==="arena"?"sel-inv":""}`;
+      item.onclick=()=>{selectedInvItem=vid;selectedInvType="arena";renderLab();};
+      item.innerHTML=`<span>${vDat?.icon||"⚔"}</span>
+        <span class="inv-nm">${vDat?.name||vid}</span>
+        <span style="font-size:8px;color:var(--dm)">(cosmético)</span>`;
+      st.appendChild(item);
+    });
+    invEl.appendChild(st);
+  }
+  if(!hasGemas&&!hasManchas&&!hasArena){
+    const emp=document.createElement("div");emp.style.cssText="padding:18px;color:var(--dm);font-size:10px;text-align:center;font-family:'Crimson Pro',serif;font-style:italic";
+    emp.textContent="Inventario vacío. Trabaja para obtener items.";invEl.appendChild(emp);
+  }
+}
+function doInject(){
+  const d=misDinos.find(x=>x.id===selectedLabDino);if(!d||!selectedInvItem)return;
+  if(selectedInvType==="gema"){
+    inventario.gemas[selectedInvItem]--;
+    let gDat=null;for(const t of Object.values(MINAS_DEF))for(const g of t.gemas)if(g.id===selectedInvItem)gDat=g;
+    if(gDat){d.color=selectedInvItem;if(!CHEX[selectedInvItem])CHEX[selectedInvItem]=gDat.color;}
+    discovered.colores.add(d.color);
+    notif(`💎 Gema ${selectedInvItem} aplicada`);addLog(`💉 Gema aplicada a #${misDinos.indexOf(d)+1}`,"good");
+  }else if(selectedInvType==="mancha"){
+    inventario.manchas[selectedInvItem]--;
+    d.mancha=selectedInvItem;d.manchaCol=getManchaColorDisplay(selectedInvItem);
+    discovered.manchas.add(selectedInvItem);
+    notif(`🗺 Mancha ${selectedInvItem} aplicada`);addLog(`💉 Mancha aplicada`,"good");
+  }else if(selectedInvType==="arena"){
+    d.equippedVestido=selectedInvItem;
+    notif(`🎭 Vestido equipado (cosmético)`);addLog(`🎭 Vestido equipado`,"good");
+  }
+  selectedInvItem=null;selectedInvType=null;
+  discoverDino(d);renderLab();renderList();renderDetail();checkLogros();
+}
+
+// ═══ JARDÍN ═══
+function renderJardin(){
+  const gridEl=document.getElementById("garden-grid");if(!gridEl)return;gridEl.innerHTML="";
+  const now=Date.now();
+  jardinGrid.forEach((cell,i)=>{
+    const div=document.createElement("div");
+    div.className=`gc${cell?"has-plant":""}`;
+    if(cell&&cell.type){
+      const pd=PLANTAS_DEF[cell.type];
+      const growMs=(pd?.grow||30)*1000;
+      const prog=cell.stage===1?1:Math.min(1,(now-cell.planted)/growMs);
+      const mature=cell.stage===1;
+      const span=document.createElement("span");
+      span.style.cssText=`font-size:${mature?28:16}px;transition:font-size .3s;line-height:1;display:block;text-align:center;`;
+      span.textContent=pd?pd.icon:"🌱";
+      div.appendChild(span);
+      const pb=document.createElement("div");pb.className="g-prog";pb.style.width=`${prog*100}%`;div.appendChild(pb);
+      if(mature){
+        const dot=document.createElement("div");dot.className="g-ripe";div.appendChild(dot);
+        div.title=`${pd?.name} — ¡Madura! Clic para cosechar`;
+        div.style.background="rgba(20,55,15,.5)";
+        div.style.border="1px solid var(--grn)";
+        div.onclick=()=>harvestPlant(i);
+      }else{
+        div.title=`${pd?.name} — ${Math.round(prog*100)}%`;
+        div.onclick=()=>plantSeed(i);
+      }
+    }else{
+      div.onclick=()=>plantSeed(i);div.title="Vacío — clic para plantar";
+    }
+    gridEl.appendChild(div);
+  });
+  const seedEl=document.getElementById("seed-panel");if(seedEl){
+    seedEl.innerHTML="";let tot=0;
+    Object.entries(inventario.semillas).forEach(([k,cnt])=>{
+      tot+=cnt;const pd=PLANTAS_DEF[k];if(!pd||cnt<=0)return;
+      const item=document.createElement("div");item.className=`seed-item-jard${semillaSeleccionada===k?" sel-seed":""}`;
+      item.onclick=()=>{semillaSeleccionada=semillaSeleccionada===k?null:k;renderJardin();};
+      item.innerHTML=`<span class="seed-icon">${pd.icon}</span>
+        <div style="flex:1"><div class="seed-nm">${pd.name}</div><div style="font-size:7px;color:var(--dm)">${pd.rareza}</div></div>
+        <span class="seed-cnt">${cnt}</span>`;
+      seedEl.appendChild(item);
+    });
+    document.getElementById("seed-total").textContent=`(${tot})`;
+  }
+  const rp=document.getElementById("recipe-panel");if(rp){
+    rp.innerHTML=`<div style="font-size:9px;color:var(--a2);padding:6px 10px;border-bottom:1px solid var(--b1);line-height:1.8">
+      <b>🌺 Cómo funcionan las mutaciones</b><br>
+      <span style="color:var(--dm)">1. Planta 2 plantas del tipo A <b>en celdas adyacentes</b> (arriba, abajo, izquierda o derecha — NO diagonal).<br>
+      2. Espera a que <b>ambas maduren</b> (borde verde).<br>
+      3. Al madurar, existe una % de probabilidad de que aparezca una mutación en una celda <b>vacía adyacente</b>.<br>
+      4. Si no hay celdas vacías al lado, la mutación NO puede aparecer.<br>
+      5. Las mutaciones son automáticas — no necesitas hacer nada.</span>
+    </div>`;
+    COMBOS.forEach(([a,b,res,prob])=>{
+      const pa=PLANTAS_DEF[a],pb=PLANTAS_DEF[b],pr=PLANTAS_DEF[res];
+      const div=document.createElement("div");div.className="recipe-item";
+      div.innerHTML=`${pa?.icon||a} <b>${pa?.name||a}</b> + ${pb?.icon||b} <b>${pb?.name||b}</b><br>→ <span class="combo-result">${pr?.icon} ${pr?.name}</span> <span style="color:var(--dm)">(${Math.round(prob*100)}% al madurar)</span>`;
+      rp.appendChild(div);
+    });
+    const div2=document.createElement("div");div2.className="recipe-item";
+    div2.innerHTML=`🌵 × 3 en <b>misma columna</b> maduras<br>→ <span class="combo-result">🎋 Bambú Titán</span> <span style="color:var(--dm)">(30%)</span>`;
+    rp.appendChild(div2);
+    const div3=document.createElement("div");div3.className="recipe-item";
+    div3.innerHTML=`🪷 Orquídea + 🌺 Flor Alada <b>adyacentes</b><br>→ <span class="combo-result">💮 Loto Prisma</span> <span style="color:var(--dm)">(20%)</span>`;
+    rp.appendChild(div3);
+  }
+  const maturePlants=jardinGrid.filter(c=>c&&c.stage===1).length;
+  const hint=document.getElementById("garden-status");
+  if(hint)hint.textContent=maturePlants?`✨ ${maturePlants} maduras — clic en verde para cosechar`:(semillaSeleccionada?`🌱 ${PLANTAS_DEF[semillaSeleccionada]?.name} — clic en celda vacía`:"← Selecciona semilla → clic en celda vacía del grid");
+}
+function plantSeed(i){
+  if(!semillaSeleccionada||(inventario.semillas[semillaSeleccionada]||0)<=0){notif("Selecciona semilla");return;}
+  if(jardinGrid[i])return notif("Celda ocupada");
+  inventario.semillas[semillaSeleccionada]--;
+  jardinGrid[i]={type:semillaSeleccionada,planted:Date.now(),stage:0};
+  discovered.plantas.add(semillaSeleccionada);
+  renderJardin();checkLogros();
+}
+function harvestPlant(i){
+  const cell=jardinGrid[i];if(!cell||cell.stage!==1)return;
+  const pd=PLANTAS_DEF[cell.type];
+  inventario.semillas[cell.type]=(inventario.semillas[cell.type]||0)+1;
+  jardinGrid[i]=null;stats.plantsGrown++;
+  discovered.plantas.add(cell.type);
+  notif(`🌾 +1 semilla de ${pd?.name}`);renderJardin();checkLogros();
+}
+function gardenTick(){
+  const now=Date.now();let changed=false;
+  jardinGrid.forEach((cell,i)=>{
+    if(!cell||!cell.type)return;
+    const pd=PLANTAS_DEF[cell.type];if(!pd)return;
+    const growMs=pd.grow*1000;
+    if(cell.stage===0&&(now-cell.planted)>=growMs){
+      cell.stage=1;changed=true;
+      checkPlantCombos(i);
+      getNeighbors(i).forEach(n=>{if(jardinGrid[n]&&jardinGrid[n].stage===1)checkPlantCombos(n);});
+    }
+  });
+  if(changed)renderJardin();
+}
+function getNeighbors(i){return[i-1,i+1,i-8,i+8].filter(n=>n>=0&&n<64&&(i%8!==0||n!==i-1)&&(i%8!==7||n!==i+1));}
+function checkPlantCombos(i){
+  const type=jardinGrid[i]?.type;if(!type)return;
+  const neighbors=getNeighbors(i).filter(n=>jardinGrid[n]&&jardinGrid[n].stage===1);
+  const neighborTypes=neighbors.map(n=>jardinGrid[n].type);
+  const hasAdj=(t)=>neighborTypes.includes(t);
+  let newPlant=null;
+  for(const[a,b,res,prob]of COMBOS){
+    if((type===a&&hasAdj(b))||(type===b&&hasAdj(a))){if(Math.random()<prob){newPlant=res;break;}}
+  }
+  const col=i%8;
+  const cactusCol=jardinGrid.filter((c,idx)=>idx%8===col&&c?.type==="cactus"&&c.stage===1).length;
+  if(cactusCol>=3&&type==="cactus"&&Math.random()<.3)newPlant="bambu";
+  if(newPlant){
+    const empties=getNeighbors(i).filter(n=>!jardinGrid[n]);
+    if(empties.length){
+      const target=rnd(empties);
+      jardinGrid[target]={type:newPlant,planted:Date.now(),stage:0};
+      discovered.plantas.add(newPlant);
+      const pd=PLANTAS_DEF[newPlant];
+      notif(`🌺 ¡Mutación! ${pd?.icon} ${pd?.name}`);addLog(`🌺 Mutación: ${pd?.name}`,"good");
+      checkLogros();renderJardin();
+    }
+  }
+}
+
+// ═══ ARENA JEFES ═══
+function renderBossList(){
+  const el=document.getElementById("boss-list");if(!el)return;el.innerHTML="";
+  const hasOcu=bossTeam.some(id=>{const d=misDinos.find(x=>x.id===id);return d&&d.hasOculta;});
+  BOSSES_DEF.forEach(b=>{
+    if(b.hidden&&!hasOcu)return;
+    const div=document.createElement("div");
+    div.className=`boss-card ${selBoss===b.id?"sel-boss":""} ${b.defeated?"def-boss":""}`;
+    div.onclick=()=>selectBoss(b.id);
+    const diffColors={Fácil:"var(--grn)",Medio:"var(--a2)",Difícil:"var(--rar)",Épico:"var(--pur)",Legendario:"var(--leg)",OCULTO:"var(--ocu)"};
+    div.innerHTML=`<div class="boss-nm">${b.icon} ${b.name}${b.defeated?" ✓":""}</div>
+      <div class="boss-diff" style="color:${diffColors[b.diff]||'var(--dm)'}">${b.diff}</div>
+      <div class="boss-inf">Req CP: ${b.reqCP.toLocaleString()}</div>`;
+    el.appendChild(div);
+  });
+}
+function selectBoss(id){
+  selBoss=id;renderBossList();
+  const b=BOSSES_DEF.find(x=>x.id===id);if(!b)return;
+  document.getElementById("boss-display-name").textContent=`${b.icon} ${b.name}`;
+  document.getElementById("boss-sprite").innerHTML=bossSVG(b);
+  document.getElementById("boss-hp-fill").style.width="100%";
+  document.getElementById("boss-hp-text").textContent=`HP: ${b.maxHp.toLocaleString()} · ${b.desc}`;
+  document.getElementById("boss-req-power").textContent=b.reqCP.toLocaleString();
+  document.getElementById("fight-result").textContent="";
+  updateFightBtn();
+}
+function updateFightBtn(){
+  const b=selBoss?BOSSES_DEF.find(x=>x.id===selBoss):null;
+  const team=bossTeam.filter(Boolean).map(id=>misDinos.find(x=>x.id===id)).filter(Boolean);
+  const totalCP=team.reduce((s,d)=>s+d.combatPower,0);
+  document.getElementById("team-power").textContent=totalCP;
+  const btn=document.getElementById("fight-btn");
+  if(btn)btn.disabled=!b||team.length<4||totalCP<(b?.reqCP||9999);
+}
+function renderTeamSlots(){
+  for(let i=0;i<4;i++){
+    const sl=document.getElementById(`bs${i}`);if(!sl)continue;
+    const id=bossTeam[i];const d=id?misDinos.find(x=>x.id===id):null;
+    if(d){
+      sl.innerHTML=dinoSVG(d,"ts"+i)+`<div class="rm-bs" onclick="event.stopPropagation();removeTeam(${i})">✕</div>`;
+      sl.className="boss-slot filled";
+    }else{sl.innerHTML="+";sl.className="boss-slot";}
+  }
+  updateFightBtn();renderBossList();
+}
+function removeTeam(i){bossTeam[i]=null;renderTeamSlots();}
+function teamSlotClick(i){
+  openDinoPick("Elegir dino para el equipo",d=>{
+    if(bossTeam.includes(d.id)){notif("Ya está en el equipo");return false;}
+    bossTeam[i]=d.id;renderTeamSlots();return true;
+  });
+}
+function startFight(){
+  const b=BOSSES_DEF.find(x=>x.id===selBoss);if(!b)return;
+  const team=bossTeam.filter(Boolean).map(id=>misDinos.find(x=>x.id===id)).filter(Boolean);
+  const totalCP=team.reduce((s,d)=>s+d.combatPower,0);
+  if(totalCP<b.reqCP){notif(`CP insuficiente (${totalCP}/${b.reqCP})`);return;}
+  const logEl=document.getElementById("boss-log");logEl.innerHTML="";
+  const log=(msg,cls="")=>{const r=document.createElement("div");r.className=`bl-row ${cls}`;r.textContent=msg;logEl.prepend(r);};
+  log(`⚔ ${team.map(d=>`#${misDinos.indexOf(d)+1}(${d.combatPower}CP)`).join("+")} vs ${b.name}`,"hit");
+  let bHp=b.maxHp,rounds=0;let won=false;
+  while(bHp>0&&rounds<30){
+    rounds++;const dmg=Math.round(totalCP*(0.8+Math.random()*.4));
+    bHp=Math.max(0,bHp-dmg);
+    log(`Ronda ${rounds}: ${dmg.toLocaleString()} daño. HP: ${bHp.toLocaleString()}`,dmg>totalCP?"crit":"hit");
+    if(bHp<=0){won=true;break;}
+  }
+  document.getElementById("boss-hp-fill").style.width=`${(bHp/b.maxHp)*100}%`;
+  if(won){
+    b.defeated=true;
+    log(`🏆 ¡VICTORIA en ${rounds} rondas!`,"won");
+    notif(`🏆 ¡${b.name} derrotado!`);addLog(`🏆 Jefe derrotado: ${b.name}`,"good");
+    document.getElementById("fight-result").textContent="¡Victoria!";
+    checkLogros();checkAscension();renderBossList();
+  }else{
+    log(`💀 Derrota. Sube CP.`,"lose");
+    document.getElementById("fight-result").textContent="Derrota.";
+  }
+}
+
+// ═══ LOGROS ═══
+const LOGROS_CATS_LABELS={all:"Todos",coleccion:"Colección",crianza:"Crianza",rareza:"Rareza",trabajo:"Trabajos",jefes:"Jefes",jardin:"Jardín",adn:"ADN",ascension:"Ascensión"};
+function renderLogrosCats(){
+  const el=document.getElementById("logros-cats");if(!el)return;el.innerHTML="";
+  Object.entries(LOGROS_CATS_LABELS).forEach(([k,v])=>{
+    const btn=document.createElement("button");btn.className=`lcat-btn ${logrosCat===k?"active":""}`;
+    btn.textContent=v;btn.onclick=()=>{logrosCat=k;renderLogrosCats();renderLogros();};el.appendChild(btn);
+  });
+}
+function renderLogros(){
+  const el=document.getElementById("logros-grid");if(!el)return;el.innerHTML="";
+  const toShow=LOGROS_DEF.filter(l=>logrosCat==="all"||l.cat===logrosCat);
+  toShow.forEach(l=>{
+    const done=logrosUnlocked.has(l.id);
+    const val=typeof l.check==="function"?l.check():0;const prog=Math.min(1,val/(l.max||1));
+    const div=document.createElement("div");div.className=`logro-card ${done?"unlocked":""} ${l.secret&&!done?"sec-card":""}`;
+    div.innerHTML=`<div class="logro-icon">${l.icon}</div>
+      <div class="logro-nm">${l.secret&&!done?"???":l.name}</div>
+      <div class="logro-desc">${l.secret&&!done?"Logro secreto":l.desc}</div>
+      ${l.secret&&!done&&l.hint?`<div class="logro-how" style="color:var(--a);font-style:italic">🔍 ${l.hint}</div>`:""}
+      ${!l.secret||done?`<div class="logro-how">💡 ${l.how}</div>`:""}
+      ${!done?`<div class="logro-prog"><div class="logro-bar"><div class="logro-bar-f" style="width:${prog*100}%"></div></div><div class="logro-bar-t">${val}/${l.max}</div></div>`:""}`;
+    el.appendChild(div);
+  });
+  const tot=LOGROS_DEF.filter(l=>logrosUnlocked.has(l.id)).length;
+  const progEl=document.getElementById("logros-prog-txt");
+  if(progEl)progEl.textContent=`${tot} / ${LOGROS_DEF.length} logros`;
+}
+function checkLogros(){
+  let any=false;
+  LOGROS_DEF.forEach(l=>{
+    if(logrosUnlocked.has(l.id))return;
+    const val=typeof l.check==="function"?l.check():0;
+    if(val>=(l.max||1)){logrosUnlocked.add(l.id);showLogroPopup(l.name);addLog(`🏆 Logro: ${l.name}`,"good");any=true;}
+  });
+  if(any){const b=document.getElementById("logros-badge");if(b)b.style.display="";}
+}
+function showLogroPopup(name){
+  const el=document.getElementById("logro-popup"),nl=document.getElementById("lp-name");
+  if(!el||!nl)return;nl.textContent=name;el.classList.add("show");setTimeout(()=>el.classList.remove("show"),3500);
+}
+
+// ═══ ENCICLOPEDIA ═══
+function renderEncy(){
+  const el=document.getElementById("ency-body");if(!el)return;el.innerHTML="";
+  const grid=document.createElement("div");grid.className="ency-grid";
+  
+  if(encyTab==="colores"){
+    Object.entries(COLORES).forEach(([rar,cols])=>cols.forEach(col=>{
+      const found=discovered.colores.has(col);
+      const previewDino=found?new Dino(col,"ninguna",null,"ninguno",1,"tierra"):null;
+      const item=document.createElement("div");item.className=`ency-item ${found?"discovered":"undiscovered"}`;
+      item.innerHTML=`<div class="ency-svg">${found?dinoSVG(previewDino,"ec"+col):`<div style="width:38px;height:38px;border-radius:50%;background:#333;margin:0 auto;display:flex;align-items:center;justify-content:center;font-size:18px;opacity:.3">?</div>`}</div>
+        <div class="ency-nm">${col.replace(/_/g," ")}</div><div class="ency-rar r-${rar}">${rar}</div>
+        <div class="ency-how">${found?"Descubierto":"Cría para descubrirlo"}</div>`;
+      
+      // ZOOM EVENT:
+      if(found) item.onclick = () => showZoom(`<div style="width:180px;height:180px;background:${CHEX[col]};border-radius:50%;border:4px solid white;margin:50px auto;box-shadow:0 0 30px ${CHEX[col]}"></div>`);
+      grid.appendChild(item);
+    }));
+  }else if(encyTab==="manchas"){
+    Object.entries(MANCHAS).forEach(([rar,mans])=>mans.forEach(man=>{
+      const found=discovered.manchas.has(man);
+      const previewDino=found?new Dino("plata",man,getManchaColorDisplay(man),"ninguno",1,"tierra"):null;
+      const svgStr = found?dinoSVG(previewDino,"em"+man):`<div style="width:38px;height:38px;border-radius:50%;background:#333;margin:0 auto;display:flex;align-items:center;justify-content:center;font-size:18px;opacity:.3">?</div>`;
+      const item=document.createElement("div");item.className=`ency-item ${found?"discovered":"undiscovered"}`;
+      item.innerHTML=`<div class="ency-svg">${svgStr}</div>
+        <div class="ency-nm">${man.replace(/_/g," ")}</div><div class="ency-rar r-${rar}">${rar}</div>
+        <div class="ency-how">${found?"Descubierto":"Cría con esta rareza de mancha"}</div>`;
+      
+      // ZOOM EVENT:
+      if(found) item.onclick = () => showZoom(svgStr);
+      grid.appendChild(item);
+    }));
+  }else if(encyTab==="manchas_expl"){
+    Object.values(DESTINOS_DEF).forEach(dest=>dest.manchas.forEach(m=>{
+      const found=discovered.manchasExpl.has(m.id);
+      const previewDino=found?new Dino("plata",m.id,m.color,"ninguno",1,"tierra"):null;
+      const svgStr = found?dinoSVG(previewDino,"eex"+m.id):`<div style="width:38px;height:38px;border-radius:50%;background:#333;margin:0 auto;display:flex;align-items:center;justify-content:center;font-size:18px;opacity:.3">?</div>`;
+      const item=document.createElement("div");item.className=`ency-item ${found?"discovered":"undiscovered"} ${m.rareza==="oculta"&&found?"oculta-item":""}`;
+      item.innerHTML=`<div class="ency-svg">${svgStr}</div>
+        <div class="ency-nm">${found?m.name:"???"}</div><div class="ency-rar r-${m.rareza}">${m.rareza}</div>
+        <div class="ency-how">💡 ${m.desc}</div>`;
+      
+      // ZOOM EVENT:
+      if(found) item.onclick = () => showZoom(svgStr);
+      grid.appendChild(item);
+    }));
+  }else if(encyTab==="vestidos"){
+    Object.entries(VESTIDOS).forEach(([rar,vests])=>vests.forEach(v=>{
+      const found=discovered.vestidos.has(v);
+      const previewDino=found?new Dino("plata","ninguna",null,v,1,"tierra"):null;
+      const svgStr = found?dinoSVG(previewDino,"ev"+v):`<div style="width:38px;height:38px;border-radius:50%;background:#333;margin:0 auto;display:flex;align-items:center;justify-content:center;font-size:18px;opacity:.3">?</div>`;
+      const item=document.createElement("div");item.className=`ency-item ${found?"discovered":"undiscovered"}`;
+      item.innerHTML=`<div class="ency-svg">${svgStr}</div>
+        <div class="ency-nm">${v.replace(/_/g," ")}</div><div class="ency-rar r-${rar}">${rar}</div>
+        <div class="ency-how">${found?"Descubierto":"Cría con esta rareza de vestido"}</div>`;
+      
+      // ZOOM EVENT:
+      if(found) item.onclick = () => showZoom(svgStr);
+      grid.appendChild(item);
+    }));
+    Object.values(ARENA_TIERS).forEach(tier=>tier.vestidos.forEach(v=>{
+      const found=discovered.vestidos.has(v.id)||(inventario.arenas||[]).includes(v.id);
+      const previewDino=found?Object.assign(new Dino("plata","ninguna",null,"ninguno",1,"tierra"),{equippedVestido:v.id}):null;
+      const svgStr = found?dinoSVG(previewDino,"eat"+v.id):`<div style="width:38px;height:38px;border-radius:50%;background:#333;margin:0 auto;display:flex;align-items:center;justify-content:center;font-size:18px;opacity:.3">?</div>`;
+      const item=document.createElement("div");item.className=`ency-item ${found?"discovered":"undiscovered"} ${v.rareza==="oculta"&&found?"oculta-item":""}`;
+      item.innerHTML=`<div class="ency-svg">${svgStr}</div>
+        <div class="ency-nm">${found?v.name:"???"} <span style="font-size:7px;color:var(--a)">⚔</span></div><div class="ency-rar r-${v.rareza}">${v.rareza}</div>
+        <div class="ency-how">💡 ${found?"Arena · cosmético":"Gana en Arena"}</div>`;
+      
+      // ZOOM EVENT:
+      if(found) item.onclick = () => showZoom(svgStr);
+      grid.appendChild(item);
+    }));
+  }else if(encyTab==="adn"){
+    ADN_TIPOS.forEach(adn=>{
+      const found=discovered.adn.has(adn);const info=ADN_INFO[adn];
+      const item=document.createElement("div");item.className=`ency-item ${found?"discovered":"undiscovered"} ${adn==="oculto"&&found?"oculta-item":""}`;
+      item.innerHTML=`<div style="font-size:28px;margin-bottom:5px">${found?info.icon:"?"}</div>
+        <div class="ency-nm">${found?info.name:"???"}</div>
+        <div style="font-size:8px;color:${info.color};margin-bottom:3px;line-height:1.4">${found?info.desc:"???"}</div>
+        <div class="ency-how">💡 ${info.howto}</div>`;
+      
+      // ZOOM EVENT:
+      if(found) item.onclick = () => showZoom(`<div style="font-size:160px;text-align:center;margin-top:40px;filter:drop-shadow(0 0 30px ${info.color})">${info.icon}</div>`);
+      grid.appendChild(item);
+    });
+  }else if(encyTab==="plantas"){
+    Object.entries(PLANTAS_DEF).forEach(([k,pd])=>{
+      const found=discovered.plantas.has(k);
+      const item=document.createElement("div");item.className=`ency-item ${found?"discovered":"undiscovered"} ${pd.rareza==="oculta"&&found?"oculta-item":""}`;
+      item.innerHTML=`<div style="font-size:${found?32:24}px;margin-bottom:5px">${found?pd.icon:"🌱"}</div>
+        <div class="ency-nm">${found?pd.name:"???"}</div><div class="ency-rar r-${pd.rareza}">${pd.rareza}</div>
+        <div class="ency-how">💡 ${pd.howto}</div>`;
+      
+      // ZOOM EVENT:
+      if(found) item.onclick = () => showZoom(`<div style="font-size:160px;text-align:center;margin-top:40px;">${pd.icon}</div>`);
+      grid.appendChild(item);
+    });
+  }else if(encyTab==="gemas"){
+    Object.values(MINAS_DEF).forEach(tier=>tier.gemas.forEach(g=>{
+      if(g.hidden&&!discovered.gemas.has(g.id)&&!misDinos.some(d=>d.adn==="oculto")&&ascLevel===0)return;
+      const found=discovered.gemas.has(g.id);
+      const item=document.createElement("div");item.className=`ency-item ${found?"discovered":"undiscovered"} ${g.rareza==="oculta"&&found?"oculta-item":""}`;
+      item.innerHTML=`<div class="ency-swatch" style="background:${found?g.color:"#333"};width:34px;height:34px;border-radius:4px;margin:0 auto 6px;border:2px solid rgba(255,255,255,.15);"></div>
+        <div class="ency-nm">${g.name}</div><div class="ency-rar r-${g.rareza}">${g.rareza}</div>
+        <div class="ency-how">💡 ${g.desc}</div>`;
+      
+      // ZOOM EVENT:
+      if(found) item.onclick = () => showZoom(`<div style="width:140px;height:140px;background:${g.color};border-radius:15px;border:4px solid white;margin:70px auto;transform:rotate(45deg);box-shadow:0 0 40px ${g.color}"></div>`);
+      grid.appendChild(item);
+    }));
+  }
+  el.appendChild(grid);
+}
+
+// ═══ ASCENSIÓN ═══
+function checkAscension(){
+  const gigrexDead=BOSSES_DEF.find(b=>b.id==="gigrex")?.defeated;
+  const btn=document.getElementById("asc-btn");
+  if(btn)btn.style.display=gigrexDead?"":"none";
+}
+function showAscension(){
+  const overlay=document.getElementById("asc-overlay");
+  const bonus=document.getElementById("asc-bonus");
+  if(bonus)bonus.innerHTML=`Nivel de ascensión actual: <b style="color:var(--ocu)">${ascLevel}</b><br>Próximo bono: <b>+${Math.round((ascLevel+1)*3)}% probabilidad oculta</b>`;
+  if(overlay)overlay.classList.add("show");
+}
+function doAscension(){
+  ascLevel++;ocultaBaseChance=0.005*(1+ascLevel*0.5);
+  // Reset: dinos, huevos, jardin, inventario (keep logros, discoveries, ascLevel)
+  misDinos=[];huevos=[];breedSlots=[null,null];selects=[];
+  jardinGrid=Array(64).fill(null);
+  inventario={gemas:{},manchas:{},semillas:{hierba:3,violeta:2}};
+  workSlots={mina:{},exploracion:{},arena_trab:{},granja:[]};
+  ranchoSet=new Set();dinero=0;esencias=0;bossTeam=[null,null,null,null];selBoss=null;
+  stats.totalBreeds=0;stats.maxGen=1;stats.ocultaFound=0;
+  // Give 2 basic dinos
+  const d1=new Dino("verde","ninguna",null,"ninguno",1,rnd(["tierra","fuego","agua","aire"]));
+  const d2=new Dino("verde","ninguna",null,"ninguno",1,rnd(["tierra","fuego","agua","aire"]));
+  misDinos.push(d1,d2);discoverDino(d1);discoverDino(d2);
+  document.getElementById("asc-overlay").classList.remove("show");
+  addLog(`⬆ ASCENSIÓN ${ascLevel}! +${Math.round(ascLevel*3)}% oculta`,"oculta");notif(`⬆ Ascensión nivel ${ascLevel}!`);
+  checkLogros();renderAll();
+}
+
+// ═══ DISCOVERY ═══
+function discoverDino(d){
+  discovered.colores.add(d.color);discovered.manchas.add(d.mancha);discovered.vestidos.add(d.vestido);discovered.adn.add(d.adn);
+  if(d.hasOculta&&!stats.ocultaFound){stats.ocultaFound=1;notifOcu("👁 ¡RAREZA OCULTA DESCUBIERTA!");}
+}
+
+// ═══ ENVIRONMENT ═══
+function renderEnv(){
+  const env=document.getElementById("env-layer");if(!env)return;env.innerHTML="";
+  if(decos.has("stars")){for(let i=0;i<20;i++){const s=document.createElement("div");s.className="env-star";s.style.cssText=`left:${Math.random()*100}%;top:${Math.random()*65}%;animation-delay:${Math.random()*2}s;animation-duration:${1.5+Math.random()*2}s;background:${Math.random()>.7?"#ffe0a0":"#fff"}`;env.appendChild(s);}}
+  if(decos.has("moon")){const m=document.createElement("div");m.className="env-moon";env.appendChild(m);}
+  if(decos.has("aurora")){const a=document.createElement("div");a.className="env-aurora";env.appendChild(a);}
+  if(decos.has("cloud1")){const cl=document.createElement("div");cl.className="env-cloud";cl.style.cssText="top:15%;animation-duration:28s";cl.innerHTML=`<svg width="80" height="40" viewBox="0 0 80 40"><ellipse cx="40" cy="30" rx="26" ry="13" fill="#c0d8e8" opacity=".3"/><ellipse cx="25" cy="32" rx="14" ry="9" fill="#c0d8e8" opacity=".3"/><ellipse cx="56" cy="30" rx="18" ry="11" fill="#c0d8e8" opacity=".3"/></svg>`;env.appendChild(cl);}
+  if(decos.has("volcano")){const v=document.createElement("div");v.className="env-volcano";v.innerHTML=`<svg width="50" height="60" viewBox="0 0 50 60"><polygon points="25,4 49,59 1,59" fill="#3a2015" opacity=".65"/><ellipse cx="25" cy="7" rx="6" ry="3" fill="#ff4400" opacity=".55"/></svg>`;env.appendChild(v);}
+  if(decos.has("fireflies")){for(let i=0;i<7;i++){const f=document.createElement("div");f.className="env-ff";f.style.cssText=`left:${Math.random()*100}%;top:${20+Math.random()*60}%;animation-delay:${Math.random()*4}s;animation-duration:${3+Math.random()*3}s`;env.appendChild(f);}}
+  if(decos.has("rain")){for(let i=0;i<18;i++){const r=document.createElement("div");r.className="env-rain";r.style.cssText=`left:${Math.random()*100}%;height:${8+Math.random()*12}px;animation-delay:${Math.random()}s;animation-duration:${.6+Math.random()*.4}s`;env.appendChild(r);}}
+  if(decos.has("crystals")){for(let i=0;i<4;i++){const cr=document.createElement("div");cr.className="env-crystal";cr.style.cssText=`left:${10+i*22}%;font-size:${12+Math.random()*6}px;animation-delay:${i*.4}s`;cr.textContent="💎";env.appendChild(cr);}}
+  if(decos.has("fossils")){for(let i=0;i<4;i++){const b=document.createElement("div");b.className="env-bone";b.style.cssText=`left:${5+i*25}%;bottom:20px;font-size:${14+Math.random()*5}px`;b.textContent="🦴";env.appendChild(b);}}
+}
+
+// ═══ ACTIONS ═══
+function toggleSel(i){
+  const d=misDinos[i];if(!d)return;
+  // Auto-assign to breed slots: 1st click → padre, 2nd → madre
+  if(breedSlots[0]===d.id){breedSlots[0]=null;}
+  else if(breedSlots[1]===d.id){breedSlots[1]=null;}
+  else if(!breedSlots[0]){breedSlots[0]=d.id;}
+  else if(!breedSlots[1]){breedSlots[1]=d.id;}
+  else{breedSlots[0]=breedSlots[1];breedSlots[1]=d.id;}
+  // Keep selects in sync for detail panel
+  selects=[];
+  if(breedSlots[1])selects.push(misDinos.findIndex(x=>x.id===breedSlots[1]));
+  else if(breedSlots[0])selects.push(misDinos.findIndex(x=>x.id===breedSlots[0]));
+  renderList();renderDetail();renderBreedPanel();renderAltar();renderTrainPanel();
+  if(document.getElementById("col-bar"))mpSwitch("col-layout","col-bar",1);
+}
+function breedSlotClick(i){
+  const last=selects[selects.length-1];const d=last!=null?misDinos[last]:null;
+  if(d){breedSlots[i]=d.id;renderBreedPanel();}else openDinoPick("Elegir para criar",d=>{breedSlots[i]=d.id;renderBreedPanel();return true;});
+}
+function accionCriar(){
+  const p=misDinos.find(x=>x.id===breedSlots[0]),m=misDinos.find(x=>x.id===breedSlots[1]);
+  if(!p||!m){notif("Selecciona Padre y Madre");return;}
+  const maxS=unlocked.has("extra_slots")?4:2;
+  if(huevos.length>=maxS){notif("Incubadora llena");return;}
+  huevos.push(new Huevo(p,m));
+  stats.totalBreeds++;
+  addLog(`🥚 ${p.color} × ${m.color} → G${Math.max(p.gen,m.gen)+1}`,"warn");notif("🥚 ¡Huevo en incubación!");
+  renderEggs();renderBreedPanel();checkLogros();renderTareas();
+}
+function liberarDino(){
+  const last=selects[selects.length-1];const d=last!=null?misDinos[last]:null;
+  if(!d){notif("Selecciona un dino");return;}
+  if(d.isWorking){notif("El dino está trabajando");return;}
+  if(d.inRancho){ranchoSet.delete(d.id);}
+  const val=d.esenciaVal;esencias+=val;
+  addLog(`🕊 Liberado ${d.color} (${d.rc}) → +${val}✨`,"good");
+  if(breedSlots[0]===d.id)breedSlots[0]=null;
+  if(breedSlots[1]===d.id)breedSlots[1]=null;
+  misDinos.splice(misDinos.indexOf(d),1);
+  selects=selects.filter(x=>x!==misDinos.indexOf(d)).map(x=>x>misDinos.indexOf(d)?x-1:x);
+  selects=[];renderAll();notif(`+${val}✨ Esencias`);
+}
+function comprar(rar){
+  const prices={basica:20,media:60,rara:180,legendaria:500};
+  const p=prices[rar];
+  if(!p){notif("Rareza inválida");return;}
+  if(dinero<p){notif(`Sin fondos (necesitas ${p}💰)`);return;}
+  dinero-=p;
+  const d=crearDinoSalvaje(rar);misDinos.push(d);discoverDino(d);
+  if(rar==="oculta"||d.hasOculta)notifOcu(`👁 ¡${d.color} OCULTO!`);
+  else if(rar==="legendaria")notifLeg(`✨ Legendario: ${d.color}!`);
+  else notif(`Nuevo dino: ${d.color}`);
+  addLog(`🛒 Comprado ${rar}: ${d.color}/${d.mancha}/${d.vestido}`,rar==="legendaria"?"legendary":"good");
+  renderAll();checkLogros();
+}
+function buySlots(){
+  if(dinero<150){notif("Sin fondos");return;}
+  if(unlocked.has("extra_slots")){notif("Ya tienes 2ª incubadora");return;}
+  dinero-=150;unlocked.add("extra_slots");
+  notif("¡Segunda incubadora activada!");renderEggs();renderMoney();
+  document.getElementById("buy-slots").disabled=true;
+}
+function buyDeco(id){
+  const d=DECOS.find(x=>x.id===id);if(!d)return;
+  if(dinero<d.cost){notif(`Sin fondos (necesitas ${d.cost}💰)`);return;}
+  dinero-=d.cost;decos.add(id);
+  renderEnv();renderDecos();renderMoney();notif(`✓ ${d.name}`);
+}
+
+// ═══ MODAL ═══
+let modalCallback=null;
+function openDinoPick(title,cb){
+  modalCallback=cb;
+  const overlay=document.getElementById("modal-overlay");
+  document.getElementById("modal-title").textContent=title;
+  const body=document.getElementById("modal-body");body.innerHTML="";
+  misDinos.forEach((d,i)=>{
+    const unavail=d.isWorking||d.inRancho;
+    const div=document.createElement("div");div.className=`modal-drow ${unavail?"unavail":""}`;
+    div.onclick=()=>{if(!unavail){const r=cb(d);if(r!==false)closeModal();}};
+    div.innerHTML=`<div class="modal-dt">${dinoSVG(d)}</div>
+      <div><div class="modal-dn">#${i+1} — ${d.color} G${d.gen}</div>
+      <div class="modal-ds">❤${d.sal} ⚔${d.fue} ⚡${d.vel} · CP:${d.combatPower} · ${ADN_INFO[d.adn]?.icon}${d.adn}${unavail?" · ⚒ Ocupado":""}</div></div>`;
+    body.appendChild(div);
+  });
+  overlay.style.display="flex";
+}
+function closeModal(){document.getElementById("modal-overlay").style.display="none";modalCallback=null;}
+
+// ═══ LOG & NOTIF ═══
+function addLog(msg,tipo=""){
+  const el=document.getElementById("log-area");if(!el)return;
+  const ts=new Date().toLocaleTimeString("es",{hour:"2-digit",minute:"2-digit",second:"2-digit"});
+  const div=document.createElement("div");div.className=`log-row ${tipo}`;
+  div.innerHTML=`<span class="log-ts">${ts}</span>${msg}`;el.prepend(div);
+  while(el.children.length>40)el.removeChild(el.lastChild);
+}
+let nT;
+function notif(msg){const el=document.getElementById("notif");el.className="notif show";el.textContent=msg;clearTimeout(nT);nT=setTimeout(()=>el.classList.remove("show"),2200);}
+function notifLeg(msg){const el=document.getElementById("notif");el.className="notif leg show";el.textContent=msg;clearTimeout(nT);nT=setTimeout(()=>el.classList.remove("show"),3200);}
+function notifOcu(msg){const el=document.getElementById("notif");el.className="notif ocu show";el.textContent=msg;clearTimeout(nT);nT=setTimeout(()=>el.classList.remove("show"),4000);}
+
+// ═══ NAVIGATION ═══
+function switchPage(name,el){
+  document.querySelectorAll(".nav-tab").forEach(t=>t.classList.remove("active"));
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+  el.classList.add("active");document.getElementById(`page-${name}`).classList.add("active");
+  if(name==="rancho")renderRancho();
+  if(name==="trabajos")renderAllTrabajo();
+  if(name==="lab")renderLab();
+  if(name==="jardin")renderJardin();
+  if(name==="arena"){renderBossList();renderTeamSlots();}
+  if(name==="logros"){renderLogrosCats();renderLogros();const b=document.getElementById("logros-badge");if(b)b.style.display="none";}
+  if(name==="enciclopedia")renderEncy();
+}
+function switchShopTab(n,el){
+  document.querySelectorAll(".shop-tab").forEach(t=>t.classList.remove("active"));
+  document.querySelectorAll(".tab-content").forEach(t=>t.classList.remove("active"));
+  el.classList.add("active");document.getElementById(`stab-${n}`).classList.add("active");
+}
+function switchEncyTab(n,el){
+  document.querySelectorAll(".ency-tab").forEach(t=>t.classList.remove("active"));
+  el.classList.add("active");encyTab=n;renderEncy();
+}
+function switchWorkTab(n,el){
+  document.querySelectorAll(".work-tab").forEach(t=>t.classList.remove("active"));
+  document.querySelectorAll(".work-page").forEach(p=>p.classList.remove("active"));
+  el.classList.add("active");
+  const wp=document.getElementById(`wp-${n}`);if(wp)wp.classList.add("active");
+  if(n==="mina")renderMina();
+  else if(n==="exploracion")renderExploracion();
+  else if(n==="arena-trab")renderArenaTrab();
+  else if(n==="granja")renderGranja();
+}
+function switchMinaTier(t,el){
+  document.querySelectorAll(".mina-tier-btn").forEach(b=>b.classList.remove("active"));
+  if(el)el.classList.add("active");
+  minaTier=t;renderMina();
+}
+function switchDest(d,el){
+  const def=DESTINOS_DEF[d];if(def.minVel>0&&!unlocked.has(`expl_${d}`)){notif("Destino bloqueado");return;}
+  document.querySelectorAll(".dest-btn").forEach(b=>b.classList.remove("active"));
+  if(el)el.classList.add("active");
+  explDest=d;renderExploracion();
+}
+function switchArenaTier(t,el){
+  if(!unlocked.has(`arena_${t}`)&&t!=="local"){notif("Liga bloqueada");return;}
+  document.querySelectorAll(".arena-tier-btn").forEach(b=>b.classList.remove("active"));
+  if(el)el.classList.add("active");
+  arenaTier=t;renderArenaTrab();
+}
+function renderAllTrabajo(){renderMina();renderExploracion();renderArenaTrab();renderGranja();}
+function renderAll(){
+  renderList();renderDetail();renderBreedPanel();renderMoney();renderEggs();
+  renderShop();renderDecos();renderTareas();renderEnv();renderAltar();renderTrainPanel();
+}
+
+// ═══ GAME LOOP ═══
+let lastTick=Date.now();
+function gameLoop(){
+  const now=Date.now(),dt=(now-lastTick)/1000;lastTick=now;
+  // Rancho income
+  ranchoAccum+=dt;
+  if(ranchoAccum>=1){
+    const rate=[...ranchoSet].reduce((s,id)=>{const d=misDinos.find(x=>x.id===id);return s+(d?d.ranchoEarn:0);},0);
+    const gained=Math.floor(rate*ranchoAccum);
+    dinero+=gained;if(gained>0)stats.totalEarned+=gained;ranchoAccum=0;
+    renderMoney();renderShop();
+  }
+  // Egg hatching
+  let births=false;
+  huevos=huevos.filter(h=>{
+    if(!h.listo)return true;
+    let hijo;
+    if(h.rarOverride)hijo=crearDinoSalvaje(h.rarOverride);else hijo=crearHijo(h.padre,h.madre);
+    misDinos.push(hijo);discoverDino(hijo);
+    const isOc=hijo.hasOculta,isLeg=hijo.rc==="legendaria";
+    addLog(`🦕 ¡Nació ${hijo.color} G${hijo.gen}! ❤${hijo.sal}⚔${hijo.fue}⚡${hijo.vel}`,isOc?"oculta":isLeg?"legendary":"good");
+    if(isOc)notifOcu(`👁 ¡${hijo.color.toUpperCase()} OCULTO!`);else if(isLeg)notifLeg(`✨ Legendario: ${hijo.color}!`);else notif(`🦕 ¡Nació ${hijo.color}!`);
+    births=true;checkLogros();renderTareas();return false;
+  });
+  if(births){renderList();renderEggs();renderShop();}else renderEggs();
+  // Work processes
+  processMina();procesarExploracion();procesarArenaTrab();procesarGranja();
+  // Garden
+  gardenTick();
+  // Auto-render work bars every tick
+  const activePage=document.querySelector(".page.active");
+  if(activePage&&activePage.id==="page-trabajos"){
+    const activeWork=document.querySelector(".work-page.active");
+    if(activeWork){
+      if(activeWork.id==="wp-mina")renderMina();
+      else if(activeWork.id==="wp-exploracion")renderExploracion();
+      else if(activeWork.id==="wp-arena-trab")renderArenaTrab();
+      else if(activeWork.id==="wp-granja")renderGranja();
+    }
+  }
+  // Notify upgrades ready to claim
+  renderTareas();
+  setTimeout(gameLoop,500);
+}
+
+// ═══ INIT ═══
+(function(){
+  const d1=new Dino("verde","ninguna",null,"ninguno",1,"tierra");
+  const d2=new Dino("verde","ninguna",null,"ninguno",1,"fuego");
+  misDinos.push(d1,d2);discoverDino(d1);discoverDino(d2);
+  renderAll();renderEnv();renderLogrosCats();
+  addLog("🧬 Laboratorio activo. Empieza criando tus dos primeros dinos.","good");
+  addLog("💡 Consejo: los dinos tienen atributos 1-100. ¡Cría para mejorarlos!","warn");
+  lastTick=Date.now();gameLoop();checkLogros();checkAscension();
+})();
+
+// ── Mobile panel switcher ──
+function mpSwitch(layoutId, barId, idx){
+  // Update data-show → CSS handles the visibility
+  const layout = document.getElementById(layoutId);
+  if(layout) layout.dataset.show = idx;
+  // Update button highlights
+  const bar = document.getElementById(barId);
+  if(bar){
+    bar.querySelectorAll('.mp-btn').forEach(function(b,i){
+      b.classList.toggle('active', i === idx);
+    });
+  }
+}
+// Auto-navigate to Dino panel when clicking a dino
+const _origToggleSel = window.toggleSel;
+
+</script>
+</body>
+</html>
