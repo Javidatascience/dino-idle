@@ -72,7 +72,7 @@ body{background:var(--bg);color:var(--tx);font-family:'Share Tech Mono',monospac
 .adn-ai{color:var(--aire);border-color:var(--aire);}
 .adn-o{color:var(--adn-ocu);border-color:var(--adn-ocu);}
 /* COLECCIÓN */
-.col-layout{display:grid;grid-template-columns:240px 1fr 258px;height:100%;width:100%;}
+.col-layout{display:grid;grid-template-columns:185px 1fr 192px;height:100%;width:100%;}
 .col-panel{overflow-y:auto;border-right:1px solid var(--b1);}
 .col-panel:last-child{border-right:none;}
 .dino-card{display:flex;align-items:center;gap:7px;padding:9px 12px;border-bottom:1px solid var(--b1);cursor:pointer;transition:background .12s;position:relative;}
@@ -161,7 +161,7 @@ body{background:var(--bg);color:var(--tx);font-family:'Share Tech Mono',monospac
 .log-ts{margin-right:4px;opacity:.28;}
 /* SHOP (right panel of coleccion) */
 .shop-tabs{display:flex;border-bottom:1px solid var(--b1);flex-shrink:0;}
-.shop-tab{flex:1;padding:6px;font-size:9px;letter-spacing:1px;text-align:center;color:var(--dm);cursor:pointer;border-bottom:2px solid transparent;transition:all .15s;text-transform:uppercase;}
+.shop-tab{flex:1;padding:4px 2px;font-size:8px;letter-spacing:0;text-align:center;color:var(--dm);cursor:pointer;border-bottom:2px solid transparent;transition:all .15s;text-transform:uppercase;}
 .shop-tab.active{color:var(--a2);border-bottom-color:var(--a);}
 .tab-content{display:none;overflow-y:auto;flex:1;min-height:0;}.tab-content.active{display:block;}
 .sb{padding:9px 11px;}.sbt{font-size:8px;letter-spacing:4px;color:var(--fo);border-bottom:1px solid var(--b1);padding-bottom:4px;margin-bottom:7px;text-transform:uppercase;}
@@ -274,8 +274,12 @@ body{background:var(--bg);color:var(--tx);font-family:'Share Tech Mono',monospac
 .assign-btn{width:100%;padding:6px;border:1px dashed var(--b2);background:transparent;color:var(--dm);cursor:pointer;font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:1px;transition:all .13s;margin-top:4px;}
 .assign-btn:hover{border-color:var(--a);color:var(--a2);}
 /* LAB */
-.page-lab{flex:1;display:grid;grid-template-columns:210px 1fr 258px;overflow:hidden;width:100%;}
-.lab-col{overflow-y:auto;border-right:1px solid var(--b1);}.lab-col:last-child{border-right:none;}
+.page-lab{flex:1;display:flex;flex-direction:column;overflow:hidden;width:100%;}
+.lab-tab-bar{display:flex;flex-shrink:0;background:var(--p2);border-bottom:2px solid var(--b1);}
+.lab-tab-btn{flex:1;padding:9px 4px;font-size:9px;color:var(--dm);background:transparent;border:none;border-bottom:3px solid transparent;cursor:pointer;font-family:'Share Tech Mono',monospace;text-transform:uppercase;letter-spacing:.5px;transition:color .15s;}
+.lab-tab-btn.active{color:var(--a2);border-bottom-color:var(--pur);}
+.lab-col{display:none;flex:1;overflow:hidden;width:100%;}.lab-col.lab-active{display:flex;flex-direction:column;}
+.lab-col#lab-c0{overflow-y:auto;}.lab-col#lab-c1{overflow-y:auto;}.lab-col#lab-c2{overflow-y:auto;}
 .lab-drow{display:flex;align-items:center;gap:7px;padding:7px 10px;border-bottom:1px solid var(--b1);cursor:pointer;transition:all .13s;}
 .lab-drow:hover{background:rgba(200,134,42,.04);}
 .lab-drow.sel-lab{background:rgba(176,96,255,.08);border-left:2px solid var(--pur);}
@@ -309,31 +313,30 @@ body{background:var(--bg);color:var(--tx);font-family:'Share Tech Mono',monospac
 .recipe-item .combo-result{color:var(--grn);font-weight:bold;}
 /* ARENA JEFES */
 .page-arena{flex:1;display:flex;overflow:hidden;width:100%;}
-.boss-lc{width:220px;flex-shrink:0;border-right:1px solid var(--b1);overflow-y:auto;}
-.boss-card{padding:9px 11px;border-bottom:1px solid var(--b1);cursor:pointer;transition:all .13s;border-left:2px solid transparent;}
+.boss-lc{width:190px;flex-shrink:0;border-right:1px solid var(--b1);overflow-y:auto;}
+.boss-card{padding:8px 10px;border-bottom:1px solid var(--b1);cursor:pointer;transition:all .13s;border-left:3px solid transparent;}
 .boss-card:hover{background:rgba(200,134,42,.04);}.boss-card.sel-boss{background:rgba(200,134,42,.08);border-left-color:var(--a);}
 .boss-card.def-boss{background:rgba(110,216,122,.03);border-left-color:var(--grn);}
-.boss-nm{font-family:'Cinzel Decorative',serif;font-size:10px;color:var(--a2);letter-spacing:1px;margin-bottom:2px;}
-.boss-diff{font-size:9px;margin-bottom:1px;}.boss-inf{font-size:9px;color:var(--dm);}
+.boss-nm{font-family:'Cinzel Decorative',serif;font-size:9px;color:var(--a2);letter-spacing:1px;margin-bottom:2px;}
+.boss-diff{font-size:8px;margin-bottom:1px;}.boss-inf{font-size:8px;color:var(--dm);}
 .boss-center{flex:1;display:flex;flex-direction:column;overflow:hidden;}
-.boss-vis{height:180px;display:flex;align-items:center;justify-content:space-evenly;padding:10px;border-bottom:1px solid var(--b1);flex-shrink:0;}
-.boss-team-col{display:flex;flex-direction:column;gap:5px;align-items:center;}
-.boss-slot{width:38px;height:38px;border:1px dashed var(--b2);background:var(--p2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:15px;transition:all .13s;position:relative;}
-.boss-slot:hover{border-color:var(--a);}.boss-slot.filled{border-style:solid;border-color:var(--b2);}
+.boss-vis{height:200px;display:flex;align-items:center;justify-content:space-evenly;padding:14px 20px;border-bottom:1px solid var(--b1);flex-shrink:0;background:var(--p1);}
+.boss-team-col{display:flex;flex-direction:column;gap:6px;align-items:center;}
+.boss-slot{width:44px;height:44px;border:1px dashed var(--b2);background:var(--p2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;transition:all .13s;position:relative;}
+.boss-slot:hover{border-color:var(--a);box-shadow:0 0 8px rgba(200,134,42,.2);}.boss-slot.filled{border-style:solid;border-color:var(--b2);}
 .boss-slot svg{width:100%;height:100%;}
-.boss-slot .rm-bs{position:absolute;top:-5px;right:-5px;width:12px;height:12px;background:var(--rar);color:#fff;font-size:7px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;}
-.boss-sprite{width:88px;height:88px;}.boss-sprite svg{width:100%;height:100%;}
-.boss-hp-bar{width:90px;height:5px;background:var(--p2);border:1px solid var(--b1);border-radius:3px;overflow:hidden;margin:3px auto;}
+.boss-slot .rm-bs{position:absolute;top:-5px;right:-5px;width:13px;height:13px;background:var(--rar);color:#fff;font-size:7px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;}
+.boss-sprite{width:100px;height:100px;}.boss-sprite svg{width:100%;height:100%;}
+.boss-hp-bar{width:100px;height:6px;background:var(--p2);border:1px solid var(--b1);border-radius:3px;overflow:hidden;margin:4px auto;}
 .boss-hp-fill{height:100%;background:linear-gradient(90deg,var(--rar),#ff8888);transition:width .5s;}
-.boss-vs{font-family:'Cinzel Decorative',serif;font-size:14px;color:var(--a);text-shadow:0 0 12px var(--a);}
-.boss-ctrl{padding:9px 12px;border-bottom:1px solid var(--b1);background:var(--p1);flex-shrink:0;display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
-.fight-btn{padding:6px 14px;border:1px solid var(--rar);background:rgba(255,50,50,.07);color:var(--rar);cursor:pointer;font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:2px;transition:all .13s;}
+.boss-vs{font-family:'Cinzel Decorative',serif;font-size:16px;color:var(--a);text-shadow:0 0 12px var(--a);}
+.boss-ctrl{padding:10px 14px;border-bottom:1px solid var(--b1);background:var(--p1);flex-shrink:0;display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+.fight-btn{padding:7px 18px;border:1px solid var(--rar);background:rgba(255,50,50,.07);color:var(--rar);cursor:pointer;font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:2px;transition:all .13s;}
 .fight-btn:hover{background:rgba(255,50,50,.16);}.fight-btn:disabled{opacity:.3;cursor:not-allowed;}
 .boss-log{flex:1;overflow-y:auto;padding:7px 12px;}
 .bl-row{font-size:9px;padding:2px 0;border-bottom:1px solid rgba(46,40,64,.15);}
 .bl-row.hit{color:var(--a);}.bl-row.crit{color:var(--rar);}.bl-row.won{color:var(--grn);}.bl-row.lose{color:var(--red);}
-.boss-explain{width:210px;flex-shrink:0;border-left:1px solid var(--b1);overflow-y:auto;padding:12px;font-size:9px;color:var(--dm);line-height:1.8;}
-.boss-explain h3{color:var(--a2);font-size:8px;margin-bottom:6px;letter-spacing:2px;border-bottom:1px solid var(--b1);padding-bottom:3px;text-transform:uppercase;}
+.boss-explain{display:none;}
 /* LOGROS */
 .page-logros{flex:1;overflow-y:auto;padding:14px;width:100%;}
 .logros-hdr{margin-bottom:12px;}
@@ -535,10 +538,9 @@ body{background:var(--bg);color:var(--tx);font-family:'Share Tech Mono',monospac
   .granja-rules{padding:7px 10px!important;font-size:8px!important;line-height:1.6!important;}
 
   /* Laboratorio: 3 columnas → apiladas */
-  .page-lab{display:flex!important;flex-direction:column!important;
-             grid-template-columns:unset!important;overflow-y:auto;}
-  .lab-col{border-right:none!important;border-bottom:1px solid var(--b1);
-            width:100%!important;min-height:150px;}
+  /* Lab uses tab-based layout on all screens, nothing to override */
+  .lab-tab-btn{padding:10px 4px;font-size:9px;}
+  .lab-col.lab-active{overflow-y:auto;}
 
   /* Jardín */
   .page-jard{flex-direction:column!important;}
@@ -590,12 +592,12 @@ body{background:var(--bg);color:var(--tx);font-family:'Share Tech Mono',monospac
 <div class="event-active-badge" id="event-active-badge"></div>
 <div class="main-area">
   <div class="nav-tabs">
-    <div class="nav-tab active" onclick="switchPage('coleccion',this)">Colección</div>
-    <div class="nav-tab" onclick="switchPage('trabajos',this)">Trabajos</div>
-    <div class="nav-tab" onclick="switchPage('lab',this)">Laboratorio</div>
-    <div class="nav-tab" onclick="switchPage('excavacion',this)">⛏ Excavación</div>
-    <div class="nav-tab" onclick="switchPage('arena',this)">Arena Jefes</div>
-    <div class="nav-tab" onclick="switchPage('progreso',this)">Progreso <span class="nbadge" id="logros-badge">!</span></div>
+    <div class="nav-tab active" onclick="switchPage('coleccion',this)" data-i18n="nav_collection">Colección</div>
+    <div class="nav-tab" onclick="switchPage('trabajos',this)" data-i18n="nav_jobs">Trabajos</div>
+    <div class="nav-tab" onclick="switchPage('lab',this)" data-i18n="nav_lab">Laboratorio</div>
+    <div class="nav-tab" onclick="switchPage('excavacion',this)" data-i18n="nav_excavation">⛏ Excavación</div>
+    <div class="nav-tab" onclick="switchPage('arena',this)" data-i18n="nav_arena">Arena Jefes</div>
+    <div class="nav-tab" onclick="switchPage('progreso',this)"><span data-i18n="nav_progress">Progreso</span> <span class="nbadge" id="logros-badge">!</span></div>
   </div>
 
   <div class="page active" id="page-coleccion">
@@ -675,25 +677,25 @@ body{background:var(--bg);color:var(--tx);font-family:'Share Tech Mono',monospac
         </div>
         <div class="tab-content" id="stab-prestige">
           <div class="sb">
-            <div class="sbt">🔮 TIENDA DE PRESTIGE</div>
-            <div style="font-size:9px;color:var(--dm);padding:4px 2px 8px;line-height:1.7">Gasta <b style="color:#9090ff">🔮 Tokens</b> obtenidos al ascender.<br>Los bonos son <b style="color:var(--a2)">permanentes</b> — sobreviven a todas las ascensiones.<br>Ganas más tokens cuanto mejor seas antes de ascender.</div>
-            <div class="asc-tokens-disp">🔮 Tokens disponibles: <b id="pres-tokens-display" style="color:#c0c0ff">0</b></div>
+            <div class="sbt" data-i18n="prestige_shop_title">🔮 TIENDA DE PRESTIGE</div>
+            <div style="font-size:9px;color:var(--dm);padding:4px 2px 8px;line-height:1.7" data-i18n="prestige_desc">Gasta <b style="color:#9090ff">🔮 Tokens</b> obtenidos al ascender.<br>Los bonos son <b style="color:var(--a2)">permanentes</b> — sobreviven a todas las ascensiones.<br>Ganas más tokens cuanto mejor seas antes de ascender.</div>
+            <div class="asc-tokens-disp"><span data-i18n="prestige_tokens_label">🔮 Tokens disponibles:</span> <b id="pres-tokens-display" style="color:#c0c0ff">0</b></div>
             <div id="prestige-shop-list"></div>
           </div>
         </div>
         <div class="tab-content" id="stab-deco"><div class="sb"><div class="sbt" data-i18n="deco_title">AMBIENTE (con 💰 Monedas)</div><div id="deco-list"></div></div></div>
         <div class="tab-content" id="stab-info">
           <div class="sb" style="font-size:9px;color:var(--dm);line-height:1.9">
-            <div class="sbt">HERENCIA DE RAREZA</div>
+            <div class="sbt" data-i18n="info_rarity_hdr">HERENCIA DE RAREZA</div>
             B+B → 85%B 15%M<br>B+M → 65%B 30%M 5%R<br>M+M → 78%M 22%R<br>M+R → 60%M 35%R 5%L<br>R+R → 75%R 25%L<br>R+L → 40%R 60%L<br>L+L → 100%L<br>
-            <div class="sbt" style="margin-top:8px">LIBERACIÓN → Esencias ✨</div>
-            Básico: 3✨ · Medio: 8✨ · Raro: 20✨ · Legendario: 60✨ · Oculto: 200✨<br>
-            <div class="sbt" style="margin-top:8px">EL DESPERTAR 👁</div>
-            <span style="color:var(--a)">Hay un 2% de probabilidad de que un dino nazca con <b>ADN Oculto</b>. Este ADN es especial: desbloquea contenido oculto en todos los trabajos. La probabilidad aumenta con cada Ascensión. Una vez que tienes un dino oculto, desbloquea los <b>huevos legendarios</b> en la pestaña Mejoras.</span><br>
-            <div class="sbt" style="margin-top:8px">ADN</div>
-            🌍 Tierra: mina básica<br>🔥 Fuego: CP arena +15%<br>💧 Agua: granja semillas<br>💨 Aire: exploración manchas<br>👁 Oculto: todo lo secreto
-            <div class="sbt" style="margin-top:12px;color:var(--rar)">DATOS DE PARTIDA</div>
-            <button class="btn danger" style="width:100%;margin-top:5px" onclick="confirmReset()">🗑 REINICIAR PARTIDA</button>
+            <div class="sbt" style="margin-top:8px" data-i18n="info_release_hdr">LIBERACIÓN → Esencias ✨</div>
+            <span data-i18n="info_release_vals">Básico: 3✨ · Medio: 8✨ · Raro: 20✨ · Legendario: 60✨ · Oculto: 200✨</span><br>
+            <div class="sbt" style="margin-top:8px" data-i18n="info_awakening_hdr">EL DESPERTAR 👁</div>
+            <span style="color:var(--a)" data-i18n="info_awakening_desc">Hay un 2% de probabilidad de que un dino nazca con <b>ADN Oculto</b>. Este ADN es especial: desbloquea contenido oculto en todos los trabajos. La probabilidad aumenta con cada Ascensión. Una vez que tienes un dino oculto, desbloquea los <b>huevos legendarios</b> en la pestaña Mejoras.</span><br>
+            <div class="sbt" style="margin-top:8px" data-i18n="info_adn_hdr">ADN</div>
+            <span data-i18n="info_adn_vals">🌍 Tierra: mina básica<br>🔥 Fuego: CP arena +15%<br>💧 Agua: granja semillas<br>💨 Aire: exploración manchas<br>👁 Oculto: todo lo secreto</span>
+            <div class="sbt" style="margin-top:12px;color:var(--rar)" data-i18n="info_reset_hdr">DATOS DE PARTIDA</div>
+            <button class="btn danger" style="width:100%;margin-top:5px" onclick="confirmReset()" data-i18n="btn_reset">🗑 REINICIAR PARTIDA</button>
           </div>
         </div>
       </div>
@@ -798,7 +800,7 @@ body{background:var(--bg);color:var(--tx);font-family:'Share Tech Mono',monospac
             </div>
           </div>
           <div class="arena-center">
-            <div style="font-size:9px;color:var(--dm);margin-bottom:8px">Victorias: <b id="arena-wins" style="color:var(--a2)">0</b> · Vestidos ganados:</div>
+            <div style="font-size:9px;color:var(--dm);margin-bottom:8px"><span data-i18n="arena_wins">Victorias:</span> <b id="arena-wins" style="color:var(--a2)">0</b> · <span data-i18n="arena_outfits_won">Vestidos ganados:</span></div>
             <div class="vestidos-grid" id="vestidos-ganados"></div>
             <div id="arena-slots" class="arena-slot-area"></div>
           </div>
@@ -808,7 +810,7 @@ body{background:var(--bg);color:var(--tx);font-family:'Share Tech Mono',monospac
       <div class="work-page" id="wp-granja">
         <div class="granja-layout">
           <div class="granja-l">
-            <div class="sec-title">Asignados</div>
+            <div class="sec-title" data-i18n="assigned_label">Asignados</div>
             <div style="flex:1;overflow-y:auto;padding:8px 10px;" id="granja-slots"></div>
             <div style="padding:8px 10px;border-top:1px solid var(--b1);">
               <button class="assign-btn" onclick="openAssignModal('granja')">+ Asignar dino</button>
@@ -837,18 +839,18 @@ body{background:var(--bg);color:var(--tx);font-family:'Share Tech Mono',monospac
   </div>
 
   <div class="page" id="page-lab">
-    <div class="mp-bar" id="lab-bar">
-      <button class="mp-btn active" onclick="mpSwitch('lab-layout','lab-bar',0)">📋 Sujetos</button>
-      <button class="mp-btn" onclick="mpSwitch('lab-layout','lab-bar',1)">🔬 Aplicar</button>
-      <button class="mp-btn" onclick="mpSwitch('lab-layout','lab-bar',2)">🧪 Inventario</button>
-      <button class="mp-btn" onclick="switchToLabGarden()">🌿 Jardín</button>
+    <div class="lab-tab-bar" id="lab-bar">
+      <button class="lab-tab-btn active" onclick="switchLabTab(0)">📋 Sujetos</button>
+      <button class="lab-tab-btn" onclick="switchLabTab(1)">🔬 Aplicar</button>
+      <button class="lab-tab-btn" onclick="switchLabTab(2)">🧪 Inventario</button>
+      <button class="lab-tab-btn" onclick="switchLabTab(3)">🌿 Jardín</button>
     </div>
-    <div class="page-lab" id="lab-layout" data-show="0">
-      <div class="lab-col mp-panel" id="lab-c0">
+    <div class="page-lab" id="lab-layout">
+      <div class="lab-col lab-active" id="lab-c0">
         <div class="sec-title">Elige Sujeto</div>
         <div id="lab-dino-list"></div>
       </div>
-      <div class="lab-col mp-panel" id="lab-c1" style="overflow-y:auto">
+      <div class="lab-col" id="lab-c1">
         <div class="sec-title">Sujeto de Prueba</div>
         <div class="lab-pw">
           <div class="lab-prev" id="lab-preview"><div style="color:var(--dm);text-align:center;margin-top:50px;font-family:'Crimson Pro',serif;font-style:italic;font-size:12px">Elige un dino</div></div>
@@ -859,12 +861,12 @@ body{background:var(--bg);color:var(--tx);font-family:'Share Tech Mono',monospac
           <div id="lab-result-txt" style="font-size:9px;color:var(--dm);text-align:center;max-width:180px;line-height:1.5;margin-top:3px"></div>
         </div>
       </div>
-      <div class="lab-col mp-panel" id="lab-c2">
+      <div class="lab-col" id="lab-c2">
         <div class="sec-title">Inventario</div>
         <div id="lab-inventory"></div>
       </div>
       <!-- Garden panel inside Lab -->
-      <div class="lab-col mp-panel" id="lab-c3" style="display:none;width:100%;grid-column:1/-1">
+      <div class="lab-col" id="lab-c3">
         <div class="page-jard">
           <div class="jard-l">
             <div class="sec-title">Semillas <span id="seed-total-lab" style="color:var(--a2)"></span></div>
@@ -968,7 +970,7 @@ body{background:var(--bg);color:var(--tx);font-family:'Share Tech Mono',monospac
         <div class="ency-tab" onclick="switchEncyTab('gemas',this)" data-i18n="ency_gems">Gemas</div>
       </div>
       <div style="display:flex;align-items:center;justify-content:space-between;padding:5px 12px;border-bottom:1px solid var(--b1);background:var(--p2);flex-shrink:0">
-        <div style="font-size:9px;color:var(--dm)">Descubierto: <span id="ency-pct" style="color:var(--a2)">—</span></div>
+        <div style="font-size:9px;color:var(--dm)" data-i18n="ency_discovered_label">Descubierto: <span id="ency-pct" style="color:var(--a2)">—</span></div>
         <div style="font-size:9px;color:var(--dm)" id="ency-total-txt"></div>
       </div>
       <div class="ency-body" id="ency-body"></div>
@@ -978,63 +980,63 @@ body{background:var(--bg);color:var(--tx);font-family:'Share Tech Mono',monospac
   <!-- EXCAVACIÓN PAGE -->
   <div class="page" id="page-excavacion">
     <div style="flex:1;display:flex;flex-direction:column;overflow:hidden;width:100%">
-      <div class="sec-title">⛏ Excavación Paleontológica</div>
-      <div style="display:flex;flex:1;overflow:hidden">
-        <!-- Left: fossils + controls -->
-        <div style="width:260px;flex-shrink:0;border-right:1px solid var(--b1);display:flex;flex-direction:column;overflow:hidden">
-          <div style="padding:10px;border-bottom:1px solid var(--b1);flex-shrink:0">
-            <div style="font-size:9px;color:var(--dm);line-height:1.7">Asigna un dino → excava 1 celda cada 2 min.<br>Encuentra fragmentos de fósiles y tesoros.</div>
-            <button class="assign-btn" style="margin-top:6px" onclick="assignExcavacion()">+ Asignar Excavador</button>
-            <div id="excav-worker-info" style="margin-top:5px;font-size:9px;color:var(--a2)"></div>
-            <div id="excav-timer-bar" style="margin-top:4px"></div>
-          </div>
-          <div style="overflow-y:auto;flex:1;padding:8px">
-            <div style="font-size:8px;letter-spacing:3px;color:var(--fo);margin-bottom:7px;text-transform:uppercase">Fósiles</div>
-            <div id="fossil-collection"></div>
-          </div>
+      <!-- Top: worker controls + fossil collection -->
+      <div style="display:flex;gap:0;border-bottom:1px solid var(--b1);flex-shrink:0;overflow:hidden">
+        <!-- Worker controls -->
+        <div style="padding:10px 14px;border-right:1px solid var(--b1);flex-shrink:0;min-width:200px">
+          <div style="font-size:8px;letter-spacing:2px;color:var(--fo);margin-bottom:5px;text-transform:uppercase">⛏ Excavador</div>
+          <div style="font-size:9px;color:var(--dm);line-height:1.6;margin-bottom:6px">Asigna un dino → excava 1 celda cada 2 min.</div>
+          <button class="assign-btn" onclick="assignExcavacion()">+ Asignar Excavador</button>
+          <div id="excav-worker-info" style="margin-top:5px;font-size:9px;color:var(--a2)"></div>
+          <div id="excav-timer-bar" style="margin-top:4px"></div>
         </div>
-        <!-- Right: dig grid -->
-        <div style="flex:1;overflow:auto;padding:12px;display:flex;flex-direction:column;align-items:center">
-          <div style="font-size:9px;color:var(--dm);margin-bottom:8px">Yacimiento — 5×8 celdas. Las excavadas muestran su contenido.</div>
-          <div id="excavacion-grid" style="display:grid;grid-template-columns:repeat(5,52px);grid-template-rows:repeat(8,52px);gap:3px"></div>
-          <div id="excav-log" style="margin-top:10px;width:100%;max-height:100px;overflow-y:auto"></div>
+        <!-- Fossil collection: compact horizontal -->
+        <div style="flex:1;overflow-x:auto;padding:10px 14px;display:flex;flex-direction:column;gap:4px;min-height:80px;max-height:130px">
+          <div style="font-size:8px;letter-spacing:3px;color:var(--fo);margin-bottom:3px;text-transform:uppercase;flex-shrink:0">Fósiles</div>
+          <div id="fossil-collection" style="display:flex;gap:8px;flex-wrap:wrap;overflow-y:auto"></div>
         </div>
+      </div>
+      <!-- Bottom: dig grid -->
+      <div style="flex:1;overflow:auto;padding:12px;display:flex;flex-direction:column;align-items:center">
+        <div style="font-size:9px;color:var(--dm);margin-bottom:8px">Yacimiento — 5×8 celdas. Las excavadas muestran su contenido.</div>
+        <div id="excavacion-grid" style="display:grid;grid-template-columns:repeat(5,52px);grid-template-rows:repeat(8,52px);gap:3px"></div>
+        <div id="excav-log" style="margin-top:10px;width:100%;max-height:80px;overflow-y:auto"></div>
       </div>
     </div>
   </div>
 
-  <!-- PROGRESO PAGE (Encyclopedia + Logros) -->
+  <!-- PROGRESO PAGE (Logros + Enciclopedia) -->
   <div class="page" id="page-progreso">
     <div style="flex:1;display:flex;flex-direction:column;overflow:hidden;width:100%">
       <div style="display:flex;border-bottom:1px solid var(--b1);background:var(--p1);flex-shrink:0">
-        <div class="nav-tab active" id="prog-tab-ency" onclick="switchProgresoTab('ency',this)" style="padding:8px 16px">📖 Enciclopedia</div>
-        <div class="nav-tab" id="prog-tab-logros" onclick="switchProgresoTab('logros',this)" style="padding:8px 16px">🏆 Logros</div>
+        <div class="nav-tab active" id="prog-tab-logros" onclick="switchProgresoTab('logros',this)" style="padding:8px 16px">🏆 Logros</div>
+        <div class="nav-tab" id="prog-tab-ency" onclick="switchProgresoTab('ency',this)" style="padding:8px 16px">📖 Enciclopedia</div>
       </div>
-      <!-- Ency sub-content -->
-      <div id="prog-ency-content" style="flex:1;display:flex;flex-direction:column;overflow:hidden">
-        <div class="ency-tabs" id="prog-ency-tabs">
-          <div class="ency-tab active" onclick="switchEncyTab('colores',this)">Colores</div>
-          <div class="ency-tab" onclick="switchEncyTab('manchas',this)">Manchas</div>
-          <div class="ency-tab" onclick="switchEncyTab('manchas_expl',this)">M.Especiales</div>
-          <div class="ency-tab" onclick="switchEncyTab('vestidos',this)">Vestidos</div>
-          <div class="ency-tab" onclick="switchEncyTab('adn',this)">ADN</div>
-          <div class="ency-tab" onclick="switchEncyTab('plantas',this)">Plantas</div>
-          <div class="ency-tab" onclick="switchEncyTab('gemas',this)">Gemas</div>
-        </div>
-        <div style="display:flex;align-items:center;justify-content:space-between;padding:5px 12px;border-bottom:1px solid var(--b1);background:var(--p2);flex-shrink:0">
-          <div style="font-size:9px;color:var(--dm)">Descubierto: <span id="prog-ency-pct" style="color:var(--a2)">—</span></div>
-          <div style="font-size:9px;color:var(--dm)" id="prog-ency-total-txt"></div>
-        </div>
-        <div class="ency-body" id="prog-ency-body"></div>
-      </div>
-      <!-- Logros sub-content -->
-      <div id="prog-logros-content" style="display:none;flex:1;overflow-y:auto;padding:14px;width:100%">
+      <!-- Logros sub-content (default) -->
+      <div id="prog-logros-content" style="flex:1;display:flex;flex-direction:column;overflow-y:auto;padding:14px;width:100%">
         <div class="logros-hdr">
-          <div class="logros-title">SALÓN DE LOGROS</div>
+          <div class="logros-title" data-i18n="ach_title">SALÓN DE LOGROS</div>
           <div class="logros-sub" id="prog-logros-prog-txt"></div>
         </div>
         <div class="logros-cats" id="prog-logros-cats"></div>
         <div class="logros-grid" id="prog-logros-grid"></div>
+      </div>
+      <!-- Ency sub-content -->
+      <div id="prog-ency-content" style="flex:1;display:none;flex-direction:column;overflow:hidden">
+        <div class="ency-tabs" id="prog-ency-tabs">
+          <div class="ency-tab active" onclick="switchEncyTab('colores',this)" data-i18n="ency_colors">Colores</div>
+          <div class="ency-tab" onclick="switchEncyTab('manchas',this)" data-i18n="ency_patterns">Manchas</div>
+          <div class="ency-tab" onclick="switchEncyTab('manchas_expl',this)" data-i18n="ency_spec_patterns">M.Especiales</div>
+          <div class="ency-tab" onclick="switchEncyTab('vestidos',this)" data-i18n="ency_outfits">Vestidos</div>
+          <div class="ency-tab" onclick="switchEncyTab('adn',this)" data-i18n="ency_dna">ADN</div>
+          <div class="ency-tab" onclick="switchEncyTab('plantas',this)" data-i18n="ency_plants">Plantas</div>
+          <div class="ency-tab" onclick="switchEncyTab('gemas',this)" data-i18n="ency_gems">Gemas</div>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:5px 12px;border-bottom:1px solid var(--b1);background:var(--p2);flex-shrink:0">
+          <div style="font-size:9px;color:var(--dm)" data-i18n="ency_discovered_label">Descubierto: <span id="prog-ency-pct" style="color:var(--a2)">—</span></div>
+          <div style="font-size:9px;color:var(--dm)" id="prog-ency-total-txt"></div>
+        </div>
+        <div class="ency-body" id="prog-ency-body"></div>
       </div>
     </div>
   </div>
@@ -1202,6 +1204,44 @@ const TRANSLATIONS = {
     log_tip: "💡 Consejo: los dinos tienen atributos 1-100. ¡Cría para mejorarlos!",
     notif_dest_locked: "Destino bloqueado",
     notif_league_locked: "Liga bloqueada",
+    nav_excavation: "⛏ Excavación",
+    nav_arena: "Arena Jefes",
+    nav_progress: "Progreso",
+    info_release_vals: "Básico: 3✨ · Medio: 8✨ · Raro: 20✨ · Legendario: 60✨ · Oculto: 200✨",
+    info_adn_vals: "🌍 Tierra: mina básica<br>🔥 Fuego: CP arena +15%<br>💧 Agua: granja semillas<br>💨 Aire: exploración manchas<br>👁 Oculto: todo lo secreto",
+    arena_wins: "Victorias:", arena_outfits_won: "Vestidos ganados:",
+    assigned_label: "Asignados",
+    ach_title: "SALÓN DE LOGROS",
+    ency_discovered_label: "Descubierto:",
+    info_rarity_hdr: "HERENCIA DE RAREZA",
+    info_release_hdr: "LIBERACIÓN → Esencias ✨",
+    info_awakening_hdr: "EL DESPERTAR 👁",
+    info_awakening_desc: "Hay un 2% de probabilidad de que un dino nazca con <b>ADN Oculto</b>. Este ADN es especial: desbloquea contenido oculto en todos los trabajos. La probabilidad aumenta con cada Ascensión. Una vez que tienes un dino oculto, desbloquea los <b>huevos legendarios</b> en la pestaña Mejoras.",
+    info_adn_hdr: "ADN",
+    info_reset_hdr: "DATOS DE PARTIDA",
+    btn_reset: "🗑 REINICIAR PARTIDA",
+    lcat_all: "Todos", lcat_coleccion: "Colección", lcat_crianza: "Crianza",
+    lcat_rareza: "Rareza", lcat_trabajo: "Trabajos", lcat_jefes: "Jefes",
+    lcat_jardin: "Jardín", lcat_adn: "ADN", lcat_ascension: "Ascensión",
+    logro_secret: "Logro secreto",
+    logro_progress: (tot, max) => `${tot} / ${max} logros`,
+    ency_section: (s) => `Esta sección: ${s}`,
+    ency_discovered: "Descubierto",
+    ency_breed_hint: "Cría para descubrirlo",
+    lab_sujetos: "📋 Sujetos",
+    lab_aplicar: "🔬 Aplicar",
+    lab_inventario: "🧪 Inventario",
+    lab_garden: "🌿 Jardín",
+    excav_assign: "+ Asignar Excavador",
+    excav_fossils: "Fósiles",
+    excav_worker_label: "⛏ Excavador",
+    excav_dig_hint: "Asigna un dino → excava 1 celda cada 2 min.",
+    excav_grid_hint: "Yacimiento — 5×8 celdas. Las excavadas muestran su contenido.",
+    offline_title: "⏰ PROGRESO OFFLINE",
+    offline_continue: "Continuar",
+    prestige_shop_title: "🔮 TIENDA DE PRESTIGE",
+    prestige_tokens_label: "🔮 Tokens disponibles:",
+    prestige_desc: "Gasta <b style=\"color:#9090ff\">🔮 Tokens</b> obtenidos al ascender.<br>Los bonos son <b style=\"color:var(--a2)\">permanentes</b> — sobreviven a todas las ascensiones.<br>Ganas más tokens cuanto mejor seas antes de ascender.",
   },
   en: {
     logo_sub: "PREHISTORIC LABORATORY",
@@ -1304,6 +1344,44 @@ const TRANSLATIONS = {
     log_tip: "💡 Tip: dinos have attributes 1-100. Breed to improve them!",
     notif_dest_locked: "Destination locked",
     notif_league_locked: "League locked",
+    nav_excavation: "⛏ Excavation",
+    nav_arena: "Boss Arena",
+    nav_progress: "Progress",
+    info_release_vals: "Basic: 3✨ · Medium: 8✨ · Rare: 20✨ · Legendary: 60✨ · Hidden: 200✨",
+    info_adn_vals: "🌍 Earth: basic mine<br>🔥 Fire: Arena CP +15%<br>💧 Water: farm seeds<br>💨 Air: exploration patterns<br>👁 Hidden: all secrets",
+    arena_wins: "Wins:", arena_outfits_won: "Outfits won:",
+    assigned_label: "Assigned",
+    ach_title: "HALL OF ACHIEVEMENTS",
+    ency_discovered_label: "Discovered:",
+    info_rarity_hdr: "RARITY INHERITANCE",
+    info_release_hdr: "RELEASE → Essences ✨",
+    info_awakening_hdr: "THE AWAKENING 👁",
+    info_awakening_desc: "There is a 2% chance for a dino to be born with <b>Hidden DNA</b>. This DNA is special: it unlocks hidden content in all jobs. The chance increases with each Ascension. Once you have a hidden dino, it unlocks <b>legendary eggs</b> in the Upgrades tab.",
+    info_adn_hdr: "DNA",
+    info_reset_hdr: "SAVE DATA",
+    btn_reset: "🗑 RESET SAVE",
+    lcat_all: "All", lcat_coleccion: "Collection", lcat_crianza: "Breeding",
+    lcat_rareza: "Rarity", lcat_trabajo: "Jobs", lcat_jefes: "Bosses",
+    lcat_jardin: "Garden", lcat_adn: "DNA", lcat_ascension: "Ascension",
+    logro_secret: "Secret achievement",
+    logro_progress: (tot, max) => `${tot} / ${max} achievements`,
+    ency_section: (s) => `This section: ${s}`,
+    ency_discovered: "Discovered",
+    ency_breed_hint: "Breed to discover it",
+    lab_sujetos: "📋 Subjects",
+    lab_aplicar: "🔬 Apply",
+    lab_inventario: "🧪 Inventory",
+    lab_garden: "🌿 Garden",
+    excav_assign: "+ Assign Excavator",
+    excav_fossils: "Fossils",
+    excav_worker_label: "⛏ Excavator",
+    excav_dig_hint: "Assign a dino → digs 1 cell every 2 min.",
+    excav_grid_hint: "Site — 5×8 cells. Dug cells reveal their contents.",
+    offline_title: "⏰ OFFLINE PROGRESS",
+    offline_continue: "Continue",
+    prestige_shop_title: "🔮 PRESTIGE SHOP",
+    prestige_tokens_label: "🔮 Tokens available:",
+    prestige_desc: "Spend <b style=\"color:#9090ff\">🔮 Tokens</b> earned by ascending.<br>Bonuses are <b style=\"color:var(--a2)\">permanent</b> — they survive all ascensions.<br>You earn more tokens the stronger you are before ascending.",
   }
 };
 
@@ -2933,12 +3011,12 @@ function startFight(){
 }
 
 // ═══ LOGROS ═══
-const LOGROS_CATS_LABELS={all:"Todos",coleccion:"Colección",crianza:"Crianza",rareza:"Rareza",trabajo:"Trabajos",jefes:"Jefes",jardin:"Jardín",adn:"ADN",ascension:"Ascensión"};
+const LOGROS_CATS_KEYS={all:"lcat_all",coleccion:"lcat_coleccion",crianza:"lcat_crianza",rareza:"lcat_rareza",trabajo:"lcat_trabajo",jefes:"lcat_jefes",jardin:"lcat_jardin",adn:"lcat_adn",ascension:"lcat_ascension"};
 function renderLogrosCats(){
   const el=document.getElementById("logros-cats");if(!el)return;el.innerHTML="";
-  Object.entries(LOGROS_CATS_LABELS).forEach(([k,v])=>{
+  Object.entries(LOGROS_CATS_KEYS).forEach(([k,tkey])=>{
     const btn=document.createElement("button");btn.className=`lcat-btn ${logrosCat===k?"active":""}`;
-    btn.textContent=v;btn.onclick=()=>{logrosCat=k;renderLogrosCats();renderLogros();};el.appendChild(btn);
+    btn.textContent=T(tkey);btn.onclick=()=>{logrosCat=k;renderLogrosCats();renderLogros();};el.appendChild(btn);
   });
 }
 function renderLogros(){
@@ -2950,7 +3028,7 @@ function renderLogros(){
     const div=document.createElement("div");div.className=`logro-card ${done?"unlocked":""} ${l.secret&&!done?"sec-card":""}`;
     div.innerHTML=`<div class="logro-icon">${l.icon}</div>
       <div class="logro-nm">${l.secret&&!done?"???":l.name}</div>
-      <div class="logro-desc">${l.secret&&!done?"Logro secreto":l.desc}</div>
+      <div class="logro-desc">${l.secret&&!done?T('logro_secret'):l.desc}</div>
       ${l.secret&&!done&&l.hint?`<div class="logro-how" style="color:var(--a);font-style:italic">🔍 ${l.hint}</div>`:""}
       ${!l.secret||done?`<div class="logro-how">💡 ${l.how}</div>`:""}
       ${!done?`<div class="logro-prog"><div class="logro-bar"><div class="logro-bar-f" style="width:${prog*100}%"></div></div><div class="logro-bar-t">${val}/${l.max}</div></div>`:""}`;
@@ -2958,7 +3036,7 @@ function renderLogros(){
   });
   const tot=LOGROS_DEF.filter(l=>logrosUnlocked.has(l.id)).length;
   const progEl=document.getElementById("logros-prog-txt");
-  if(progEl)progEl.textContent=`${tot} / ${LOGROS_DEF.length} logros`;
+  if(progEl)progEl.textContent=T('logro_progress',tot,LOGROS_DEF.length);
 }
 function checkLogros(){
   let any=false;
@@ -2992,7 +3070,7 @@ function renderEncy(){
   const totTxt=document.getElementById("ency-total-txt");
   if(totTxt){
     const tabCounts={colores:`${discovered.colores.size}/${totalColors}`,manchas:`${discovered.manchas.size}/${totalManchas}`,manchas_expl:`${discovered.manchasExpl.size}/${totalManchasExpl}`,vestidos:`${discovered.vestidos.size}/${totalVestidos}`,adn:`${discovered.adn.size}/${totalAdn}`,plantas:`${discovered.plantas.size}/${totalPlantas}`,gemas:`${discovered.gemas.size}/${totalGemas}`};
-    totTxt.textContent=`Esta sección: ${tabCounts[encyTab]||""}`;
+    totTxt.textContent=T('ency_section',tabCounts[encyTab]||"");
   }
   const grid=document.createElement("div");grid.className="ency-grid";
   
@@ -3003,7 +3081,7 @@ function renderEncy(){
       const item=document.createElement("div");item.className=`ency-item ${found?"discovered":"undiscovered"}`;
       item.innerHTML=`<div class="ency-svg">${found?dinoSVG(previewDino,"ec"+col):`<div style="width:38px;height:38px;border-radius:50%;background:#333;margin:0 auto;display:flex;align-items:center;justify-content:center;font-size:18px;opacity:.3">?</div>`}</div>
         <div class="ency-nm">${col.replace(/_/g," ")}</div><div class="ency-rar r-${rar}">${rar}</div>
-        <div class="ency-how">${found?"Descubierto":"Cría para descubrirlo"}</div>`;
+        <div class="ency-how">${found?T('ency_discovered'):T('ency_breed_hint')}</div>`;
       
       // ZOOM EVENT:
       if(found) item.onclick = () => showZoom(`<div style="width:180px;height:180px;background:${CHEX[col]};border-radius:50%;border:4px solid white;margin:50px auto;box-shadow:0 0 30px ${CHEX[col]}"></div>`);
@@ -3017,7 +3095,7 @@ function renderEncy(){
       const item=document.createElement("div");item.className=`ency-item ${found?"discovered":"undiscovered"}`;
       item.innerHTML=`<div class="ency-svg">${svgStr}</div>
         <div class="ency-nm">${man.replace(/_/g," ")}</div><div class="ency-rar r-${rar}">${rar}</div>
-        <div class="ency-how">${found?"Descubierto":"Cría con esta rareza de mancha"}</div>`;
+        <div class="ency-how">${found?T('ency_discovered'):T('ency_breed_hint')}</div>`;
       
       // ZOOM EVENT:
       if(found) item.onclick = () => showZoom(svgStr);
@@ -3045,7 +3123,7 @@ function renderEncy(){
       const item=document.createElement("div");item.className=`ency-item ${found?"discovered":"undiscovered"}`;
       item.innerHTML=`<div class="ency-svg">${svgStr}</div>
         <div class="ency-nm">${v.replace(/_/g," ")}</div><div class="ency-rar r-${rar}">${rar}</div>
-        <div class="ency-how">${found?"Descubierto":"Cría con esta rareza de vestido"}</div>`;
+        <div class="ency-how">${found?T('ency_discovered'):T('ency_breed_hint')}</div>`;
       
       // ZOOM EVENT:
       if(found) item.onclick = () => showZoom(svgStr);
@@ -3653,12 +3731,15 @@ function renderExcavacion(){
       const fd=excavState.fossils[f.id]||{found:0,total:f.fragCount,rewarded:false};
       const pct=Math.round((fd.found||0)/f.fragCount*100);
       const div=document.createElement('div');
-      div.style.cssText='display:flex;align-items:center;gap:8px;padding:7px 4px;border-bottom:1px solid var(--b1);font-size:10px;';
-      div.innerHTML=`<div style="font-size:16px">${f.icon}</div>
-        <div style="flex:1"><div style="color:var(--tx)">${f.name}</div>
-        <div style="color:var(--dm);font-size:8px">${fd.found||0}/${f.fragCount} frags · ${f.reward}💰</div>
-        <div style="height:3px;background:var(--b1);margin-top:3px;border-radius:2px"><div style="height:100%;width:${pct}%;background:${fd.rewarded?'var(--grn)':'var(--a)'};border-radius:2px"></div></div>
-        </div>${fd.rewarded?'<div style="color:var(--grn);font-size:12px">✓</div>':''}`;
+      div.className='fossil-card'+(fd.rewarded?' complete':'');
+      div.style.cssText='min-width:110px;max-width:140px;flex-shrink:0;padding:6px 8px;';
+      div.innerHTML=`<div style="display:flex;align-items:center;gap:5px;margin-bottom:4px">
+        <span style="font-size:14px">${f.icon}</span>
+        <span class="fossil-nm" style="font-size:9px">${f.name}</span>
+        ${fd.rewarded?'<span style="color:var(--grn);font-size:10px;margin-left:auto">✓</span>':''}
+      </div>
+      <div style="font-size:8px;color:var(--dm);margin-bottom:3px">${fd.found||0}/${f.fragCount} · ${f.reward}💰</div>
+      <div style="height:3px;background:var(--b1);border-radius:2px"><div style="height:100%;width:${pct}%;background:${fd.rewarded?'var(--grn)':'var(--a)'};border-radius:2px;transition:width .5s"></div></div>`;
       fc.appendChild(div);
     });
   }
@@ -3783,13 +3864,13 @@ function loadGame(){
 setInterval(saveGame,30000);
 
 // ═══ PROGRESO PAGE ═══
-let progresoTab='ency';
+let progresoTab='logros';
 function switchProgresoTab(tab,el){
   progresoTab=tab;
   const encyC=document.getElementById('prog-ency-content');
   const logC=document.getElementById('prog-logros-content');
-  if(encyC)encyC.style.display=tab==='ency'?'flex':'none';
-  if(logC)logC.style.display=tab==='logros'?'flex':'none';
+  if(encyC){encyC.style.display=tab==='ency'?'flex':'none';encyC.style.flexDirection='column';}
+  if(logC){logC.style.display=tab==='logros'?'flex':'none';logC.style.flexDirection='column';}
   document.querySelectorAll('#page-progreso .nav-tab').forEach(t=>t.classList.remove('active'));
   const activeTab=document.getElementById(tab==='ency'?'prog-tab-ency':'prog-tab-logros');
   if(activeTab)activeTab.classList.add('active');
@@ -3979,35 +4060,25 @@ function toggleRancho(id){
   renderList();renderDetail();saveGame();
 }
 
-// ═══ LAB GARDEN TOGGLE ═══
-let labShowGarden=false;
-function switchToLabGarden(){
-  labShowGarden=true;
-  // Hide normal lab panels, show garden panel
-  ['lab-c0','lab-c1','lab-c2'].forEach(id=>{const e=document.getElementById(id);if(e)e.style.display='none';});
-  const g=document.getElementById('lab-c3');if(g)g.style.display='';
-  // Swap garden grid IDs temporarily
-  _renderGardenInLab();
-  // Update mp-bar buttons
+// ═══ LAB TAB SWITCHING ═══
+function switchLabTab(idx){
+  // Update button highlights
   const bar=document.getElementById('lab-bar');
-  if(bar)bar.querySelectorAll('.mp-btn').forEach((b,i)=>{b.classList.toggle('active',i===3);});
+  if(bar)bar.querySelectorAll('.lab-tab-btn').forEach((b,i)=>b.classList.toggle('active',i===idx));
+  // Hide all lab panels
+  ['lab-c0','lab-c1','lab-c2','lab-c3'].forEach(id=>{
+    const e=document.getElementById(id);if(e)e.classList.remove('lab-active');
+  });
+  // Show selected panel
+  const panelId='lab-c'+idx;
+  const panel=document.getElementById(panelId);
+  if(panel)panel.classList.add('lab-active');
+  // If garden tab, render garden content
+  if(idx===3)_renderGardenInLab();
 }
-function switchFromLabGarden(idx){
-  labShowGarden=false;
-  const g=document.getElementById('lab-c3');if(g)g.style.display='none';
-  ['lab-c0','lab-c1','lab-c2'].forEach(id=>{const e=document.getElementById(id);if(e)e.style.display='';});
-  // Restore normal mpSwitch behavior
-  mpSwitch('lab-layout','lab-bar',idx);
-}
-// Override mpSwitch for lab to handle garden tab
-const _origMpSwitch=window.mpSwitch;
-window.mpSwitch=function(layoutId,barId,idx){
-  if(layoutId==='lab-layout'){
-    if(idx===3){switchToLabGarden();return;}
-    switchFromLabGarden(idx);return;
-  }
-  _origMpSwitch(layoutId,barId,idx);
-};
+// Keep old names for backwards compat
+function switchToLabGarden(){switchLabTab(3);}
+function switchFromLabGarden(idx){switchLabTab(idx);}
 
 function _renderGardenInLab(){
   // Render garden content into lab-c3 using -lab suffixed IDs
