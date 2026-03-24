@@ -19,7 +19,7 @@
   --tierra:#c87840;--fuego:#ff5020;--agua:#2080ff;--aire:#80d8ff;--adn-ocu:#dd44ff;
 }
 *{box-sizing:border-box;margin:0;padding:0;}html,body{height:100%;overflow:hidden;}
-body{background:var(--bg);color:var(--tx);font-family:'Share Tech Mono',monospace;font-size:12px;
+body{background:var(--bg);color:var(--tx);font-family:'Share Tech Mono',monospace;font-size:13px;
   background-image:radial-gradient(ellipse at 15% 80%,rgba(60,40,10,.18) 0%,transparent 55%),
   radial-gradient(ellipse at 85% 15%,rgba(40,20,80,.15) 0%,transparent 50%);}
 ::-webkit-scrollbar{width:4px;height:4px;}::-webkit-scrollbar-track{background:var(--bg);}::-webkit-scrollbar-thumb{background:var(--b2);}
@@ -28,23 +28,23 @@ body{background:var(--bg);color:var(--tx);font-family:'Share Tech Mono',monospac
 .logo{font-family:'Cinzel Decorative',serif;font-size:13px;color:var(--a2);letter-spacing:4px;text-shadow:0 0 20px rgba(240,168,64,.4);}
 .logo sub{font-size:7px;color:var(--fo);letter-spacing:6px;display:block;margin-top:1px;}
 .hdr-r{display:flex;gap:12px;align-items:center;}
-.curr-disp{display:flex;align-items:center;gap:5px;padding:4px 10px;border:1px solid;font-size:11px;letter-spacing:1px;}
+.curr-disp{display:flex;align-items:center;gap:5px;padding:5px 11px;border:1px solid;font-size:12px;letter-spacing:1px;}
 .curr-mon{border-color:var(--a);color:var(--a2);}
 .curr-esen{border-color:var(--pur);color:var(--pur);}
-.curr-disp span{font-size:9px;opacity:.6;}
+.curr-disp span:first-child{font-size:11px;opacity:.7;}
 .asc-btn{padding:4px 10px;border:1px solid var(--ocu);color:var(--ocu);background:rgba(255,136,255,.06);cursor:pointer;font-family:'Share Tech Mono',monospace;font-size:8px;letter-spacing:2px;animation:ascGlow 2s ease-in-out infinite alternate;display:none;}
 @keyframes ascGlow{from{box-shadow:0 0 4px rgba(255,136,255,.3);}to{box-shadow:0 0 14px rgba(255,136,255,.7);}}
 /* NAV */
 .nav-tabs{display:flex;border-bottom:1px solid var(--b1);background:var(--p1);flex-shrink:0;overflow-x:auto;}
-.nav-tab{padding:8px 14px;font-size:9px;letter-spacing:2px;color:var(--dm);cursor:pointer;border-bottom:2px solid transparent;transition:all .15s;white-space:nowrap;text-transform:uppercase;}
+.nav-tab{padding:8px 14px;font-size:10px;letter-spacing:2px;color:var(--dm);cursor:pointer;border-bottom:2px solid transparent;transition:all .15s;white-space:nowrap;text-transform:uppercase;}
 .nav-tab.active{color:var(--a2);border-bottom-color:var(--a);}
 .nav-tab:hover{color:var(--tx);}
 .nbadge{background:var(--rar);color:#fff;font-size:8px;padding:1px 4px;margin-left:3px;border-radius:2px;display:none;}
 .main-area{height:calc(100vh - 50px);display:flex;flex-direction:column;}
 .page{display:none;flex:1;overflow:hidden;min-height:0;}.page.active{display:flex;}
 /* SHARED */
-.sec-title{font-size:9px;letter-spacing:4px;color:var(--fo);padding:9px 13px 7px;border-bottom:1px solid var(--b1);text-transform:uppercase;position:sticky;top:0;background:var(--p1);z-index:10;display:flex;align-items:center;gap:5px;}
-.btn{padding:5px 10px;border:1px solid var(--b2);background:var(--p2);color:var(--tx);cursor:pointer;font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:1px;text-transform:uppercase;transition:all .13s;}
+.sec-title{font-size:10px;letter-spacing:4px;color:var(--fo);padding:9px 13px 7px;border-bottom:1px solid var(--b1);text-transform:uppercase;position:sticky;top:0;background:var(--p1);z-index:10;display:flex;align-items:center;gap:5px;}
+.btn{padding:5px 10px;border:1px solid var(--b2);background:var(--p2);color:var(--tx);cursor:pointer;font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;transition:all .13s;}
 .btn:hover{border-color:var(--a);color:var(--a2);background:var(--ag);}.btn:disabled{opacity:.3;cursor:not-allowed;}
 .btn.primary{border-color:var(--a);color:var(--a2);background:rgba(200,134,42,.07);}
 .btn.primary:hover{background:rgba(200,134,42,.16);}
@@ -74,8 +74,8 @@ body{background:var(--bg);color:var(--tx);font-family:'Share Tech Mono',monospac
 .dino-card.sel2::before{background:var(--med);}.dino-card.sel2{background:rgba(40,200,190,.07);}
 .dino-card.working::after{content:'⚒';position:absolute;right:34px;font-size:9px;color:var(--a);}
 .cth{width:34px;height:34px;flex-shrink:0;}.cth svg{width:100%;height:100%;}
-.cnm{color:var(--a2);font-size:10px;display:flex;align-items:center;gap:3px;margin-bottom:2px;}
-.cst{display:flex;gap:5px;}.cs{font-size:9px;color:var(--dm);}
+.cnm{color:var(--a2);font-size:11px;display:flex;align-items:center;gap:3px;margin-bottom:2px;}
+.cst{display:flex;gap:5px;}.cs{font-size:10px;color:var(--dm);}
 .cgen{font-size:8px;color:var(--pur);font-style:italic;}
 /* CENTER SHOWCASE */
 .center-col{display:flex;flex-direction:column;overflow:hidden;}
@@ -105,17 +105,17 @@ body{background:var(--bg);color:var(--tx);font-family:'Share Tech Mono',monospac
 .empty-hint{color:var(--dm);font-family:'Crimson Pro',serif;font-style:italic;font-size:14px;text-align:center;z-index:2;}
 .empty-hint em{display:block;font-size:34px;margin-bottom:7px;opacity:.18;}
 .dino-info{z-index:2;text-align:center;padding:0 10px 5px;}
-.d-bname{font-family:'Cinzel Decorative',serif;font-size:10px;letter-spacing:2px;color:var(--a2);margin-bottom:5px;}
+.d-bname{font-family:'Cinzel Decorative',serif;font-size:11px;letter-spacing:2px;color:var(--a2);margin-bottom:5px;}
 .traits-row{display:flex;gap:4px;justify-content:center;flex-wrap:wrap;margin-bottom:5px;}
 .tc{padding:2px 6px;border:1px solid var(--b2);background:var(--p2);font-size:9px;color:var(--fo);}.tc b{color:var(--tx);}
 .gen-b{padding:2px 6px;border:1px solid var(--pur);background:rgba(176,96,255,.06);font-size:9px;color:var(--pur);}
 .adn-b{padding:2px 6px;border:1px solid;font-size:9px;}
 .stats-row{display:flex;gap:8px;justify-content:center;}
 .stat-block{text-align:center;}
-.stat-lbl{font-size:8px;color:var(--dm);letter-spacing:2px;}
-.stat-track{width:44px;height:4px;background:var(--p2);border:1px solid var(--b1);margin-top:1px;}
+.stat-lbl{font-size:9px;color:var(--dm);letter-spacing:2px;}
+.stat-track{width:52px;height:5px;background:var(--p2);border:1px solid var(--b1);margin-top:2px;}
 .stat-fill{height:100%;background:linear-gradient(90deg,var(--a),var(--a2));transition:width .4s;}
-.stat-val{font-size:10px;color:var(--a2);margin-top:1px;}
+.stat-val{font-size:11px;color:var(--a2);margin-top:2px;}
 .wsb{position:absolute;top:7px;right:7px;background:var(--p2);border:1px solid var(--a);padding:2px 7px;font-size:8px;color:var(--a);z-index:3;}
 /* BREEDING PANEL */
 .breed-panel{flex:0 0 120px;border-bottom:1px solid var(--b1);background:var(--p1);display:flex;align-items:center;justify-content:center;gap:10px;padding:8px 14px;flex-shrink:0;}
@@ -148,12 +148,12 @@ body{background:var(--bg);color:var(--tx);font-family:'Share Tech Mono',monospac
 .log-ts{margin-right:4px;opacity:.28;}
 /* SHOP (right panel of coleccion) */
 .shop-tabs{display:flex;border-bottom:1px solid var(--b1);flex-shrink:0;}
-.shop-tab{flex:1;padding:6px;font-size:8px;letter-spacing:1px;text-align:center;color:var(--dm);cursor:pointer;border-bottom:2px solid transparent;transition:all .15s;text-transform:uppercase;}
+.shop-tab{flex:1;padding:6px;font-size:9px;letter-spacing:1px;text-align:center;color:var(--dm);cursor:pointer;border-bottom:2px solid transparent;transition:all .15s;text-transform:uppercase;}
 .shop-tab.active{color:var(--a2);border-bottom-color:var(--a);}
 .tab-content{display:none;overflow-y:auto;flex:1;min-height:0;}.tab-content.active{display:block;}
 .sb{padding:9px 11px;}.sbt{font-size:8px;letter-spacing:4px;color:var(--fo);border-bottom:1px solid var(--b1);padding-bottom:4px;margin-bottom:7px;text-transform:uppercase;}
 .shop-row{display:flex;align-items:center;gap:6px;padding:6px 8px;background:var(--p2);border:1px solid var(--b1);margin-bottom:4px;}
-.si{font-size:14px;flex-shrink:0;}.sm{flex:1;min-width:0;}.sn{font-size:10px;color:var(--tx);}.sd{font-size:8px;color:var(--dm);margin-top:1px;line-height:1.3;}
+.si{font-size:14px;flex-shrink:0;}.sm{flex:1;min-width:0;}.sn{font-size:11px;color:var(--tx);}.sd{font-size:9px;color:var(--dm);margin-top:1px;line-height:1.3;}
 .sp{font-size:10px;color:var(--a2);flex-shrink:0;}.sp::before{content:"💰 ";}
 .sp.esen::before{content:"✨ ";}
 .sbuy{padding:3px 7px;border:1px solid var(--a);background:transparent;color:var(--a);cursor:pointer;font-family:'Share Tech Mono',monospace;font-size:8px;transition:all .13s;flex-shrink:0;}
@@ -162,10 +162,10 @@ body{background:var(--bg);color:var(--tx);font-family:'Share Tech Mono',monospac
 .task-row{padding:8px 10px;background:var(--p2);border:1px solid var(--b1);margin-bottom:5px;}
 .task-row.done{border-color:rgba(110,216,122,.3);background:rgba(110,216,122,.03);}
 .task-hdr{display:flex;align-items:center;gap:6px;margin-bottom:3px;}
-.task-ic{font-size:13px;}.task-nm{font-size:10px;color:var(--tx);}
+.task-ic{font-size:13px;}.task-nm{font-size:11px;color:var(--tx);}
 .task-nm.dn{color:var(--grn);}.task-nm.dn::after{content:" ✓";}
-.task-req{font-size:9px;color:var(--dm);margin-bottom:4px;}
-.task-rew{font-size:9px;color:var(--a2);font-style:italic;}
+.task-req{font-size:10px;color:var(--dm);margin-bottom:4px;}
+.task-rew{font-size:10px;color:var(--a2);font-style:italic;}
 .task-prog-bar{height:3px;background:var(--p1);border:1px solid var(--b1);border-radius:2px;overflow:hidden;margin-top:4px;}
 .task-prog-fill{height:100%;background:linear-gradient(90deg,var(--grn),#a0f0a0);transition:width .5s;}
 /* RANCHO */
@@ -253,7 +253,7 @@ body{background:var(--bg);color:var(--tx);font-family:'Share Tech Mono',monospac
 /* WORK SLOTS SHARED */
 .work-slot{display:flex;align-items:center;gap:8px;padding:7px 9px;background:var(--p2);border:1px solid var(--b1);margin-bottom:5px;}
 .ws-th{width:28px;height:28px;flex-shrink:0;}.ws-th svg{width:100%;height:100%;}
-.ws-info{flex:1;min-width:0;}.ws-nm{font-size:9px;color:var(--a2);}
+.ws-info{flex:1;min-width:0;}.ws-nm{font-size:10px;color:var(--a2);}
 .wp-bar{width:100%;height:4px;background:var(--p1);border:1px solid var(--b1);border-radius:2px;overflow:hidden;margin-top:2px;}
 .wp-fill{height:100%;background:linear-gradient(90deg,var(--blu),#80c0ff);transition:width .4s;}
 .wp-txt{font-size:8px;color:var(--dm);margin-top:1px;}
@@ -300,8 +300,8 @@ body{background:var(--bg);color:var(--tx);font-family:'Share Tech Mono',monospac
 .boss-card{padding:9px 11px;border-bottom:1px solid var(--b1);cursor:pointer;transition:all .13s;border-left:2px solid transparent;}
 .boss-card:hover{background:rgba(200,134,42,.04);}.boss-card.sel-boss{background:rgba(200,134,42,.08);border-left-color:var(--a);}
 .boss-card.def-boss{background:rgba(110,216,122,.03);border-left-color:var(--grn);}
-.boss-nm{font-family:'Cinzel Decorative',serif;font-size:9px;color:var(--a2);letter-spacing:1px;margin-bottom:2px;}
-.boss-diff{font-size:8px;margin-bottom:1px;}.boss-inf{font-size:8px;color:var(--dm);}
+.boss-nm{font-family:'Cinzel Decorative',serif;font-size:10px;color:var(--a2);letter-spacing:1px;margin-bottom:2px;}
+.boss-diff{font-size:9px;margin-bottom:1px;}.boss-inf{font-size:9px;color:var(--dm);}
 .boss-center{flex:1;display:flex;flex-direction:column;overflow:hidden;}
 .boss-vis{height:180px;display:flex;align-items:center;justify-content:space-evenly;padding:10px;border-bottom:1px solid var(--b1);flex-shrink:0;}
 .boss-team-col{display:flex;flex-direction:column;gap:5px;align-items:center;}
@@ -335,9 +335,9 @@ body{background:var(--bg);color:var(--tx);font-family:'Share Tech Mono',monospac
 .logro-card.unlocked::after{content:'✓';position:absolute;top:8px;right:10px;color:var(--a2);font-size:11px;}
 .logro-card.sec-card{border-style:dashed;opacity:.65;}
 .logro-icon{font-size:18px;margin-bottom:4px;}
-.logro-nm{font-family:'Cinzel Decorative',serif;font-size:8px;color:var(--a2);letter-spacing:2px;margin-bottom:2px;}
-.logro-desc{font-size:9px;color:var(--dm);line-height:1.4;margin-bottom:3px;}
-.logro-how{font-size:8px;color:var(--fo);line-height:1.4;font-style:italic;padding:3px 6px;background:rgba(255,255,255,.02);border-left:2px solid var(--b2);margin-bottom:4px;}
+.logro-nm{font-family:'Cinzel Decorative',serif;font-size:9px;color:var(--a2);letter-spacing:2px;margin-bottom:2px;}
+.logro-desc{font-size:10px;color:var(--dm);line-height:1.4;margin-bottom:3px;}
+.logro-how{font-size:9px;color:var(--fo);line-height:1.4;font-style:italic;padding:3px 6px;background:rgba(255,255,255,.02);border-left:2px solid var(--b2);margin-bottom:4px;}
 .logro-prog{margin-top:4px;display:flex;align-items:center;gap:6px;}
 .logro-bar{flex:1;height:3px;background:var(--p1);border:1px solid var(--b1);border-radius:2px;overflow:hidden;}
 .logro-bar-f{height:100%;background:linear-gradient(90deg,var(--a),var(--a2));transition:width .5s;}
@@ -392,6 +392,31 @@ body{background:var(--bg);color:var(--tx);font-family:'Share Tech Mono',monospac
 .logro-popup.show{opacity:1;transform:translateX(0);}
 .lp-t{font-size:8px;letter-spacing:3px;color:var(--grn);margin-bottom:2px;}
 .lp-n{font-size:10px;color:var(--tx);}
+/* RATE DISPLAY */
+.curr-rate{font-size:9px;color:var(--grn);opacity:.75;letter-spacing:0;margin-left:2px;}
+.curr-tokens{border-color:#6060ff;color:#9090ff;}
+/* PRESTIGE SHOP */
+.pres-item{display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--p2);border:1px solid var(--b1);margin-bottom:5px;transition:border-color .15s;}
+.pres-item:hover{border-color:#6060ff;}
+.pres-item.owned{border-color:rgba(96,200,96,.3);background:rgba(96,200,96,.03);}
+.pres-item.locked-pres{opacity:.35;}
+.pres-nm{font-size:10px;color:var(--tx);}
+.pres-desc{font-size:8px;color:var(--dm);margin-top:1px;line-height:1.4;}
+.pres-cost{font-size:10px;color:#9090ff;flex-shrink:0;}
+.pres-cost::before{content:"🔮 ";}
+.pbuy{padding:3px 8px;border:1px solid #6060ff;background:transparent;color:#9090ff;cursor:pointer;font-family:'Share Tech Mono',monospace;font-size:9px;transition:all .13s;flex-shrink:0;}
+.pbuy:hover{background:rgba(96,96,255,.15);}
+.pbuy:disabled{opacity:.3;cursor:not-allowed;}
+.asc-tokens-disp{font-size:9px;color:#9090ff;padding:6px 10px;border:1px solid #6060ff;background:rgba(96,96,255,.06);margin-bottom:8px;text-align:center;}
+/* EVENT BANNER */
+.event-banner{position:fixed;top:58px;left:50%;transform:translateX(-50%);z-index:500;padding:8px 22px;border:1px solid var(--a2);background:rgba(8,7,14,.96);font-size:11px;color:var(--a2);letter-spacing:2px;text-align:center;opacity:0;pointer-events:none;transition:opacity .35s;max-width:90vw;box-shadow:0 0 24px rgba(200,134,42,.25);}
+.event-banner.show{opacity:1;}
+.event-banner.evt-good{border-color:var(--grn);color:var(--grn);box-shadow:0 0 24px rgba(110,216,122,.2);}
+.event-banner.evt-purple{border-color:var(--pur);color:var(--pur);box-shadow:0 0 24px rgba(176,96,255,.25);}
+.event-active-badge{position:fixed;top:54px;right:12px;z-index:499;padding:3px 8px;border:1px solid var(--a);background:rgba(8,7,14,.9);font-size:8px;color:var(--a);letter-spacing:1px;display:none;}
+.event-active-badge.show{display:block;}
+/* IMPROVED LOG */
+.log-row{padding:3px 11px;font-size:10px;color:var(--dm);border-bottom:1px solid rgba(46,40,64,.18);line-height:1.5;}
 
 /* ═══════════════════════════════════════════════════
    MOBILE  (portrait-first, ≤ 600 px)
@@ -514,13 +539,16 @@ body{background:var(--bg);color:var(--tx);font-family:'Share Tech Mono',monospac
 <div class="hdr">
   <div class="logo">DINO LAB <sub data-i18n="logo_sub">LABORATORIO PREHISTÓRICO</sub></div>
   <div class="hdr-r">
-    <div class="curr-disp curr-mon"><span>💰</span><span id="money-display">0</span></div>
-    <div class="curr-disp curr-esen"><span>✨</span><span id="esen-display">0</span></div>
+    <div class="curr-disp curr-mon" title="Monedas acumuladas"><span>💰</span><span id="money-display">0</span><span class="curr-rate" id="money-rate"></span></div>
+    <div class="curr-disp curr-esen" title="Esencias — libera dinos para obtener"><span>✨</span><span id="esen-display">0</span></div>
+    <div class="curr-disp curr-tokens" id="tokens-disp" style="display:none" title="Tokens de Ascensión — gástalos en la tienda de Prestige"><span>🔮</span><span id="tokens-display">0</span></div>
     <button class="btn" id="support-btn" onclick="showSupport()" style="border-color:#c060ff;color:#c060ff;background:rgba(192,96,255,.07);font-size:8px;padding:4px 8px;" data-i18n="btn_support">☕ SUPPORT</button>
     <button class="btn" id="lang-btn" onclick="toggleLang()" style="font-size:9px;padding:4px 8px;letter-spacing:1px;" title="Toggle language">🌐 EN/ES</button>
     <button class="asc-btn" id="asc-btn" onclick="showAscension()" data-i18n="btn_ascend">⬆ ASCENDER</button>
   </div>
 </div>
+<div class="event-banner" id="event-banner"></div>
+<div class="event-active-badge" id="event-active-badge"></div>
 <div class="main-area">
   <div class="nav-tabs">
     <div class="nav-tab active" onclick="switchPage('coleccion',this)" data-i18n="nav_collection">Colección</div>
@@ -575,6 +603,7 @@ body{background:var(--bg);color:var(--tx);font-family:'Share Tech Mono',monospac
         <div class="shop-tabs">
           <div class="shop-tab active" onclick="switchShopTab('tienda',this)" data-i18n="stab_shop">Tienda</div>
           <div class="shop-tab" onclick="switchShopTab('altar',this)" data-i18n="stab_altar">Altar</div>
+          <div class="shop-tab" onclick="switchShopTab('prestige',this)">🔮 Prestige</div>
           <div class="shop-tab" onclick="switchShopTab('deco',this)" data-i18n="stab_deco">Deco</div>
           <div class="shop-tab" onclick="switchShopTab('info',this)" data-i18n="stab_info">Info</div>
         </div>
@@ -605,6 +634,14 @@ body{background:var(--bg);color:var(--tx);font-family:'Share Tech Mono',monospac
             <div class="sbt"><span data-i18n="altar_title">ALTAR DE EVOLUCIÓN</span> <span style="font-size:8px;color:var(--a2)" id="altar-esencias"></span></div>
             <div style="font-size:8px;color:var(--dm);padding:4px 2px 8px;line-height:1.7" data-i18n="altar_desc">Gasta ✨ Esencias para potenciar un dino seleccionado de forma permanente.<br><b style="color:var(--a2)">Libera dinos para obtener esencias.</b><br>Selecciona un dino en Colección y elige un ritual.</div>
             <div id="altar-panel"></div>
+          </div>
+        </div>
+        <div class="tab-content" id="stab-prestige">
+          <div class="sb">
+            <div class="sbt">🔮 TIENDA DE PRESTIGE</div>
+            <div style="font-size:9px;color:var(--dm);padding:4px 2px 8px;line-height:1.7">Gasta <b style="color:#9090ff">🔮 Tokens</b> obtenidos al ascender.<br>Los bonos son <b style="color:var(--a2)">permanentes</b> — sobreviven a todas las ascensiones.<br>Ganas más tokens cuanto mejor seas antes de ascender.</div>
+            <div class="asc-tokens-disp">🔮 Tokens disponibles: <b id="pres-tokens-display" style="color:#c0c0ff">0</b></div>
+            <div id="prestige-shop-list"></div>
           </div>
         </div>
         <div class="tab-content" id="stab-deco"><div class="sb"><div class="sbt" data-i18n="deco_title">AMBIENTE (con 💰 Monedas)</div><div id="deco-list"></div></div></div>
@@ -872,6 +909,10 @@ body{background:var(--bg);color:var(--tx);font-family:'Share Tech Mono',monospac
         <div class="ency-tab" onclick="switchEncyTab('adn',this)" data-i18n="ency_dna">ADN</div>
         <div class="ency-tab" onclick="switchEncyTab('plantas',this)" data-i18n="ency_plants">Plantas</div>
         <div class="ency-tab" onclick="switchEncyTab('gemas',this)" data-i18n="ency_gems">Gemas</div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:5px 12px;border-bottom:1px solid var(--b1);background:var(--p2);flex-shrink:0">
+        <div style="font-size:9px;color:var(--dm)">Descubierto: <span id="ency-pct" style="color:var(--a2)">—</span></div>
+        <div style="font-size:9px;color:var(--dm)" id="ency-total-txt"></div>
       </div>
       <div class="ency-body" id="ency-body"></div>
     </div>
@@ -1469,6 +1510,30 @@ const LOGROS_DEF=[
   {cat:"ascension",id:"asc1",       name:"Primera Ascensión",icon:"⬆",desc:"Asciende por primera vez.",   how:"Derrota al Gigante Rex.",     hint:"El fin es el principio. Hay algo más allá del Gigante Rex...", check:()=>ascLevel>=1?1:0,max:1,secret:true},
   {cat:"ascension",id:"asc3",       name:"El Ciclo",         icon:"🔄",desc:"Asciende 3 veces.",           how:"Sigue ascendiendo.",          hint:"La verdadera fuerza se forja en los reintentos.", check:()=>ascLevel,max:3,secret:true},
 ];
+// ═══ PRESTIGE SHOP ═══
+const PRESTIGE_SHOP=[
+  {id:"p_hatch1",  name:"Incubación Rápida I",   icon:"🥚", desc:"Huevos eclosionan 25% más rápido (permanente)",             cost:5,  req:null},
+  {id:"p_hatch2",  name:"Incubación Rápida II",  icon:"⚡", desc:"+25% más velocidad de eclosión",                            cost:10, req:"p_hatch1"},
+  {id:"p_income1", name:"Economía Fósil I",      icon:"💰", desc:"+35% ganancias del rancho",                                cost:8,  req:null},
+  {id:"p_income2", name:"Economía Fósil II",     icon:"💎", desc:"+60% más ganancias del rancho",                            cost:15, req:"p_income1"},
+  {id:"p_income3", name:"Imperio Fósil",         icon:"👑", desc:"+100% más ganancias del rancho",                           cost:30, req:"p_income2"},
+  {id:"p_keep1",   name:"Linaje Eterno I",       icon:"🦕", desc:"Conserva el dino con más stats al ascender",               cost:15, req:null},
+  {id:"p_keep2",   name:"Linaje Eterno II",      icon:"🧬", desc:"Conserva los 2 mejores dinos al ascender",                 cost:25, req:"p_keep1"},
+  {id:"p_base",    name:"Genes Superiores",      icon:"🔬", desc:"Los dinos nacen con +5 a todos sus stats",                 cost:10, req:null},
+  {id:"p_lucky",   name:"Sangre Rara",           icon:"⭐", desc:"+15% probabilidad de rarezas superiores al criar",         cost:12, req:null},
+  {id:"p_slots3",  name:"3 Slots de Crianza",    icon:"🥚🥚",desc:"Empieza con 3 slots de incubadora desde el inicio",        cost:20, req:"p_hatch1"},
+  {id:"p_cap",     name:"Genética Avanzada",     icon:"🧪", desc:"El límite de stats sube a 120 (ya no se bloquea en 100)",  cost:35, req:"p_base"},
+];
+
+// ═══ RANDOM EVENTS ═══
+const EVENTS_DEF=[
+  {id:"meteor",    name:"☄️ Lluvia de Meteoros",    icon:"☄️", desc:"Los mineros obtienen 3× gemas durante 90s",              duration:90000,  color:"var(--a2)",  cls:""},
+  {id:"migration", name:"🦕 Migración Salvaje",     icon:"🦕", desc:"¡Un dino salvaje básico se une a tu manada!",            duration:0,      color:"var(--grn)", cls:"evt-good",  instant:true},
+  {id:"bloom",     name:"🌺 Floración Prehistórica",icon:"🌺", desc:"El jardín crece 4× más rápido durante 2 minutos",        duration:120000, color:"var(--pur)", cls:"evt-purple"},
+  {id:"fossil",    name:"💰 Depósito Fósil",        icon:"💰", desc:"¡Monedas extra descubiertas en las ruinas!",             duration:0,      color:"var(--leg)", cls:"",          instant:true},
+  {id:"pulse",     name:"🧬 Pulso Evolutivo",       icon:"🧬", desc:"¡El próximo huevo hereda la rareza más alta garantizada!",duration:0,      color:"var(--pur)", cls:"evt-purple", instant:true},
+];
+
 // ═══ STATE ═══
 let dinero=0, esencias=0;
 let misDinos=[], huevos=[];
@@ -1478,6 +1543,11 @@ let unlocked=new Set(), decos=new Set(), tareasCompleted=new Set();
 let logrosUnlocked=new Set();
 let encyTab="colores", logrosCat="all";
 let ascLevel=0, ocultaBaseChance=0.005;
+let ascTokens=0;
+let prestigeOwned=new Set();
+let activeEvent=null, eventEndTime=0;
+let nextEventTime=Date.now()+420000+(Math.random()*480000); // 7-15 min first event
+let bonusRarityNextEgg=false;
 let discovered={colores:new Set(),manchas:new Set(),vestidos:new Set(),adn:new Set(),plantas:new Set(),manchasExpl:new Set(),gemas:new Set()};
 let inventario={gemas:{},manchas:{},semillas:{hierba:3,violeta:2}};
 let stats={totalBreeds:0,maxGen:1,ocultaFound:0,totalEarned:0,combatWins:0,explorations:0,gemasMinadas:0,plantsGrown:0};
@@ -1557,29 +1627,64 @@ class Huevo{
     if(p?.adn==="aire"||m?.adn==="aire")dur*=.8;
     if(unlocked.has("hatch_turbo"))dur*=.35;
     else if(unlocked.has("hatch_fast"))dur*=.6;
+    if(prestigeOwned.has("p_hatch1"))dur*=.75;
+    if(prestigeOwned.has("p_hatch2"))dur*=.75;
     this.dur=dur;
   }
   get prog(){return Math.min(1,(Date.now()-this.creado)/this.dur);}
   get listo(){return this.prog>=1;}
 }
 
+function statSoftCap(current){
+  const cap=prestigeOwned.has("p_cap")?120:100;
+  if(current>=cap-5)return 0.08;
+  if(current>=Math.round(cap*.88))return 0.18;
+  if(current>=Math.round(cap*.72))return 0.38;
+  if(current>=Math.round(cap*.55))return 0.62;
+  return 1.0;
+}
+function statCap(){return prestigeOwned.has("p_cap")?120:100;}
 function crearHijo(p,m){
   const adnH=Math.random()<.5?p.adn:m.adn;
   const finalAdn=(Math.random()<(adnH==="oculto"?0.5:0.02*(1+ascLevel)))?"oculto":adnH;
-  const boost=1+(p.gen+m.gen)*0.04;
-  function hR(ra,rb){return heredarRareza(ra,rb);}
+  const boost=1+(p.gen+m.gen)*0.025; // reduced from 0.04
+  const luckyBonus=prestigeOwned.has("p_lucky")?0.15:0;
+  function hR(ra,rb){
+    if(luckyBonus>0&&Math.random()<luckyBonus){
+      // bump one tier up on lucky rolls
+      const result=heredarRareza(ra,rb);
+      const idx=RORD[result]||0;
+      return RAREZAS[Math.min(idx+1,3)]||result;
+    }
+    return heredarRareza(ra,rb);
+  }
   const maxR=maxUnlocked("col");
   let rC=clampR(hR(p.rc,m.rc),maxR),rM=clampR(hR(p.rm,m.rm),maxR),rV=clampR(hR(p.rv,m.rv),maxR);
   const oc=ocultaChance();
   if(Math.random()<oc)rC="oculta";
   if(Math.random()<oc)rM="oculta";
   if(Math.random()<oc)rV="oculta";
+  // Bonus rarity from event
+  if(bonusRarityNextEgg){
+    const bestParent=RORD[p.rc]>RORD[m.rc]?p.rc:m.rc;
+    rC=clampR(bestParent,maxR);
+    bonusRarityNextEgg=false;
+    notif("🧬 ¡Pulso Evolutivo aplicado al huevo!");
+  }
   const col=rndR(COLORES,rC),man=rndR(MANCHAS,rM),vest=rndR(VESTIDOS,rV);
   const mc=getManchaColor(man,rM);
   const h=new Dino(col,man,mc,vest,Math.max(p.gen,m.gen)+1,finalAdn);
-  h.sal=Math.min(100,Math.max(p.sal,m.sal)+Math.floor(Math.random()*3*boost));
-  h.fue=Math.min(100,Math.max(p.fue,m.fue)+Math.floor(Math.random()*3*boost));
-  h.vel=Math.min(100,Math.max(p.vel,m.vel)+Math.floor(Math.random()*3*boost));
+  const baseBonus=prestigeOwned.has("p_base")?5:0;
+  const cap=statCap();
+  function inheritStat(ps,ms){
+    const base=Math.max(ps,ms)+baseBonus;
+    const rawGain=Math.floor(Math.random()*3*boost);
+    const cappedGain=Math.floor(rawGain*statSoftCap(base));
+    return Math.min(cap,base+cappedGain);
+  }
+  h.sal=inheritStat(p.sal,m.sal);
+  h.fue=inheritStat(p.fue,m.fue);
+  h.vel=inheritStat(p.vel,m.vel);
   if(h.gen>stats.maxGen)stats.maxGen=h.gen;
   return h;
 }
@@ -1746,11 +1851,13 @@ function renderDetail(){
     <div class="tc"><b>Vestido</b> <span class="r-${d.rv}">${d.vestido.replace(/_/g," ")}</span></div>
     <div class="gen-b">GEN ${d.gen}</div>
     <div class="adn-b ${adni.cls}">${adni.icon} ${adni.name}</div>`;
+  const cap=statCap();
+  const statTips={sal:"Salud — genera ingresos en el Rancho y CP en Arena",fue:"Fuerza — CP en Arena y combates de Jefes",vel:"Velocidad — desbloquea destinos de Exploración"};
   document.getElementById("d-stats").innerHTML=
     [["sal","SAL"],["fue","FUE"],["vel","VEL"]].map(([k,l])=>`
-      <div class="stat-block"><div class="stat-lbl">${l}</div>
-      <div class="stat-track"><div class="stat-fill" style="width:${d[k]}%"></div></div>
-      <div class="stat-val">${d[k]}/100</div></div>`).join("");
+      <div class="stat-block" title="${statTips[k]}"><div class="stat-lbl">${l}</div>
+      <div class="stat-track"><div class="stat-fill" style="width:${(d[k]/cap)*100}%"></div></div>
+      <div class="stat-val">${d[k]}/${cap}</div></div>`).join("");
   const wsb=document.getElementById("wsb");
   if(d.isWorking||d.inRancho){wsb.style.display="";wsb.textContent=d.inRancho?"🏡 Rancho":"⚒ Trabajando";}else wsb.style.display="none";
 }
@@ -1769,7 +1876,7 @@ function renderBreedPanel(){
   const p=breedSlots[0]?misDinos.find(x=>x.id===breedSlots[0]):null;
   const m=breedSlots[1]?misDinos.find(x=>x.id===breedSlots[1]):null;
   const btn=document.getElementById("breed-btn");
-  const maxS=unlocked.has("extra_slots")?4:2;
+  const maxS=unlocked.has("extra_slots")?4:(prestigeOwned.has("p_slots3")?3:2);
   if(p&&m){
     const rC=heredarRareza(p.rc,m.rc);
     document.getElementById("breed-pred").innerHTML=`<span class="r-${rC}">~${rC}</span>`;
@@ -1783,7 +1890,7 @@ function clearBreedSlot(i){
 function renderEggs(){
   const grid=document.getElementById("eggs-grid");grid.innerHTML="";
   document.getElementById("egg-count").textContent=`(${huevos.length})`;
-  const maxS=unlocked.has("extra_slots")?4:2;
+  const maxS=unlocked.has("extra_slots")?4:(prestigeOwned.has("p_slots3")?3:2);
   document.getElementById("slot-info").textContent=`${huevos.length}/${maxS}`;
   huevos.forEach(h=>{
     let rMax="basica";
@@ -1799,6 +1906,26 @@ function renderEggs(){
 function renderMoney(){
   document.getElementById("money-display").textContent=Math.floor(dinero).toLocaleString("es");
   document.getElementById("esen-display").textContent=Math.floor(esencias).toLocaleString("es");
+  // Income rate
+  const rate=calcRanchoRate();
+  const rateEl=document.getElementById("money-rate");
+  if(rateEl)rateEl.textContent=rate>0?`+${rate.toFixed(1)}/s`:"";
+  // Tokens display
+  const tokDisp=document.getElementById("tokens-display");
+  if(tokDisp)tokDisp.textContent=ascTokens;
+  const tokDiv=document.getElementById("tokens-disp");
+  if(tokDiv)tokDiv.style.display=ascLevel>0||ascTokens>0?"":"none";
+  // Prestige tokens in shop
+  const pt=document.getElementById("pres-tokens-display");
+  if(pt)pt.textContent=ascTokens;
+}
+function calcRanchoRate(){
+  const base=[...ranchoSet].reduce((s,id)=>{const d=misDinos.find(x=>x.id===id);return s+(d?d.ranchoEarn:0);},0);
+  let mult=1;
+  if(prestigeOwned.has("p_income1"))mult+=0.35;
+  if(prestigeOwned.has("p_income2"))mult+=0.60;
+  if(prestigeOwned.has("p_income3"))mult+=1.00;
+  return base*mult;
 }
 function renderShop(){
   const prices={basica:20,media:60,rara:180,legendaria:500};
@@ -2044,10 +2171,6 @@ function renderMina(){
     gg.appendChild(div);
   });
 }
-function switchMinaTier(t){
-  if(!unlocked.has(`mina_${t}`)&&t!=="carbon"){notif("Mina bloqueada");return;}
-  minaTier=t;renderMina();
-}
 function assignMiner(gemId,reqAdn,minSal){
   openDinoPick(`Asignar a ${MINAS_DEF[minaTier].gemas.find(g=>g.id===gemId)?.name||gemId} (ADN: ${ADN_INFO[reqAdn]?.name||reqAdn})`,d=>{
     if(d.adn!==reqAdn&&!(d.adn==="oculto")){notif(`Necesita ADN ${ADN_INFO[reqAdn]?.name||reqAdn}`);return false;}
@@ -2066,7 +2189,8 @@ function processMina(){
     if(!slot)return;
     const d=misDinos.find(x=>x.id===slot.dinoId);if(!d){delete workSlots.mina[gemId];return;}
     if(Date.now()-slot.startTime>=slot.duration){
-      const qty=unlocked.has("mina_slots2")?2:1; 
+      const meteorBonus=activeEvent&&activeEvent.id==="meteor"?3:1;
+      const qty=(unlocked.has("mina_slots2")?2:1)*meteorBonus;
       inventario.gemas[gemId]=(inventario.gemas[gemId]||0)+qty;
       discovered.gemas.add(gemId);
       stats.gemasMinadas+=qty;
@@ -2146,10 +2270,6 @@ function renderExploracion(){
       `<button class="assign-btn" style="width:auto;padding:3px 8px;margin:0" onclick="assignExplorer('${m.id}',${m.reqAdn?`'${m.reqAdn}'`:'null'},${dest.minVel})">+ Asignar</button>`}`;
     sl.appendChild(div);
   });
-}
-function switchDest(d){
-  const def=DESTINOS_DEF[d];if(def.minVel>0&&!unlocked.has(`expl_${d}`)){notif(T('notif_dest_locked'));return;}
-  explDest=d;renderExploracion();
 }
 function assignExplorer(manchaId,reqAdn,minVel){
   openDinoPick(`Explorar: ${manchaId} (VEL≥${minVel}${reqAdn?", ADN "+ADN_INFO[reqAdn]?.name:""})`,d=>{
@@ -2235,10 +2355,6 @@ function renderArenaTrab(){
     }
     sl.appendChild(div);
   }
-}
-function switchArenaTier(t){
-  if(!unlocked.has(`arena_${t}`)&&t!=="local"){notif(T('notif_league_locked'));return;}
-  arenaTier=t;renderArenaTrab();
 }
 function assignArenaTrab(tier,slotIdx,minFue){
   openDinoPick(`Asignar a Arena ${ARENA_TIERS[tier].name} (FUE≥${minFue})`,d=>{
@@ -2542,10 +2658,11 @@ function harvestPlant(i){
 }
 function gardenTick(){
   const now=Date.now();let changed=false;
+  const bloomMult=activeEvent&&activeEvent.id==="bloom"?4:1;
   jardinGrid.forEach((cell,i)=>{
     if(!cell||!cell.type)return;
     const pd=PLANTAS_DEF[cell.type];if(!pd)return;
-    const growMs=pd.grow*1000;
+    const growMs=(pd.grow*1000)/bloomMult;
     if(cell.stage===0&&(now-cell.planted)>=growMs){
       cell.stage=1;changed=true;
       checkPlantCombos(i);
@@ -2706,6 +2823,23 @@ function showLogroPopup(name){
 // ═══ ENCICLOPEDIA ═══
 function renderEncy(){
   const el=document.getElementById("ency-body");if(!el)return;el.innerHTML="";
+  // Completion stats
+  const totalColors=Object.values(COLORES).reduce((s,a)=>s+a.length,0);
+  const totalManchas=Object.values(MANCHAS).reduce((s,a)=>s+a.length,0);
+  const totalManchasExpl=Object.values(DESTINOS_DEF).reduce((s,d)=>s+d.manchas.length,0);
+  const totalVestidos=Object.values(VESTIDOS).reduce((s,a)=>s+a.length,0)+Object.values(ARENA_TIERS).reduce((s,t)=>s+t.vestidos.length,0);
+  const totalAdn=ADN_TIPOS.length;
+  const totalPlantas=Object.keys(PLANTAS_DEF).length;
+  const totalGemas=Object.values(MINAS_DEF).reduce((s,t)=>s+t.gemas.length,0);
+  const grandTotal=totalColors+totalManchas+totalManchasExpl+totalVestidos+totalAdn+totalPlantas+totalGemas;
+  const discoveredTotal=discovered.colores.size+discovered.manchas.size+discovered.manchasExpl.size+discovered.vestidos.size+discovered.adn.size+discovered.plantas.size+discovered.gemas.size;
+  const pct=Math.round(discoveredTotal/grandTotal*100);
+  const pctEl=document.getElementById("ency-pct");if(pctEl)pctEl.textContent=`${pct}% (${discoveredTotal}/${grandTotal})`;
+  const totTxt=document.getElementById("ency-total-txt");
+  if(totTxt){
+    const tabCounts={colores:`${discovered.colores.size}/${totalColors}`,manchas:`${discovered.manchas.size}/${totalManchas}`,manchas_expl:`${discovered.manchasExpl.size}/${totalManchasExpl}`,vestidos:`${discovered.vestidos.size}/${totalVestidos}`,adn:`${discovered.adn.size}/${totalAdn}`,plantas:`${discovered.plantas.size}/${totalPlantas}`,gemas:`${discovered.gemas.size}/${totalGemas}`};
+    totTxt.textContent=`Esta sección: ${tabCounts[encyTab]||""}`;
+  }
   const grid=document.createElement("div");grid.className="ency-grid";
   
   if(encyTab==="colores"){
@@ -2818,6 +2952,82 @@ function renderEncy(){
   el.appendChild(grid);
 }
 
+// ═══ PRESTIGE SHOP ═══
+function renderPrestige(){
+  const el=document.getElementById("prestige-shop-list");if(!el)return;el.innerHTML="";
+  const pt=document.getElementById("pres-tokens-display");if(pt)pt.textContent=ascTokens;
+  PRESTIGE_SHOP.forEach(item=>{
+    const owned=prestigeOwned.has(item.id);
+    const reqMet=!item.req||prestigeOwned.has(item.req);
+    const canAfford=ascTokens>=item.cost;
+    const div=document.createElement("div");
+    div.className=`pres-item ${owned?"owned":""} ${!reqMet?"locked-pres":""}`;
+    div.innerHTML=`<span style="font-size:18px;flex-shrink:0">${item.icon}</span>
+      <div style="flex:1;min-width:0">
+        <div class="pres-nm">${item.name}${owned?" ✓":""}</div>
+        <div class="pres-desc">${item.desc}</div>
+        ${item.req&&!prestigeOwned.has(item.req)?`<div style="font-size:8px;color:var(--rar);margin-top:2px">🔒 Requiere: ${PRESTIGE_SHOP.find(x=>x.id===item.req)?.name||item.req}</div>`:""}
+      </div>
+      ${owned?`<span style="font-size:16px;color:var(--grn)">✓</span>`:`<span class="pres-cost">${item.cost}</span>
+      <button class="pbuy" ${!canAfford||!reqMet?"disabled":""} onclick="buyPrestige('${item.id}')">${!reqMet?"🔒":!canAfford?"??":"COMPRAR"}</button>`}`;
+    el.appendChild(div);
+  });
+  if(ascLevel===0){
+    const hint=document.createElement("div");
+    hint.style.cssText="font-size:9px;color:var(--a);padding:12px;text-align:center;border:1px dashed var(--b2);margin-top:8px;line-height:1.6";
+    hint.innerHTML="🔮 Los tokens se obtienen al <b style='color:var(--ocu)'>Ascender</b>.<br>Derrota al Gigante Rex para desbloquear la ascensión.";
+    el.appendChild(hint);
+  }
+}
+function buyPrestige(id){
+  const item=PRESTIGE_SHOP.find(x=>x.id===id);if(!item)return;
+  if(prestigeOwned.has(item.id)){notif("Ya adquirido");return;}
+  if(item.req&&!prestigeOwned.has(item.req)){notif("Requisito no cumplido");return;}
+  if(ascTokens<item.cost){notif(`Sin tokens (necesitas ${item.cost}🔮)`);return;}
+  ascTokens-=item.cost;prestigeOwned.add(item.id);
+  notif(`🔮 ¡${item.name} adquirido!`);addLog(`🔮 Prestige: ${item.name}`,"good");
+  renderPrestige();renderMoney();
+}
+
+// ═══ RANDOM EVENTS ═══
+function triggerRandomEvent(){
+  nextEventTime=Date.now()+(420000+Math.random()*480000); // 7-15 min cooldown
+  const evt=rnd(EVENTS_DEF);
+  const banner=document.getElementById("event-banner");
+  const badge=document.getElementById("event-active-badge");
+  if(evt.instant){
+    // Apply instant effect
+    if(evt.id==="migration"){
+      const d=crearDinoSalvaje("basica");misDinos.push(d);discoverDino(d);
+      renderList();renderDetail();checkLogros();
+      showEventBanner(`${evt.name} — Un ${d.color} se une a tu manada!`,evt.cls||"");
+    }else if(evt.id==="fossil"){
+      const coins=Math.floor(80+Math.random()*200)*(1+ascLevel*0.5);
+      dinero+=coins;stats.totalEarned+=coins;renderMoney();renderShop();
+      showEventBanner(`${evt.name} — +${Math.floor(coins)}💰 encontrados!`,evt.cls||"");
+    }else if(evt.id==="pulse"){
+      bonusRarityNextEgg=true;
+      showEventBanner(`${evt.name} — ¡El próximo huevo será especial!`,evt.cls||"");
+    }
+    addLog(`✨ Evento: ${evt.name}`,"good");
+  }else{
+    activeEvent={id:evt.id};
+    eventEndTime=Date.now()+evt.duration;
+    showEventBanner(`${evt.name} — ${evt.desc}`,evt.cls||"");
+    if(badge){
+      badge.textContent=`${evt.icon} ${evt.name.split(" ").slice(1,3).join(" ")} — activo`;
+      badge.className="event-active-badge show";
+    }
+    addLog(`✨ Evento activo: ${evt.name} (${Math.round(evt.duration/1000)}s)`,"good");
+  }
+}
+function showEventBanner(msg,cls){
+  const el=document.getElementById("event-banner");if(!el)return;
+  el.textContent=msg;
+  el.className=`event-banner show ${cls}`;
+  setTimeout(()=>{el.classList.remove("show");setTimeout(()=>{el.textContent="";el.className="event-banner";},400);},5000);
+}
+
 // ═══ ASCENSIÓN ═══
 function checkAscension(){
   const gigrexDead=BOSSES_DEF.find(b=>b.id==="gigrex")?.defeated;
@@ -2827,25 +3037,54 @@ function checkAscension(){
 function showAscension(){
   const overlay=document.getElementById("asc-overlay");
   const bonus=document.getElementById("asc-bonus");
-  if(bonus)bonus.innerHTML=T('asc_level_text',ascLevel,Math.round((ascLevel+1)*3));
+  const earned=calcAscTokens();
+  const keepCount=prestigeOwned.has("p_keep2")?2:prestigeOwned.has("p_keep1")?1:0;
+  if(bonus)bonus.innerHTML=T('asc_level_text',ascLevel,Math.round((ascLevel+1)*3))
+    +`<br><span style="color:#9090ff;font-size:10px">🔮 Ganarás <b>${earned}</b> Tokens de Prestige</span>`
+    +(keepCount>0?`<br><span style="color:var(--grn);font-size:10px">🦕 Se conservarán ${keepCount} dino${keepCount>1?"s":""} (los mejores)</span>`:"");
   if(overlay)overlay.classList.add("show");
 }
+function calcAscTokens(){
+  // Base + gen bonus + logros bonus + previous level bonus
+  return 8 + (ascLevel*6) + Math.floor(stats.maxGen/2) + Math.floor(logrosUnlocked.size/2);
+}
 function doAscension(){
+  // Give prestige tokens
+  const earned=calcAscTokens();
+  ascTokens+=earned;
   ascLevel++;ocultaBaseChance=0.005*(1+ascLevel*0.5);
-  // Reset: dinos, huevos, jardin, inventario (keep logros, discoveries, ascLevel)
+  // Find best dinos to keep (if prestige allows)
+  const keepCount=prestigeOwned.has("p_keep2")?2:prestigeOwned.has("p_keep1")?1:0;
+  const keptDinos=[];
+  if(keepCount>0&&misDinos.length>0){
+    const sorted=[...misDinos].sort((a,b)=>(b.sal+b.fue+b.vel)-(a.sal+a.fue+a.vel));
+    for(let i=0;i<Math.min(keepCount,sorted.length);i++){
+      const d=sorted[i];
+      // Reset kept dino's gen to 1 but keep stats
+      d.gen=1;d.equippedVestido=null;
+      keptDinos.push(d);
+    }
+  }
+  // Reset: dinos, huevos, jardin, inventario (keep logros, discoveries, ascLevel, tokens)
   misDinos=[];huevos=[];breedSlots=[null,null];selects=[];
   jardinGrid=Array(64).fill(null);
   inventario={gemas:{},manchas:{},semillas:{hierba:3,violeta:2}};
   workSlots={mina:{},exploracion:{},arena_trab:{},granja:[]};
   ranchoSet=new Set();dinero=0;esencias=0;bossTeam=[null,null,null,null];selBoss=null;
   stats.totalBreeds=0;stats.maxGen=1;stats.ocultaFound=0;
-  // Give 2 basic dinos
-  const d1=new Dino("verde","ninguna",null,"ninguno",1,rnd(["tierra","fuego","agua","aire"]));
-  const d2=new Dino("verde","ninguna",null,"ninguno",1,rnd(["tierra","fuego","agua","aire"]));
-  misDinos.push(d1,d2);discoverDino(d1);discoverDino(d2);
+  // Re-add kept dinos
+  keptDinos.forEach(d=>{misDinos.push(d);discoverDino(d);});
+  // Give 2 basic dinos (fill up to 2)
+  const startDinos=2-keptDinos.length;
+  for(let i=0;i<startDinos;i++){
+    const d=new Dino("verde","ninguna",null,"ninguno",1,rnd(["tierra","fuego","agua","aire"]));
+    misDinos.push(d);discoverDino(d);
+  }
   document.getElementById("asc-overlay").classList.remove("show");
-  addLog(`⬆ ASCENSIÓN ${ascLevel}! +${Math.round(ascLevel*3)}% oculta`,"oculta");notif(`⬆ Ascensión nivel ${ascLevel}!`);
-  checkLogros();renderAll();
+  const keepMsg=keepCount>0?` · Conservados: ${keptDinos.length} dino${keptDinos.length!==1?"s":""}`:""
+  addLog(`⬆ ASCENSIÓN ${ascLevel}! +${Math.round(ascLevel*3)}% oculta · +${earned}🔮`,"oculta");
+  notif(`⬆ Ascensión ${ascLevel}! +${earned}🔮 Tokens${keepMsg}`);
+  checkLogros();renderAll();renderPrestige();
 }
 
 // ═══ DISCOVERY ═══
@@ -2891,7 +3130,7 @@ function breedSlotClick(i){
 function accionCriar(){
   const p=misDinos.find(x=>x.id===breedSlots[0]),m=misDinos.find(x=>x.id===breedSlots[1]);
   if(!p||!m){notif("Selecciona Padre y Madre");return;}
-  const maxS=unlocked.has("extra_slots")?4:2;
+  const maxS=unlocked.has("extra_slots")?4:(prestigeOwned.has("p_slots3")?3:2);
   if(huevos.length>=maxS){notif("Incubadora llena");return;}
   huevos.push(new Huevo(p,m));
   stats.totalBreeds++;
@@ -2988,10 +3227,11 @@ function switchShopTab(n,el){
   document.querySelectorAll(".shop-tab").forEach(t=>t.classList.remove("active"));
   document.querySelectorAll(".tab-content").forEach(t=>t.classList.remove("active"));
   el.classList.add("active");document.getElementById(`stab-${n}`).classList.add("active");
+  if(n==="prestige")renderPrestige();
 }
 function switchEncyTab(n,el){
   document.querySelectorAll(".ency-tab").forEach(t=>t.classList.remove("active"));
-  el.classList.add("active");encyTab=n;renderEncy();
+  if(el)el.classList.add("active");encyTab=n;renderEncy();
 }
 function switchWorkTab(n,el){
   document.querySelectorAll(".work-tab").forEach(t=>t.classList.remove("active"));
@@ -3024,6 +3264,7 @@ function renderAllTrabajo(){renderMina();renderExploracion();renderArenaTrab();r
 function renderAll(){
   renderList();renderDetail();renderBreedPanel();renderMoney();renderEggs();
   renderShop();renderDecos();renderTareas();renderEnv();renderAltar();renderTrainPanel();
+  renderPrestige();
 }
 
 // ═══ GAME LOOP ═══
@@ -3033,10 +3274,19 @@ function gameLoop(){
   // Rancho income
   ranchoAccum+=dt;
   if(ranchoAccum>=1){
-    const rate=[...ranchoSet].reduce((s,id)=>{const d=misDinos.find(x=>x.id===id);return s+(d?d.ranchoEarn:0);},0);
+    const rate=calcRanchoRate();
     const gained=Math.floor(rate*ranchoAccum);
     dinero+=gained;if(gained>0)stats.totalEarned+=gained;ranchoAccum=0;
     renderMoney();renderShop();
+  }
+  // Random events
+  if(Date.now()>=nextEventTime){triggerRandomEvent();}
+  // Active event cleanup
+  if(activeEvent&&eventEndTime>0&&Date.now()>=eventEndTime){
+    activeEvent=null;eventEndTime=0;
+    const badge=document.getElementById("event-active-badge");
+    if(badge){badge.classList.remove("show");badge.textContent="";}
+    notif("✓ Evento terminado");
   }
   // Egg hatching
   let births=false;
