@@ -1970,6 +1970,7 @@ function renderDetail(){
   const last=selects[selects.length-1],d=last!=null?misDinos[last]:null;
   document.getElementById("empty-hint").style.display=d?"none":"";
   document.getElementById("dino-stage").style.display=d?"":"none";
+  const rBtn=document.getElementById("ranch-toggle-btn");if(rBtn)rBtn.style.display=d?"":"none";
   if(!d)return;
   const mainEl=document.getElementById("dino-main");
   mainEl.innerHTML=dinoSVG(d,"main");
@@ -1991,6 +1992,22 @@ function renderDetail(){
       <div class="stat-val">${d[k]}/${cap}</div></div>`).join("");
   const wsb=document.getElementById("wsb");
   if(d.isWorking||d.inRancho){wsb.style.display="";wsb.textContent=d.inRancho?"🏡 Rancho":"⚒ Trabajando";}else wsb.style.display="none";
+  // Ranch toggle button
+  let ranchBtn=document.getElementById("ranch-toggle-btn");
+  if(!ranchBtn){
+    ranchBtn=document.createElement("button");ranchBtn.id="ranch-toggle-btn";
+    ranchBtn.style.cssText="position:absolute;bottom:7px;left:7px;font-size:8px;padding:2px 7px;z-index:3;";
+    ranchBtn.className="btn";
+    const stage=document.getElementById("dino-stage");
+    if(stage)stage.appendChild(ranchBtn);
+  }
+  if(d.inRancho){
+    ranchBtn.textContent="🏡 Sacar del Rancho";ranchBtn.style.borderColor="var(--grn)";ranchBtn.style.color="var(--grn)";
+  } else {
+    ranchBtn.textContent="+ Rancho";ranchBtn.style.borderColor="";ranchBtn.style.color="";
+  }
+  ranchBtn.onclick=()=>toggleRancho(d.id);
+  ranchBtn.style.display="";
 }
 function renderBreedPanel(){
   for(let i=0;i<2;i++){
@@ -2040,7 +2057,13 @@ function renderMoney(){
   // Income rate
   const rate=calcRanchoRate();
   const rateEl=document.getElementById("money-rate");
-  if(rateEl)rateEl.textContent=rate>0?`+${rate.toFixed(1)}/s`:"";
+  if(rateEl){
+    if(rate>0){
+      rateEl.innerHTML=`<span class="rancho-dot"></span>+${rate.toFixed(1)}/s`;
+    } else {
+      rateEl.textContent="";
+    }
+  }
   // Tokens display
   const tokDisp=document.getElementById("tokens-display");
   if(tokDisp)tokDisp.textContent=ascTokens;
@@ -2112,7 +2135,7 @@ function claimUpgrade(id){
   if(unlocked.has(u.unlock)){notif("Ya desbloqueado");return;}
   unlocked.add(u.unlock);
   addLog(`🔓 Mejora: ${u.name}!`,"good");notif(`🔓 ¡${u.name} desbloqueada!`);
-  renderTareas();renderShop();renderAllTrabajo();checkAscension();renderTrainPanel();
+  renderTareas();renderShop();renderAllTrabajo();checkAscension();renderTrainPanel();saveGame();
 }
 function renderDecos(){
   const el=document.getElementById("deco-list");if(!el)return;el.innerHTML="";
@@ -3215,7 +3238,7 @@ function doAscension(){
   const keepMsg=keepCount>0?` · Conservados: ${keptDinos.length} dino${keptDinos.length!==1?"s":""}`:""
   addLog(`⬆ ASCENSIÓN ${ascLevel}! +${Math.round(ascLevel*3)}% oculta · +${earned}🔮`,"oculta");
   notif(`⬆ Ascensión ${ascLevel}! +${earned}🔮 Tokens${keepMsg}`);
-  checkLogros();renderAll();renderPrestige();
+  checkLogros();renderAll();renderPrestige();saveGame();
 }
 
 // ═══ DISCOVERY ═══
@@ -3361,8 +3384,17 @@ function switchShopTab(n,el){
   if(n==="prestige")renderPrestige();
 }
 function switchEncyTab(n,el){
-  document.querySelectorAll(".ency-tab").forEach(t=>t.classList.remove("active"));
-  if(el)el.classList.add("active");encyTab=n;renderEncy();
+  // Handle both old ency-page and new progreso page
+  const progresoPage=document.getElementById('page-progreso');
+  const isProgreso=progresoPage&&progresoPage.classList.contains('active');
+  if(isProgreso){
+    document.querySelectorAll('#prog-ency-tabs .ency-tab').forEach(t=>t.classList.remove('active'));
+  } else {
+    document.querySelectorAll(".ency-tab").forEach(t=>t.classList.remove("active"));
+  }
+  if(el)el.classList.add("active");
+  encyTab=n;
+  if(isProgreso)_renderEncyProg();else renderEncy();
 }
 function switchWorkTab(n,el){
   document.querySelectorAll(".work-tab").forEach(t=>t.classList.remove("active"));
@@ -3396,6 +3428,12 @@ function renderAll(){
   renderList();renderDetail();renderBreedPanel();renderMoney();renderEggs();
   renderShop();renderDecos();renderTareas();renderEnv();renderAltar();renderTrainPanel();
   renderPrestige();
+  // Render active special pages
+  const ap=document.querySelector('.page.active');
+  if(ap){
+    if(ap.id==='page-excavacion')renderExcavacion();
+    if(ap.id==='page-progreso')switchProgresoTab(progresoTab);
+  }
 }
 
 // ═══ GAME LOOP ═══
@@ -3436,6 +3474,8 @@ function gameLoop(){
   processMina();procesarExploracion();procesarArenaTrab();procesarGranja();
   // Garden
   gardenTick();
+  // Excavacion (already processed via setInterval, but update display)
+  if(document.querySelector('#page-excavacion.active'))renderExcavacion();
   // Auto-render work bars every tick
   const activePage=document.querySelector(".page.active");
   if(activePage&&activePage.id==="page-trabajos"){
@@ -3453,15 +3493,12 @@ function gameLoop(){
 }
 
 // ═══ INIT ═══
+// (Real init with save/load happens in LOAD SAVE ON INIT block below)
+// This placeholder runs first to set up lastTick and start the game loop
+let _freshStart=true;
 (function(){
-  const d1=new Dino("verde","ninguna",null,"ninguno",1,"tierra");
-  const d2=new Dino("verde","ninguna",null,"ninguno",1,"fuego");
-  misDinos.push(d1,d2);discoverDino(d1);discoverDino(d2);
   applyLang();
-  renderAll();renderEnv();renderLogrosCats();
-  addLog(T('log_lab_active'),"good");
-  addLog(T('log_tip'),"warn");
-  lastTick=Date.now();gameLoop();checkLogros();checkAscension();
+  lastTick=Date.now();gameLoop();
 })();
 
 // ── Mobile panel switcher ──
@@ -3660,7 +3697,8 @@ function saveGame(){
     workSlots:JSON.parse(JSON.stringify(workSlots)),
     activeEvent,eventEndTime,nextEventTime,
     excavState:JSON.parse(JSON.stringify(excavState)),
-    bonusRarityNextEgg
+    bonusRarityNextEgg,
+    lightMode:document.documentElement.classList.contains('light')
   };
   try{
     localStorage.setItem('dinolab_v3',JSON.stringify(save));
@@ -3729,6 +3767,10 @@ function loadGame(){
   nextEventTime=save.nextEventTime||Date.now()+420000+(Math.random()*480000);
   if(save.excavState)Object.assign(excavState,JSON.parse(JSON.stringify(save.excavState)));
   bonusRarityNextEgg=save.bonusRarityNextEgg||false;
+  if(save.lightMode){
+    document.documentElement.classList.add('light');
+    const btn=document.getElementById('theme-btn');if(btn)btn.textContent='☀️';
+  }
   // Offline rancho income
   if(elapsed>60000){
     const ranchoEarned=Math.floor(calcRanchoRate()*(elapsed/1000));
@@ -3897,16 +3939,104 @@ window.renderList=function(){
 
 // ═══ LOAD SAVE ON INIT ═══
 (function(){
-  const loaded=loadGame();
   const savedTheme=localStorage.getItem('dino_theme');
   if(savedTheme==='light'){
     document.documentElement.classList.add('light');
     const btn=document.getElementById('theme-btn');if(btn)btn.textContent='☀️';
   }
-  if(loaded){
-    applyLang();renderAll();renderEnv();renderLogrosCats();checkLogros();checkAscension();
+  const loaded=loadGame();
+  if(!loaded){
+    // Fresh start: add 2 starter dinos
+    const d1=new Dino("verde","ninguna",null,"ninguno",1,"tierra");
+    const d2=new Dino("verde","ninguna",null,"ninguno",1,"fuego");
+    misDinos.push(d1,d2);discoverDino(d1);discoverDino(d2);
+    addLog(T('log_lab_active'),"good");
+    addLog(T('log_tip'),"warn");
   }
+  applyLang();
+  renderAll();renderEnv();renderLogrosCats();checkLogros();checkAscension();
+  // Save on unload
+  window.addEventListener('beforeunload',saveGame);
 })();
+
+// ═══ RESET ═══
+function confirmReset(){
+  if(confirm("¿Seguro que quieres BORRAR toda la partida? Esta acción no se puede deshacer.")){
+    localStorage.removeItem('dinolab_v3');
+    location.reload();
+  }
+}
+
+// ═══ RANCHO TOGGLE IN COLLECTION ═══
+function toggleRancho(id){
+  const d=misDinos.find(x=>x.id===id);if(!d)return;
+  if(ranchoSet.has(id)){
+    ranchoSet.delete(id);notif(`${d.color} sacado del rancho`);
+  } else {
+    if(d.isWorking){notif("El dino está trabajando");return;}
+    ranchoSet.add(id);notif(`${d.color} añadido al rancho ✓`);
+  }
+  renderList();renderDetail();saveGame();
+}
+
+// ═══ LAB GARDEN TOGGLE ═══
+let labShowGarden=false;
+function switchToLabGarden(){
+  labShowGarden=true;
+  // Hide normal lab panels, show garden panel
+  ['lab-c0','lab-c1','lab-c2'].forEach(id=>{const e=document.getElementById(id);if(e)e.style.display='none';});
+  const g=document.getElementById('lab-c3');if(g)g.style.display='';
+  // Swap garden grid IDs temporarily
+  _renderGardenInLab();
+  // Update mp-bar buttons
+  const bar=document.getElementById('lab-bar');
+  if(bar)bar.querySelectorAll('.mp-btn').forEach((b,i)=>{b.classList.toggle('active',i===3);});
+}
+function switchFromLabGarden(idx){
+  labShowGarden=false;
+  const g=document.getElementById('lab-c3');if(g)g.style.display='none';
+  ['lab-c0','lab-c1','lab-c2'].forEach(id=>{const e=document.getElementById(id);if(e)e.style.display='';});
+  // Restore normal mpSwitch behavior
+  mpSwitch('lab-layout','lab-bar',idx);
+}
+// Override mpSwitch for lab to handle garden tab
+const _origMpSwitch=window.mpSwitch;
+window.mpSwitch=function(layoutId,barId,idx){
+  if(layoutId==='lab-layout'){
+    if(idx===3){switchToLabGarden();return;}
+    switchFromLabGarden(idx);return;
+  }
+  _origMpSwitch(layoutId,barId,idx);
+};
+
+function _renderGardenInLab(){
+  // Render garden content into lab-c3 using -lab suffixed IDs
+  const gg=document.getElementById('garden-grid-lab');
+  const sp=document.getElementById('seed-panel-lab');
+  const rp=document.getElementById('recipe-panel-lab');
+  const st=document.getElementById('seed-total-lab');
+  const gh=document.getElementById('garden-hint-lab');
+  const gs=document.getElementById('garden-status-lab');
+  if(!gg)return;
+  // Temporarily swap IDs
+  const swaps=[
+    ['garden-grid','garden-grid-lab'],
+    ['seed-panel','seed-panel-lab'],
+    ['recipe-panel','recipe-panel-lab'],
+    ['seed-total','seed-total-lab'],
+    ['garden-hint','garden-hint-lab'],
+    ['garden-status','garden-status-lab'],
+  ];
+  swaps.forEach(([a,b])=>{
+    const ea=document.getElementById(a),eb=document.getElementById(b);
+    if(ea&&eb){ea.id='_'+a;eb.id=a;}
+  });
+  renderJardin();
+  swaps.forEach(([a,b])=>{
+    const ea=document.getElementById('_'+a),eb=document.getElementById(a);
+    if(ea)ea.id=a;if(eb)eb.id=b;
+  });
+}
 
 </script>
 </body>
