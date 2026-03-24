@@ -18,6 +18,14 @@
   --grn:#6ed87a;--pur:#b060ff;--red:#e05050;--blu:#5080e0;
   --tierra:#c87840;--fuego:#ff5020;--agua:#2080ff;--aire:#80d8ff;--adn-ocu:#dd44ff;
 }
+html.light{
+  --bg:#f5f0e8;--p1:#ede8de;--p2:#e4ddd0;--p3:#d8d0c4;
+  --b1:#c4bdb0;--b2:#a8a098;
+  --a:#8a5a10;--a2:#6a4008;--ag:rgba(138,90,16,.10);
+  --fo:#6a5c4c;--tx:#2a2010;--dm:#7a6c5c;
+  --bas:#505068;--med:#107070;--rar:#902020;--leg:#806000;--ocu:#800080;
+  --grn:#207a28;--pur:#6020a0;--red:#902020;--blu:#2040a0;
+}
 *{box-sizing:border-box;margin:0;padding:0;}html,body{height:100%;overflow:hidden;}
 body{background:var(--bg);color:var(--tx);font-family:'Share Tech Mono',monospace;font-size:13px;
   background-image:radial-gradient(ellipse at 15% 80%,rgba(60,40,10,.18) 0%,transparent 55%),
@@ -67,19 +75,24 @@ body{background:var(--bg);color:var(--tx);font-family:'Share Tech Mono',monospac
 .col-layout{display:grid;grid-template-columns:240px 1fr 258px;height:100%;width:100%;}
 .col-panel{overflow-y:auto;border-right:1px solid var(--b1);}
 .col-panel:last-child{border-right:none;}
-.dino-card{display:flex;align-items:center;gap:7px;padding:7px 10px;border-bottom:1px solid var(--b1);cursor:pointer;transition:background .12s;position:relative;}
-.dino-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:transparent;transition:background .15s;}
+.dino-card{display:flex;align-items:center;gap:7px;padding:9px 12px;border-bottom:1px solid var(--b1);cursor:pointer;transition:background .12s;position:relative;}
+.dino-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:transparent;transition:background .15s;}
 .dino-card:hover{background:rgba(200,134,42,.05);}.dino-card:hover::before{background:var(--b2);}
 .dino-card.sel1::before{background:var(--a2);}.dino-card.sel1{background:rgba(200,134,42,.09);}
 .dino-card.sel2::before{background:var(--med);}.dino-card.sel2{background:rgba(40,200,190,.07);}
+.dino-card.rar-basica::before{background:var(--bas);}
+.dino-card.rar-media::before{background:var(--med);}
+.dino-card.rar-rara::before{background:var(--rar);}
+.dino-card.rar-legendaria::before{background:var(--leg);}
+.dino-card.rar-oculta::before{background:var(--ocu);}
 .dino-card.working::after{content:'⚒';position:absolute;right:34px;font-size:9px;color:var(--a);}
-.cth{width:34px;height:34px;flex-shrink:0;}.cth svg{width:100%;height:100%;}
+.cth{width:40px;height:40px;flex-shrink:0;}.cth svg{width:100%;height:100%;}
 .cnm{color:var(--a2);font-size:11px;display:flex;align-items:center;gap:3px;margin-bottom:2px;}
 .cst{display:flex;gap:5px;}.cs{font-size:10px;color:var(--dm);}
 .cgen{font-size:8px;color:var(--pur);font-style:italic;}
 /* CENTER SHOWCASE */
 .center-col{display:flex;flex-direction:column;overflow:hidden;}
-.showcase{flex:0 0 210px;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;border-bottom:1px solid var(--b1);}
+.showcase{flex:0 0 250px;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;border-bottom:1px solid var(--b1);}
 .sh-env{position:absolute;inset:0;pointer-events:none;overflow:hidden;}
 .env-star{position:absolute;width:2px;height:2px;border-radius:50%;animation:tw 2s ease-in-out infinite alternate;}
 @keyframes tw{from{opacity:.1;}to{opacity:1;}}
@@ -99,7 +112,7 @@ body{background:var(--bg);color:var(--tx);font-family:'Share Tech Mono',monospac
 .env-bone{position:absolute;opacity:.06;}
 .env-ground{position:absolute;bottom:0;left:0;right:0;height:20px;background:linear-gradient(180deg,transparent,rgba(40,30,10,.3));}
 .dino-stage{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:5px;}
-.dino-main{width:130px;height:130px;filter:drop-shadow(0 4px 16px rgba(200,134,42,.18));transition:filter .3s;}
+.dino-main{width:175px;height:175px;filter:drop-shadow(0 4px 16px rgba(200,134,42,.18));transition:filter .3s;}
 .dino-main svg{width:100%;height:100%;}
 .dino-main.oculta-glow{filter:drop-shadow(0 0 12px #ff88ff) drop-shadow(0 0 28px #ff00ff55);}
 .empty-hint{color:var(--dm);font-family:'Crimson Pro',serif;font-style:italic;font-size:14px;text-align:center;z-index:2;}
@@ -418,6 +431,30 @@ body{background:var(--bg);color:var(--tx);font-family:'Share Tech Mono',monospac
 /* IMPROVED LOG */
 .log-row{padding:3px 11px;font-size:10px;color:var(--dm);border-bottom:1px solid rgba(46,40,64,.18);line-height:1.5;}
 
+/* EXCAVACIÓN */
+.excav-cell{width:52px;height:52px;background:var(--p2);border:1px solid var(--b1);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:20px;transition:all .15s;position:relative;}
+.excav-cell:hover{border-color:var(--a);}
+.excav-cell.undig{background:var(--p3);}
+.excav-cell.undig::before{content:'░';color:var(--b2);font-size:16px;}
+.excav-cell.dug{background:rgba(140,100,60,.15);border-color:var(--b2);}
+.excav-cell.active-dig{border-color:var(--a);animation:digPulse 1s ease-in-out infinite alternate;}
+@keyframes digPulse{from{box-shadow:0 0 3px var(--a);}to{box-shadow:0 0 10px var(--a);}}
+.fossil-card{background:var(--p2);border:1px solid var(--b1);padding:8px 10px;margin-bottom:5px;border-radius:2px;}
+.fossil-card.complete{border-color:var(--leg);background:rgba(255,215,0,.04);}
+.fossil-nm{font-size:10px;color:var(--a2);margin-bottom:4px;}
+.fossil-pieces{display:flex;gap:3px;flex-wrap:wrap;}
+.fossil-piece{width:18px;height:18px;display:flex;align-items:center;justify-content:center;font-size:12px;background:var(--p3);border:1px solid var(--b2);border-radius:2px;}
+.fossil-piece.found{background:rgba(255,200,0,.1);border-color:var(--leg);}
+
+/* RANCHO DOT PULSE */
+.rancho-dot{width:7px;height:7px;border-radius:50%;background:var(--grn);display:inline-block;margin-right:3px;animation:ranchoPulse 1.5s ease-in-out infinite;}
+@keyframes ranchoPulse{0%,100%{opacity:.5;transform:scale(1);}50%{opacity:1;transform:scale(1.3);}}
+
+/* PROGRESO PAGE */
+.progreso-sub{display:flex;border-bottom:1px solid var(--b1);background:var(--p1);flex-shrink:0;}
+.progreso-tab{padding:8px 16px;font-size:10px;letter-spacing:1px;color:var(--dm);cursor:pointer;border-bottom:2px solid transparent;text-transform:uppercase;}
+.progreso-tab.active{color:var(--a2);border-bottom-color:var(--a);}
+
 /* ═══════════════════════════════════════════════════
    MOBILE  (portrait-first, ≤ 600 px)
    Panel switching via parent data-show + CSS selectors
@@ -542,7 +579,9 @@ body{background:var(--bg);color:var(--tx);font-family:'Share Tech Mono',monospac
     <div class="curr-disp curr-mon" title="Monedas acumuladas"><span>💰</span><span id="money-display">0</span><span class="curr-rate" id="money-rate"></span></div>
     <div class="curr-disp curr-esen" title="Esencias — libera dinos para obtener"><span>✨</span><span id="esen-display">0</span></div>
     <div class="curr-disp curr-tokens" id="tokens-disp" style="display:none" title="Tokens de Ascensión — gástalos en la tienda de Prestige"><span>🔮</span><span id="tokens-display">0</span></div>
+    <span id="save-indicator" style="font-size:8px;color:var(--grn);opacity:0;transition:opacity .5s;letter-spacing:1px">💾 GUARDADO</span>
     <button class="btn" id="support-btn" onclick="showSupport()" style="border-color:#c060ff;color:#c060ff;background:rgba(192,96,255,.07);font-size:8px;padding:4px 8px;" data-i18n="btn_support">☕ SUPPORT</button>
+    <button class="btn" id="theme-btn" onclick="toggleTheme()" style="font-size:9px;padding:4px 8px;" title="Toggle light/dark mode">🌙</button>
     <button class="btn" id="lang-btn" onclick="toggleLang()" style="font-size:9px;padding:4px 8px;letter-spacing:1px;" title="Toggle language">🌐 EN/ES</button>
     <button class="asc-btn" id="asc-btn" onclick="showAscension()" data-i18n="btn_ascend">⬆ ASCENDER</button>
   </div>
@@ -551,14 +590,12 @@ body{background:var(--bg);color:var(--tx);font-family:'Share Tech Mono',monospac
 <div class="event-active-badge" id="event-active-badge"></div>
 <div class="main-area">
   <div class="nav-tabs">
-    <div class="nav-tab active" onclick="switchPage('coleccion',this)" data-i18n="nav_collection">Colección</div>
-    <div class="nav-tab" onclick="switchPage('rancho',this)" data-i18n="nav_ranch">Rancho</div>
-    <div class="nav-tab" onclick="switchPage('trabajos',this)" data-i18n="nav_jobs">Trabajos</div>
-    <div class="nav-tab" onclick="switchPage('lab',this)" data-i18n="nav_lab">Laboratorio</div>
-    <div class="nav-tab" onclick="switchPage('jardin',this)" data-i18n="nav_garden">Jardín</div>
-    <div class="nav-tab" onclick="switchPage('arena',this)" data-i18n="nav_arena">Arena Jefes</div>
-    <div class="nav-tab" onclick="switchPage('logros',this)" data-i18n="nav_achievements">Logros <span class="nbadge" id="logros-badge">!</span></div>
-    <div class="nav-tab" onclick="switchPage('enciclopedia',this)" data-i18n="nav_encyclopedia">Enciclopedia</div>
+    <div class="nav-tab active" onclick="switchPage('coleccion',this)">Colección</div>
+    <div class="nav-tab" onclick="switchPage('trabajos',this)">Trabajos</div>
+    <div class="nav-tab" onclick="switchPage('lab',this)">Laboratorio</div>
+    <div class="nav-tab" onclick="switchPage('excavacion',this)">⛏ Excavación</div>
+    <div class="nav-tab" onclick="switchPage('arena',this)">Arena Jefes</div>
+    <div class="nav-tab" onclick="switchPage('progreso',this)">Progreso <span class="nbadge" id="logros-badge">!</span></div>
   </div>
 
   <div class="page active" id="page-coleccion">
@@ -655,6 +692,8 @@ body{background:var(--bg);color:var(--tx);font-family:'Share Tech Mono',monospac
             <span style="color:var(--a)">Hay un 2% de probabilidad de que un dino nazca con <b>ADN Oculto</b>. Este ADN es especial: desbloquea contenido oculto en todos los trabajos. La probabilidad aumenta con cada Ascensión. Una vez que tienes un dino oculto, desbloquea los <b>huevos legendarios</b> en la pestaña Mejoras.</span><br>
             <div class="sbt" style="margin-top:8px">ADN</div>
             🌍 Tierra: mina básica<br>🔥 Fuego: CP arena +15%<br>💧 Agua: granja semillas<br>💨 Aire: exploración manchas<br>👁 Oculto: todo lo secreto
+            <div class="sbt" style="margin-top:12px;color:var(--rar)">DATOS DE PARTIDA</div>
+            <button class="btn danger" style="width:100%;margin-top:5px" onclick="confirmReset()">🗑 REINICIAR PARTIDA</button>
           </div>
         </div>
       </div>
@@ -802,6 +841,7 @@ body{background:var(--bg);color:var(--tx);font-family:'Share Tech Mono',monospac
       <button class="mp-btn active" onclick="mpSwitch('lab-layout','lab-bar',0)">📋 Sujetos</button>
       <button class="mp-btn" onclick="mpSwitch('lab-layout','lab-bar',1)">🔬 Aplicar</button>
       <button class="mp-btn" onclick="mpSwitch('lab-layout','lab-bar',2)">🧪 Inventario</button>
+      <button class="mp-btn" onclick="switchToLabGarden()">🌿 Jardín</button>
     </div>
     <div class="page-lab" id="lab-layout" data-show="0">
       <div class="lab-col mp-panel" id="lab-c0">
@@ -822,6 +862,23 @@ body{background:var(--bg);color:var(--tx);font-family:'Share Tech Mono',monospac
       <div class="lab-col mp-panel" id="lab-c2">
         <div class="sec-title">Inventario</div>
         <div id="lab-inventory"></div>
+      </div>
+      <!-- Garden panel inside Lab -->
+      <div class="lab-col mp-panel" id="lab-c3" style="display:none;width:100%;grid-column:1/-1">
+        <div class="page-jard">
+          <div class="jard-l">
+            <div class="sec-title">Semillas <span id="seed-total-lab" style="color:var(--a2)"></span></div>
+            <div style="overflow-y:auto;flex:0 0 auto;max-height:35%;padding:6px 8px;" id="seed-panel-lab"></div>
+            <div style="border-top:1px solid var(--b1);padding:7px 10px;font-size:8px;letter-spacing:3px;color:var(--fo);text-transform:uppercase;flex-shrink:0">Recetario</div>
+            <div class="recipe-panel" id="recipe-panel-lab"></div>
+          </div>
+          <div class="jard-r">
+            <div style="font-family:'Cinzel Decorative',serif;font-size:10px;color:var(--a2);letter-spacing:3px;margin-bottom:3px">JARDÍN BOTÁNICO 8×8</div>
+            <div style="font-size:9px;color:var(--dm);margin-bottom:8px" id="garden-hint-lab">Selecciona semilla → clic celda</div>
+            <div class="garden-grid" id="garden-grid-lab"></div>
+            <div id="garden-status-lab" style="font-size:9px;color:var(--dm);margin-top:5px;text-align:center"></div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -899,7 +956,7 @@ body{background:var(--bg);color:var(--tx);font-family:'Share Tech Mono',monospac
     </div>
   </div>
 
-  <div class="page" id="page-enciclopedia">
+  <div class="page" id="page-enciclopedia" style="display:none">
     <div class="page-ency">
       <div class="ency-tabs">
         <div class="ency-tab active" onclick="switchEncyTab('colores',this)" data-i18n="ency_colors">Colores</div>
@@ -916,6 +973,80 @@ body{background:var(--bg);color:var(--tx);font-family:'Share Tech Mono',monospac
       </div>
       <div class="ency-body" id="ency-body"></div>
     </div>
+  </div>
+
+  <!-- EXCAVACIÓN PAGE -->
+  <div class="page" id="page-excavacion">
+    <div style="flex:1;display:flex;flex-direction:column;overflow:hidden;width:100%">
+      <div class="sec-title">⛏ Excavación Paleontológica</div>
+      <div style="display:flex;flex:1;overflow:hidden">
+        <!-- Left: fossils + controls -->
+        <div style="width:260px;flex-shrink:0;border-right:1px solid var(--b1);display:flex;flex-direction:column;overflow:hidden">
+          <div style="padding:10px;border-bottom:1px solid var(--b1);flex-shrink:0">
+            <div style="font-size:9px;color:var(--dm);line-height:1.7">Asigna un dino → excava 1 celda cada 2 min.<br>Encuentra fragmentos de fósiles y tesoros.</div>
+            <button class="assign-btn" style="margin-top:6px" onclick="assignExcavacion()">+ Asignar Excavador</button>
+            <div id="excav-worker-info" style="margin-top:5px;font-size:9px;color:var(--a2)"></div>
+            <div id="excav-timer-bar" style="margin-top:4px"></div>
+          </div>
+          <div style="overflow-y:auto;flex:1;padding:8px">
+            <div style="font-size:8px;letter-spacing:3px;color:var(--fo);margin-bottom:7px;text-transform:uppercase">Fósiles</div>
+            <div id="fossil-collection"></div>
+          </div>
+        </div>
+        <!-- Right: dig grid -->
+        <div style="flex:1;overflow:auto;padding:12px;display:flex;flex-direction:column;align-items:center">
+          <div style="font-size:9px;color:var(--dm);margin-bottom:8px">Yacimiento — 5×8 celdas. Las excavadas muestran su contenido.</div>
+          <div id="excavacion-grid" style="display:grid;grid-template-columns:repeat(5,52px);grid-template-rows:repeat(8,52px);gap:3px"></div>
+          <div id="excav-log" style="margin-top:10px;width:100%;max-height:100px;overflow-y:auto"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROGRESO PAGE (Encyclopedia + Logros) -->
+  <div class="page" id="page-progreso">
+    <div style="flex:1;display:flex;flex-direction:column;overflow:hidden;width:100%">
+      <div style="display:flex;border-bottom:1px solid var(--b1);background:var(--p1);flex-shrink:0">
+        <div class="nav-tab active" id="prog-tab-ency" onclick="switchProgresoTab('ency',this)" style="padding:8px 16px">📖 Enciclopedia</div>
+        <div class="nav-tab" id="prog-tab-logros" onclick="switchProgresoTab('logros',this)" style="padding:8px 16px">🏆 Logros</div>
+      </div>
+      <!-- Ency sub-content -->
+      <div id="prog-ency-content" style="flex:1;display:flex;flex-direction:column;overflow:hidden">
+        <div class="ency-tabs" id="prog-ency-tabs">
+          <div class="ency-tab active" onclick="switchEncyTab('colores',this)">Colores</div>
+          <div class="ency-tab" onclick="switchEncyTab('manchas',this)">Manchas</div>
+          <div class="ency-tab" onclick="switchEncyTab('manchas_expl',this)">M.Especiales</div>
+          <div class="ency-tab" onclick="switchEncyTab('vestidos',this)">Vestidos</div>
+          <div class="ency-tab" onclick="switchEncyTab('adn',this)">ADN</div>
+          <div class="ency-tab" onclick="switchEncyTab('plantas',this)">Plantas</div>
+          <div class="ency-tab" onclick="switchEncyTab('gemas',this)">Gemas</div>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:5px 12px;border-bottom:1px solid var(--b1);background:var(--p2);flex-shrink:0">
+          <div style="font-size:9px;color:var(--dm)">Descubierto: <span id="prog-ency-pct" style="color:var(--a2)">—</span></div>
+          <div style="font-size:9px;color:var(--dm)" id="prog-ency-total-txt"></div>
+        </div>
+        <div class="ency-body" id="prog-ency-body"></div>
+      </div>
+      <!-- Logros sub-content -->
+      <div id="prog-logros-content" style="display:none;flex:1;overflow-y:auto;padding:14px;width:100%">
+        <div class="logros-hdr">
+          <div class="logros-title">SALÓN DE LOGROS</div>
+          <div class="logros-sub" id="prog-logros-prog-txt"></div>
+        </div>
+        <div class="logros-cats" id="prog-logros-cats"></div>
+        <div class="logros-grid" id="prog-logros-grid"></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- OFFLINE PROGRESS MODAL -->
+<div id="offline-modal" style="position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:600;display:none;align-items:center;justify-content:center;">
+  <div style="background:var(--p1);border:1px solid var(--a);padding:22px 28px;max-width:420px;width:calc(100vw - 28px)">
+    <div style="font-family:'Cinzel Decorative',serif;font-size:12px;color:var(--a2);letter-spacing:3px;margin-bottom:10px;border-bottom:1px solid var(--b1);padding-bottom:8px">⏰ PROGRESO OFFLINE</div>
+    <div id="offline-modal-body" style="font-size:10px;color:var(--dm);line-height:1.9;margin-bottom:14px;max-height:40vh;overflow-y:auto"></div>
+    <button class="btn primary" onclick="document.getElementById('offline-modal').style.display='none'" style="width:100%;padding:8px">Continuar</button>
   </div>
 </div>
 
@@ -3348,6 +3479,434 @@ function mpSwitch(layoutId, barId, idx){
 }
 // Auto-navigate to Dino panel when clicking a dino
 const _origToggleSel = window.toggleSel;
+
+// ═══ THEME ═══
+function toggleTheme(){
+  const isLight=document.documentElement.classList.toggle('light');
+  const btn=document.getElementById('theme-btn');
+  if(btn)btn.textContent=isLight?'☀️':'🌙';
+  localStorage.setItem('dino_theme',isLight?'light':'dark');
+}
+
+// ═══ EXCAVACIÓN STATE ═══
+let excavState={cells:null,worker:null,fossils:{},resetCount:0};
+const FOSSIL_DEFS=[
+  {id:'f_rex',    name:'T-Rex',        icon:'🦖',reward:600,fragCount:3},
+  {id:'f_bronto', name:'Brontosaurio', icon:'🦕',reward:450,fragCount:3},
+  {id:'f_ptero',  name:'Pterodáctilo', icon:'🦅',reward:350,fragCount:2},
+  {id:'f_tricera',name:'Triceratops',  icon:'🐉',reward:500,fragCount:3},
+  {id:'f_raptor', name:'Velociraptor', icon:'⚡',reward:300,fragCount:2},
+];
+function initExcavGrid(){
+  excavState.cells=Array(40).fill(null);
+  const used=new Set();
+  FOSSIL_DEFS.forEach(f=>{
+    excavState.fossils[f.id]={found:0,total:f.fragCount,cells:[],rewarded:false};
+    for(let i=0;i<f.fragCount;i++){
+      let pos;do{pos=Math.floor(Math.random()*40);}while(used.has(pos));
+      used.add(pos);excavState.fossils[f.id].cells.push(pos);
+    }
+  });
+}
+function assignExcavacion(){
+  openDinoPick("Asignar Excavador",d=>{
+    excavState.worker={dinoId:d.id,startTime:Date.now(),duration:120000};
+    renderExcavacion();return true;
+  });
+}
+function processExcavacion(){
+  if(!excavState.worker)return;
+  const slot=excavState.worker;
+  const d=misDinos.find(x=>x.id===slot.dinoId);
+  if(!d){excavState.worker=null;renderExcavacion();return;}
+  if(Date.now()-slot.startTime<slot.duration)return;
+  if(!excavState.cells)initExcavGrid();
+  const unrevealed=excavState.cells.reduce((a,c,i)=>{if(c===null)a.push(i);return a;},[]);
+  if(unrevealed.length===0){
+    excavState.cells=null;excavState.fossils={};
+    excavState.resetCount=(excavState.resetCount||0)+1;
+    initExcavGrid();
+    notif("🏺 ¡Yacimiento agotado! Nuevo sitio abierto.");
+  } else {
+    const pos=unrevealed[Math.floor(Math.random()*unrevealed.length)];
+    let type='empty',reward=null;
+    for(const[fid,fd]of Object.entries(excavState.fossils)){
+      if(fd.cells.includes(pos)){type='fossil';reward=fid;break;}
+    }
+    if(type==='empty'){
+      const r=Math.random();
+      if(r<0.12){type='gem';reward=Math.floor(30+Math.random()*80);}
+      else if(r<0.20){type='esencia';reward=Math.floor(2+Math.random()*6);}
+    }
+    excavState.cells[pos]={type,reward};
+    if(type==='fossil'){
+      const fd=excavState.fossils[reward];fd.found=(fd.found||0)+1;
+      const fdef=FOSSIL_DEFS.find(f=>f.id===reward);
+      addLog(`⛏ ¡Fragmento de ${fdef?.name||'fósil'}! (${fd.found}/${fd.total})`,'warn');
+      if(fd.found>=fd.total&&!fd.rewarded){
+        fd.rewarded=true;dinero+=fdef.reward;
+        notifLeg(`🦴 ¡Fósil completo: ${fdef.icon} ${fdef.name}! +${fdef.reward}💰`);
+        addLog(`🏺 FÓSIL COMPLETO: ${fdef.name} → +${fdef.reward}💰`,'legendary');
+        checkLogros();
+      }
+    } else if(type==='gem'){
+      dinero+=reward;stats.totalEarned+=reward;
+      addLog(`⛏ Gema encontrada: +${reward}💰`,'good');
+    } else if(type==='esencia'){
+      esencias+=reward;
+      addLog(`⛏ Esencias: +${reward}✨`,'good');
+    } else {
+      addLog(`⛏ Tierra vacía…`,'');
+    }
+  }
+  slot.startTime=Date.now();
+  renderExcavacion();renderMoney();
+}
+function renderExcavacion(){
+  const pg=document.getElementById('page-excavacion');
+  if(!pg||!pg.classList.contains('active'))return;
+  if(!excavState.cells)initExcavGrid();
+  const grid=document.getElementById('excavacion-grid');
+  if(grid){
+    grid.innerHTML='';
+    for(let i=0;i<40;i++){
+      const cell=excavState.cells[i];
+      const div=document.createElement('div');
+      div.style.cssText='width:52px;height:52px;display:flex;align-items:center;justify-content:center;font-size:20px;border-radius:3px;';
+      if(cell===null){
+        div.style.background='var(--p2)';div.style.border='1px solid var(--b1)';
+        div.style.opacity='0.55';div.textContent='🪨';div.title='No excavado';
+      } else if(cell.type==='fossil'){
+        const fdef=FOSSIL_DEFS.find(f=>f.id===cell.reward);
+        const fd=excavState.fossils[cell.reward];
+        div.style.background='rgba(180,120,0,.2)';div.style.border='1px solid var(--leg)';
+        div.textContent=fd&&fd.rewarded?'🏆':'🦴';
+        div.title=fdef?`${fdef.icon} ${fdef.name}`:'Fósil';
+      } else if(cell.type==='gem'){
+        div.style.background='rgba(0,160,200,.15)';div.style.border='1px solid var(--blu)';
+        div.textContent='💎';div.title=`+${cell.reward}💰`;
+      } else if(cell.type==='esencia'){
+        div.style.background='rgba(150,80,255,.15)';div.style.border='1px solid var(--pur)';
+        div.textContent='✨';div.title=`+${cell.reward}✨`;
+      } else {
+        div.style.background='rgba(100,80,50,.1)';div.style.border='1px solid var(--b1)';
+        div.style.opacity='0.4';div.textContent='🟫';div.title='Vacío';
+      }
+      grid.appendChild(div);
+    }
+  }
+  const wi=document.getElementById('excav-worker-info');
+  if(wi){
+    if(excavState.worker){
+      const d=misDinos.find(x=>x.id===excavState.worker.dinoId);
+      wi.textContent=d?`🦕 Excavando: ${d.color} G${d.gen}`:'❌ Dino no encontrado';
+    } else wi.textContent='💤 Sin excavador asignado';
+  }
+  const tb=document.getElementById('excav-timer-bar');
+  if(tb){
+    if(excavState.worker){
+      const prog=Math.min(1,(Date.now()-excavState.worker.startTime)/excavState.worker.duration);
+      tb.innerHTML=`<div style="height:4px;background:var(--b1);border-radius:2px;margin-top:4px"><div style="height:100%;width:${prog*100}%;background:var(--a);border-radius:2px;transition:width .5s"></div></div><div style="font-size:8px;color:var(--dm);margin-top:2px">${Math.round(prog*100)}% — siguiente celda en ${Math.ceil((excavState.worker.duration-(Date.now()-excavState.worker.startTime))/1000)}s</div>`;
+    } else tb.innerHTML='';
+  }
+  const fc=document.getElementById('fossil-collection');
+  if(fc){
+    fc.innerHTML='';
+    FOSSIL_DEFS.forEach(f=>{
+      const fd=excavState.fossils[f.id]||{found:0,total:f.fragCount,rewarded:false};
+      const pct=Math.round((fd.found||0)/f.fragCount*100);
+      const div=document.createElement('div');
+      div.style.cssText='display:flex;align-items:center;gap:8px;padding:7px 4px;border-bottom:1px solid var(--b1);font-size:10px;';
+      div.innerHTML=`<div style="font-size:16px">${f.icon}</div>
+        <div style="flex:1"><div style="color:var(--tx)">${f.name}</div>
+        <div style="color:var(--dm);font-size:8px">${fd.found||0}/${f.fragCount} frags · ${f.reward}💰</div>
+        <div style="height:3px;background:var(--b1);margin-top:3px;border-radius:2px"><div style="height:100%;width:${pct}%;background:${fd.rewarded?'var(--grn)':'var(--a)'};border-radius:2px"></div></div>
+        </div>${fd.rewarded?'<div style="color:var(--grn);font-size:12px">✓</div>':''}`;
+      fc.appendChild(div);
+    });
+  }
+}
+// Excavation timer (checks every second)
+setInterval(processExcavacion,1000);
+
+// ═══ SAVE / LOAD ═══
+function dinoFromObj(obj){const d=Object.create(Dino.prototype);Object.assign(d,obj);return d;}
+function huevoFromObj(obj){
+  const h=Object.create(Huevo.prototype);Object.assign(h,obj);
+  if(h.padre)h.padre=dinoFromObj(h.padre);
+  if(h.madre)h.madre=dinoFromObj(h.madre);
+  return h;
+}
+function saveGame(){
+  const save={
+    v:3,ts:Date.now(),
+    dinero,esencias,ascTokens,ascLevel,ocultaBaseChance,
+    misDinos:misDinos.map(d=>({...d})),
+    huevos:huevos.map(h=>({...h,padre:h.padre?{...h.padre}:null,madre:h.madre?{...h.madre}:null})),
+    breedSlots,
+    unlocked:[...unlocked],decos:[...decos],
+    tareasCompleted:[...tareasCompleted],logrosUnlocked:[...logrosUnlocked],
+    prestigeOwned:[...prestigeOwned],
+    discovered:{
+      colores:[...discovered.colores],manchas:[...discovered.manchas],
+      vestidos:[...discovered.vestidos],adn:[...discovered.adn],
+      plantas:[...discovered.plantas],manchasExpl:[...discovered.manchasExpl],
+      gemas:[...discovered.gemas]
+    },
+    inventario:JSON.parse(JSON.stringify(inventario)),
+    stats:{...stats},
+    jardinGrid:[...jardinGrid],
+    ranchoSet:[...ranchoSet],
+    workSlots:JSON.parse(JSON.stringify(workSlots)),
+    activeEvent,eventEndTime,nextEventTime,
+    excavState:JSON.parse(JSON.stringify(excavState)),
+    bonusRarityNextEgg
+  };
+  try{
+    localStorage.setItem('dinolab_v3',JSON.stringify(save));
+    const ind=document.getElementById('save-indicator');
+    if(ind){ind.style.opacity='1';setTimeout(()=>{ind.style.opacity='0';},1600);}
+  }catch(e){console.warn('Save failed',e);}
+}
+function showOfflineModal(elapsed,ranchoEarned){
+  const mins=Math.floor(elapsed/60000);
+  const hrs=Math.floor(mins/60),rmins=mins%60;
+  const timeStr=hrs>0?`${hrs}h ${rmins}m`:`${rmins}m`;
+  const ol=document.createElement('div');
+  ol.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:600;display:flex;align-items:center;justify-content:center;';
+  ol.innerHTML=`<div style="background:var(--p1);border:1px solid var(--a);padding:24px 28px;max-width:320px;width:calc(100vw - 32px);text-align:center;">
+    <div style="font-family:'Cinzel Decorative',serif;font-size:13px;color:var(--a2);letter-spacing:3px;margin-bottom:12px">🦕 MIENTRAS DORMÍAS</div>
+    <div style="font-size:10px;color:var(--dm);margin-bottom:14px;line-height:1.9">Estuviste fuera <b style="color:var(--tx)">${timeStr}</b>.<br>Tus dinos siguieron trabajando...</div>
+    <div style="background:var(--p2);padding:12px;margin-bottom:14px;line-height:2.2;font-size:11px">
+      ${ranchoEarned>0?`<div>🏡 Rancho: <b style="color:var(--a2)">+${ranchoEarned.toLocaleString()} 💰</b></div>`:'<div style="color:var(--dm);font-size:9px">Pon dinos en el rancho para ganar monedas offline.</div>'}
+      <div style="font-size:9px;color:var(--dm);margin-top:4px">Los trabajos activos completaron sus ciclos.</div>
+    </div>
+    <button onclick="this.closest('[style*=fixed]').remove()" style="background:var(--a);color:#fff;border:none;padding:10px 24px;cursor:pointer;font-family:inherit;font-size:10px;letter-spacing:2px;width:100%">¡GENIAL!</button>
+  </div>`;
+  document.body.appendChild(ol);
+}
+function loadGame(){
+  const raw=localStorage.getItem('dinolab_v3');
+  if(!raw)return false;
+  let save;try{save=JSON.parse(raw);}catch(e){return false;}
+  if(!save||save.v!==3)return false;
+  const elapsed=Date.now()-(save.ts||Date.now());
+  dinero=save.dinero||0;esencias=save.esencias||0;
+  ascTokens=save.ascTokens||0;ascLevel=save.ascLevel||0;
+  ocultaBaseChance=save.ocultaBaseChance||0.005;
+  misDinos=(save.misDinos||[]).map(dinoFromObj);
+  huevos=(save.huevos||[]).map(huevoFromObj);
+  breedSlots=save.breedSlots||[null,null];
+  unlocked=new Set(save.unlocked||[]);
+  decos=new Set(save.decos||[]);
+  tareasCompleted=new Set(save.tareasCompleted||[]);
+  logrosUnlocked=new Set(save.logrosUnlocked||[]);
+  prestigeOwned=new Set(save.prestigeOwned||[]);
+  if(save.discovered){
+    discovered={
+      colores:new Set(save.discovered.colores||[]),
+      manchas:new Set(save.discovered.manchas||[]),
+      vestidos:new Set(save.discovered.vestidos||[]),
+      adn:new Set(save.discovered.adn||[]),
+      plantas:new Set(save.discovered.plantas||[]),
+      manchasExpl:new Set(save.discovered.manchasExpl||[]),
+      gemas:new Set(save.discovered.gemas||[])
+    };
+  }
+  if(save.inventario)inventario=save.inventario;
+  if(save.stats)stats=Object.assign({totalBreeds:0,maxGen:1,ocultaFound:0,totalEarned:0,combatWins:0,explorations:0,gemasMinadas:0,plantsGrown:0},save.stats);
+  if(save.jardinGrid)jardinGrid=save.jardinGrid;
+  ranchoSet=new Set(save.ranchoSet||[]);
+  if(save.workSlots){
+    workSlots=save.workSlots;
+    if(!workSlots.granja)workSlots.granja=[];
+    if(!workSlots.mina)workSlots.mina={};
+    if(!workSlots.exploracion)workSlots.exploracion={};
+    if(!workSlots.arena_trab)workSlots.arena_trab={};
+  }
+  activeEvent=save.activeEvent||null;
+  eventEndTime=save.eventEndTime||0;
+  nextEventTime=save.nextEventTime||Date.now()+420000+(Math.random()*480000);
+  if(save.excavState)Object.assign(excavState,JSON.parse(JSON.stringify(save.excavState)));
+  bonusRarityNextEgg=save.bonusRarityNextEgg||false;
+  // Offline rancho income
+  if(elapsed>60000){
+    const ranchoEarned=Math.floor(calcRanchoRate()*(elapsed/1000));
+    if(ranchoEarned>0){dinero+=ranchoEarned;stats.totalEarned+=ranchoEarned;}
+    showOfflineModal(elapsed,ranchoEarned);
+  }
+  return true;
+}
+// Auto-save every 30s
+setInterval(saveGame,30000);
+
+// ═══ PROGRESO PAGE ═══
+let progresoTab='ency';
+function switchProgresoTab(tab,el){
+  progresoTab=tab;
+  const encyC=document.getElementById('prog-ency-content');
+  const logC=document.getElementById('prog-logros-content');
+  if(encyC)encyC.style.display=tab==='ency'?'flex':'none';
+  if(logC)logC.style.display=tab==='logros'?'flex':'none';
+  document.querySelectorAll('#page-progreso .nav-tab').forEach(t=>t.classList.remove('active'));
+  const activeTab=document.getElementById(tab==='ency'?'prog-tab-ency':'prog-tab-logros');
+  if(activeTab)activeTab.classList.add('active');
+  if(tab==='ency')_renderEncyProg();
+  if(tab==='logros'){_renderLogrosCatsProg();_renderLogrosProg();}
+}
+function _renderEncyProg(){
+  // Temporarily swap IDs so existing renderEncy() writes to prog-* elements
+  const eb=document.getElementById('ency-body'),peb=document.getElementById('prog-ency-body');
+  const ep=document.getElementById('ency-pct'),pep=document.getElementById('prog-ency-pct');
+  const et=document.getElementById('ency-total-txt'),pet=document.getElementById('prog-ency-total-txt');
+  if(!peb)return;
+  if(eb)eb.id='_ency-body';
+  peb.id='ency-body';
+  if(ep)ep.id='_ency-pct';if(pep)pep.id='ency-pct';
+  if(et)et.id='_ency-total-txt';if(pet)pet.id='ency-total-txt';
+  renderEncy();
+  peb.id='prog-ency-body';
+  if(eb)eb.id='ency-body';
+  if(pep)pep.id='prog-ency-pct';if(ep)ep.id='ency-pct';
+  if(pet)pet.id='prog-ency-total-txt';if(et)et.id='ency-total-txt';
+}
+function _renderLogrosCatsProg(){
+  const lc=document.getElementById('logros-cats'),plc=document.getElementById('prog-logros-cats');
+  if(!plc)return;
+  if(lc)lc.id='_logros-cats';plc.id='logros-cats';
+  renderLogrosCats();
+  plc.id='prog-logros-cats';if(lc)lc.id='logros-cats';
+}
+function _renderLogrosProg(){
+  const lg=document.getElementById('logros-grid'),plg=document.getElementById('prog-logros-grid');
+  const lp=document.getElementById('logros-prog-txt'),plp=document.getElementById('prog-logros-prog-txt');
+  if(!plg)return;
+  if(lg)lg.id='_logros-grid';plg.id='logros-grid';
+  if(lp)lp.id='_logros-prog-txt';if(plp)plp.id='logros-prog-txt';
+  renderLogros();
+  plg.id='prog-logros-grid';if(lg)lg.id='logros-grid';
+  if(plp)plp.id='prog-logros-prog-txt';if(lp)lp.id='logros-prog-txt';
+}
+
+// ═══ NAVIGATION FIX ═══
+(function(){
+  const _orig=window.switchPage;
+  window.switchPage=function(name,el){
+    document.querySelectorAll(".nav-tab").forEach(t=>t.classList.remove("active"));
+    document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+    if(el)el.classList.add("active");
+    const pg=document.getElementById(`page-${name}`);if(pg)pg.classList.add("active");
+    if(name==="rancho")renderRancho();
+    if(name==="trabajos")renderAllTrabajo();
+    if(name==="lab")renderLab();
+    if(name==="jardin")renderJardin();
+    if(name==="arena"){renderBossList();renderTeamSlots();}
+    if(name==="logros"){renderLogrosCats();renderLogros();const b=document.getElementById("logros-badge");if(b)b.style.display="none";}
+    if(name==="enciclopedia")renderEncy();
+    if(name==="progreso"){
+      const b=document.getElementById("logros-badge");if(b)b.style.display="none";
+      switchProgresoTab(progresoTab);
+    }
+    if(name==="excavacion")renderExcavacion();
+  };
+})();
+
+// ═══ MASS DELETE ═══
+let selectMode=false,selectedForDelete=new Set();
+function toggleSelectMode(){
+  selectMode=!selectMode;
+  if(!selectMode)selectedForDelete.clear();
+  renderList();
+}
+function toggleDinoForDelete(id){
+  if(selectedForDelete.has(id))selectedForDelete.delete(id);
+  else selectedForDelete.add(id);
+  renderList();
+}
+function releaseSelected(){
+  const toRelease=misDinos.filter(d=>selectedForDelete.has(d.id)&&!d.isWorking&&!d.inRancho);
+  const skipped=selectedForDelete.size-toRelease.length;
+  if(toRelease.length===0){notif('Sin dinos disponibles (todos ocupados)');return;}
+  let total=0;
+  toRelease.forEach(d=>{
+    total+=d.esenciaVal;
+    if(breedSlots[0]===d.id)breedSlots[0]=null;
+    if(breedSlots[1]===d.id)breedSlots[1]=null;
+    misDinos.splice(misDinos.indexOf(d),1);
+  });
+  esencias+=total;
+  addLog(`🕊 Liberados ${toRelease.length} dinos → +${total}✨`,'good');
+  notif(`+${total}✨ · ${toRelease.length} dinos liberados${skipped>0?` (${skipped} omitidos)`:''}` );
+  selectedForDelete.clear();selectMode=false;selects=[];renderAll();
+}
+// Override renderList to support select mode + rarity borders
+window.renderList=function(){
+  const el=document.getElementById("dino-list");if(!el)return;
+  el.innerHTML="";
+  document.getElementById("dino-count").textContent=`(${misDinos.length})`;
+  // Select mode controls
+  let selBar=document.getElementById("sel-mode-bar");
+  if(selBar)selBar.remove();
+  const listPanel=document.getElementById("col-list");
+  const secTitle=listPanel?listPanel.querySelector(".sec-title"):null;
+  if(secTitle){
+    let oldBtn=secTitle.querySelector(".sel-mode-btn");if(oldBtn)oldBtn.remove();
+    const btn=document.createElement("button");
+    btn.className="btn sel-mode-btn";
+    btn.style.cssText=`font-size:8px;padding:2px 7px;margin-left:8px;${selectMode?"color:var(--red);border-color:var(--red)":""}`;
+    btn.textContent=selectMode?"✕ Cancelar":"☑ Seleccionar";
+    btn.onclick=toggleSelectMode;
+    secTitle.appendChild(btn);
+  }
+  if(selectMode&&selectedForDelete.size>0){
+    selBar=document.createElement("div");selBar.id="sel-mode-bar";
+    selBar.style.cssText="padding:8px 10px;background:rgba(224,80,80,.08);border-bottom:1px solid var(--red);display:flex;align-items:center;justify-content:space-between;";
+    selBar.innerHTML=`<span style="font-size:9px;color:var(--red)">${selectedForDelete.size} seleccionados</span><button class="btn danger" style="font-size:9px;padding:3px 8px" onclick="releaseSelected()">🕊 Liberar (${selectedForDelete.size})</button>`;
+    el.parentElement.insertBefore(selBar,el);
+  }
+  misDinos.forEach((d,i)=>{
+    const div=document.createElement("div");
+    if(selectMode){
+      const sel=selectedForDelete.has(d.id);
+      const busy=d.isWorking||d.inRancho;
+      div.className=`dino-card rar-${d.rc} ${sel?"sel1":""} ${busy?"working":""}`;
+      div.onclick=()=>{if(!busy)toggleDinoForDelete(d.id);else notif('⚒ Este dino está ocupado');};
+      div.innerHTML=`<div style="width:18px;height:18px;border:1px solid var(--b2);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;${sel?"background:var(--a);border-color:var(--a);color:#fff":""}">${sel?"✓":""}</div>
+        <div class="cth">${dinoSVG(d)}</div>
+        <div style="flex:1;min-width:0">
+          <div class="cnm">#${i+1} ${d.color} <span class="cgen">G${d.gen}</span></div>
+          <div class="cst"><span class="cs">❤${d.sal}</span><span class="cs">⚔${d.fue}</span><span class="cs">⚡${d.vel}</span></div>
+          ${busy?'<div style="font-size:8px;color:var(--a)">⚒ Ocupado</div>':''}
+        </div>
+        <div class="rbadge r-${d.rc}">${d.rc==="oculta"?"??":d.rc.slice(0,3).toUpperCase()}</div>`;
+    } else {
+      const b0=breedSlots[0]===d.id,b1=breedSlots[1]===d.id;
+      div.className=`dino-card rar-${d.rc} ${b0?"sel1":b1?"sel2":""} ${(d.isWorking||d.inRancho)?"working":""}`;
+      div.onclick=()=>toggleSel(i);
+      div.innerHTML=`<div class="cth">${dinoSVG(d)}</div>
+        <div style="flex:1;min-width:0">
+          <div class="cnm"><span class="dot" style="background:${CHEX[d.color]||'#888'}"></span>#${i+1}<span class="cgen">G${d.gen}</span></div>
+          <div class="cst"><span class="cs">❤${d.sal}</span><span class="cs">⚔${d.fue}</span><span class="cs">⚡${d.vel}</span></div>
+          <div style="font-size:7px;margin-top:2px"><span class="${ADN_INFO[d.adn]?.cls||''}">${ADN_INFO[d.adn]?.icon||''} ${ADN_INFO[d.adn]?.name||''}</span></div>
+        </div>
+        <div class="rbadge r-${d.rc}">${d.rc==="oculta"?"??":d.rc.slice(0,3).toUpperCase()}</div>`;
+    }
+    el.appendChild(div);
+  });
+};
+
+// ═══ LOAD SAVE ON INIT ═══
+(function(){
+  const loaded=loadGame();
+  const savedTheme=localStorage.getItem('dino_theme');
+  if(savedTheme==='light'){
+    document.documentElement.classList.add('light');
+    const btn=document.getElementById('theme-btn');if(btn)btn.textContent='☀️';
+  }
+  if(loaded){
+    applyLang();renderAll();renderEnv();renderLogrosCats();checkLogros();checkAscension();
+  }
+})();
 
 </script>
 </body>
