@@ -17,6 +17,7 @@
   --bas:#a0a0b8;--med:#40e0d0;--rar:#ff5555;--leg:#ffd700;--ocu:#ff88ff;
   --grn:#6ed87a;--pur:#b060ff;--red:#e05050;--blu:#5080e0;
   --tierra:#c87840;--fuego:#ff5020;--agua:#2080ff;--aire:#80d8ff;--adn-ocu:#dd44ff;
+  --hdr-bg:rgba(8,7,10,.97);
 }
 html.light{
   --bg:#f5f0e8;--p1:#ede8de;--p2:#e4ddd0;--p3:#d8d0c4;
@@ -25,6 +26,7 @@ html.light{
   --fo:#6a5c4c;--tx:#2a2010;--dm:#7a6c5c;
   --bas:#505068;--med:#107070;--rar:#902020;--leg:#806000;--ocu:#800080;
   --grn:#207a28;--pur:#6020a0;--red:#902020;--blu:#2040a0;
+  --hdr-bg:rgba(230,224,212,.98);
 }
 *{box-sizing:border-box;margin:0;padding:0;}html,body{height:100%;overflow:hidden;}
 body{background:var(--bg);color:var(--tx);font-family:'Share Tech Mono',monospace;font-size:13px;
@@ -32,7 +34,7 @@ body{background:var(--bg);color:var(--tx);font-family:'Share Tech Mono',monospac
   radial-gradient(ellipse at 85% 15%,rgba(40,20,80,.15) 0%,transparent 50%);}
 ::-webkit-scrollbar{width:4px;height:4px;}::-webkit-scrollbar-track{background:var(--bg);}::-webkit-scrollbar-thumb{background:var(--b2);}
 /* HEADER */
-.hdr{height:50px;border-bottom:1px solid var(--b1);padding:0 14px;display:flex;align-items:center;justify-content:space-between;background:rgba(8,7,10,.97);z-index:50;flex-shrink:0;}
+.hdr{height:50px;border-bottom:1px solid var(--b1);padding:0 14px;display:flex;align-items:center;justify-content:space-between;background:var(--hdr-bg);z-index:50;flex-shrink:0;}
 .logo{font-family:'Cinzel Decorative',serif;font-size:13px;color:var(--a2);letter-spacing:4px;text-shadow:0 0 20px rgba(240,168,64,.4);}
 .logo sub{font-size:7px;color:var(--fo);letter-spacing:6px;display:block;margin-top:1px;}
 .hdr-r{display:flex;gap:12px;align-items:center;}
@@ -656,8 +658,6 @@ body{background:var(--bg);color:var(--tx);font-family:'Share Tech Mono',monospac
 
             <div class="sbt" style="margin-top:10px"><span data-i18n="shop_incubator">INCUBADORA</span> <span id="egg-count" style="color:var(--a2);font-size:9px">(0)</span> <span id="slot-info" style="color:var(--dm);font-size:8px"></span></div>
             <div class="eggs-grid" id="eggs-grid" style="margin-bottom:4px"></div>
-            <div class="shop-row"><span class="si">🥚</span><div class="sm"><div class="sn" data-i18n="shop_2nd_incubator">2ª Incubadora</div><div class="sd" data-i18n="shop_2nd_incubator_desc">Hasta 4 huevos · 150💰</div></div><button class="sbuy" id="buy-slots" onclick="buySlots()" data-i18n="btn_buy">BUY</button></div>
-
             <div id="tasks-panel" style="margin-top:15px; border-top:1px solid var(--b1); padding-top:10px;">
               <div class="sbt"><span data-i18n="shop_upgrades">MEJORAS</span> <span id="tasks-badge" style="color:var(--a2);font-size:8px;text-transform:none;margin-left:5px;"></span></div>
               <div id="tasks-list"></div>
@@ -702,26 +702,6 @@ body{background:var(--bg);color:var(--tx);font-family:'Share Tech Mono',monospac
     </div>
   </div>
 
-  <div class="page" id="page-rancho">
-    <div class="rancho-layout">
-      <div class="rancho-l">
-        <div class="sec-title"><span data-i18n="ranch_sec_title">Dinos en Rancho</span> <span id="rancho-cnt" style="color:var(--a2)"></span></div>
-        <div style="overflow-y:auto;flex:1;padding:8px 10px;" id="rancho-dino-list"></div>
-      </div>
-      <div class="rancho-r">
-        <div class="rancho-info">
-          <div style="font-family:'Cinzel Decorative',serif;font-size:10px;color:var(--a2);margin-bottom:8px;letter-spacing:2px" data-i18n="ranch_title">RANCHO PREHISTÓRICO</div>
-          <span data-i18n="ranch_desc">Los dinos en el rancho generan <b>💰 Monedas</b> pasivamente según su estadística de <b>Salud</b>.<br><b>Salud / 10 = monedas/segundo</b> por dino.<br>Asigna dinos desde Colección. Los dinos en el rancho no pueden trabajar.</span>
-        </div>
-        <div style="font-size:9px;color:var(--dm)"><span data-i18n="ranch_total_earn">Ganancia total:</span> <b id="rancho-rate" style="color:var(--a2)">0</b> 💰/s</div>
-        <div id="rancho-info-list"></div>
-        <div style="margin-top:8px">
-          <button class="btn primary" onclick="ranchoAddSelected()" data-i18n="ranch_add">+ Añadir seleccionado</button>
-          <button class="btn danger" style="margin-left:6px" onclick="ranchoRemoveAll()" data-i18n="ranch_clear">✕ Vaciar rancho</button>
-        </div>
-      </div>
-    </div>
-  </div>
 
   <div class="page" id="page-trabajos">
     <div class="page-trab">
@@ -1242,6 +1222,35 @@ const TRANSLATIONS = {
     prestige_shop_title: "🔮 TIENDA DE PRESTIGE",
     prestige_tokens_label: "🔮 Tokens disponibles:",
     prestige_desc: "Gasta <b style=\"color:#9090ff\">🔮 Tokens</b> obtenidos al ascender.<br>Los bonos son <b style=\"color:var(--a2)\">permanentes</b> — sobreviven a todas las ascensiones.<br>Ganas más tokens cuanto mejor seas antes de ascender.",
+    // Notif messages
+    n_select_dino: "Selecciona un dino",
+    n_no_funds: (cost) => `Sin fondos (necesitas ${cost}💰)`,
+    n_no_funds_simple: "Sin fondos",
+    n_already_working: "Ya está trabajando",
+    n_needs_adn: (adn) => `Necesita ADN ${adn}`,
+    n_needs_sal: (v) => `Necesita SAL≥${v}`,
+    n_needs_vel: (v) => `Necesita VEL≥${v}`,
+    n_needs_fue: (v) => `Necesita FUE≥${v}`,
+    n_dino_working: "El dino está trabajando",
+    n_incubator_full: "Incubadora llena",
+    n_select_parents: "Selecciona Padre y Madre",
+    n_no_essences: "Sin esencias",
+    n_stat_max: "Estadística máxima",
+    n_req_not_met: "Requisito no cumplido aún",
+    n_already_unlocked: "Ya desbloqueado",
+    n_no_dinos_avail: "Sin dinos disponibles (todos ocupados)",
+    n_dino_busy: "⚒ Este dino está ocupado",
+    n_cp_insuf: (cur, req) => `CP insuficiente (${cur}/${req})`,
+    n_already_in_team: "Ya está en el equipo",
+    n_already_acquired: "Ya adquirido",
+    n_req_not_met_prestige: "Requisito no cumplido",
+    n_no_tokens: (cost) => `Sin tokens (necesitas ${cost}🔮)`,
+    n_req_not_completed: (sal) => `Requiere SAL≥${sal} — Completa la tarea`,
+    n_select_seed: "Selecciona semilla",
+    n_cell_occupied: "Celda ocupada",
+    n_invalid_rarity: "Rareza inválida",
+    n_working_badge: "⚒ Trabajando",
+    n_no_vestido: "Sin vestido de arena",
   },
   en: {
     logo_sub: "PREHISTORIC LABORATORY",
@@ -1382,6 +1391,35 @@ const TRANSLATIONS = {
     prestige_shop_title: "🔮 PRESTIGE SHOP",
     prestige_tokens_label: "🔮 Tokens available:",
     prestige_desc: "Spend <b style=\"color:#9090ff\">🔮 Tokens</b> earned by ascending.<br>Bonuses are <b style=\"color:var(--a2)\">permanent</b> — they survive all ascensions.<br>You earn more tokens the stronger you are before ascending.",
+    // Notif messages
+    n_select_dino: "Select a dino",
+    n_no_funds: (cost) => `Not enough funds (need ${cost}💰)`,
+    n_no_funds_simple: "Not enough funds",
+    n_already_working: "Already working",
+    n_needs_adn: (adn) => `Needs DNA: ${adn}`,
+    n_needs_sal: (v) => `Needs HP≥${v}`,
+    n_needs_vel: (v) => `Needs SPD≥${v}`,
+    n_needs_fue: (v) => `Needs STR≥${v}`,
+    n_dino_working: "This dino is working",
+    n_incubator_full: "Incubator full",
+    n_select_parents: "Select Father and Mother",
+    n_no_essences: "No essences",
+    n_stat_max: "Stat is already maxed",
+    n_req_not_met: "Requirement not yet met",
+    n_already_unlocked: "Already unlocked",
+    n_no_dinos_avail: "No dinos available (all busy)",
+    n_dino_busy: "⚒ This dino is busy",
+    n_cp_insuf: (cur, req) => `Insufficient CP (${cur}/${req})`,
+    n_already_in_team: "Already in the team",
+    n_already_acquired: "Already acquired",
+    n_req_not_met_prestige: "Requirement not met",
+    n_no_tokens: (cost) => `Not enough tokens (need ${cost}🔮)`,
+    n_req_not_completed: (sal) => `Requires HP≥${sal} — Complete the task`,
+    n_select_seed: "Select a seed",
+    n_cell_occupied: "Cell occupied",
+    n_invalid_rarity: "Invalid rarity",
+    n_working_badge: "⚒ Working",
+    n_no_vestido: "No arena outfit",
   }
 };
 
@@ -1723,9 +1761,9 @@ const LOGROS_DEF=[
 const PRESTIGE_SHOP=[
   {id:"p_hatch1",  name:"Incubación Rápida I",   icon:"🥚", desc:"Huevos eclosionan 25% más rápido (permanente)",             cost:5,  req:null},
   {id:"p_hatch2",  name:"Incubación Rápida II",  icon:"⚡", desc:"+25% más velocidad de eclosión",                            cost:10, req:"p_hatch1"},
-  {id:"p_income1", name:"Economía Fósil I",      icon:"💰", desc:"+35% ganancias del rancho",                                cost:8,  req:null},
-  {id:"p_income2", name:"Economía Fósil II",     icon:"💎", desc:"+60% más ganancias del rancho",                            cost:15, req:"p_income1"},
-  {id:"p_income3", name:"Imperio Fósil",         icon:"👑", desc:"+100% más ganancias del rancho",                           cost:30, req:"p_income2"},
+  {id:"p_income1", name:"Fossil Economy I",      icon:"💰", desc:"+35% passive income",                                cost:8,  req:null},
+  {id:"p_income2", name:"Fossil Economy II",     icon:"💎", desc:"+60% more passive income",                            cost:15, req:"p_income1"},
+  {id:"p_income3", name:"Fossil Empire",         icon:"👑", desc:"+100% more passive income",                           cost:30, req:"p_income2"},
   {id:"p_keep1",   name:"Linaje Eterno I",       icon:"🦕", desc:"Conserva el dino con más stats al ascender",               cost:15, req:null},
   {id:"p_keep2",   name:"Linaje Eterno II",      icon:"🧬", desc:"Conserva los 2 mejores dinos al ascender",                 cost:25, req:"p_keep1"},
   {id:"p_base",    name:"Genes Superiores",      icon:"🔬", desc:"Los dinos nacen con +5 a todos sus stats",                 cost:10, req:null},
@@ -1764,8 +1802,7 @@ let selectedLabDino=null, selectedInvItem=null, selectedInvType=null;
 let jardinGrid=Array(64).fill(null);
 let semillaSeleccionada=null;
 let selBoss=null, bossTeam=[null,null,null,null];
-let ranchoSet=new Set(); 
-let ranchoAccum=0;
+let incomeAccum=0;
 
 let workSlots={
   mina:{}, exploracion:{}, arena_trab:{}, granja:[]
@@ -1812,8 +1849,7 @@ class Dino{
   }
   get esenciaVal(){const m={basica:3,media:8,rara:20,legendaria:60,oculta:200};return m[this.rc]||3;}
   get isWorking(){return isInWork(this.id);}
-  get inRancho(){return ranchoSet.has(this.id);}
-  get ranchoEarn(){return this.sal/10;}
+  get passiveEarn(){return this.sal/10;}
 }
 
 function isInWork(id){
@@ -1878,7 +1914,7 @@ function crearHijo(p,m){
     const bestParent=RORD[p.rc]>RORD[m.rc]?p.rc:m.rc;
     rC=clampR(bestParent,maxR);
     bonusRarityNextEgg=false;
-    notif("🧬 ¡Pulso Evolutivo aplicado al huevo!");
+    notif(currentLang==='en'?"🧬 Evolutionary Pulse applied to egg!":"🧬 ¡Pulso Evolutivo aplicado al huevo!");
   }
   const col=rndR(COLORES,rC),man=rndR(MANCHAS,rM),vest=rndR(VESTIDOS,rV);
   const mc=getManchaColor(man,rM);
@@ -2032,7 +2068,7 @@ function renderList(){
   misDinos.forEach((d,i)=>{
     const b0=breedSlots[0]===d.id,b1=breedSlots[1]===d.id;
     const div=document.createElement("div");
-    div.className=`dino-card ${b0?"sel1":b1?"sel2":""} ${(d.isWorking||d.inRancho)?"working":""}`;
+    div.className=`dino-card ${b0?"sel1":b1?"sel2":""} ${d.isWorking?"working":""}`;
     div.onclick=()=>toggleSel(i);
     div.innerHTML=`<div class="cth">${dinoSVG(d)}</div>
       <div style="flex:1;min-width:0">
@@ -2048,44 +2084,29 @@ function renderDetail(){
   const last=selects[selects.length-1],d=last!=null?misDinos[last]:null;
   document.getElementById("empty-hint").style.display=d?"none":"";
   document.getElementById("dino-stage").style.display=d?"":"none";
-  const rBtn=document.getElementById("ranch-toggle-btn");if(rBtn)rBtn.style.display=d?"":"none";
   if(!d)return;
   const mainEl=document.getElementById("dino-main");
   mainEl.innerHTML=dinoSVG(d,"main");
   mainEl.className="dino-main"+(d.hasOculta?" oculta-glow":"");
   const adni=ADN_INFO[d.adn];
+  const incomeRate=d.passiveEarn.toFixed(1);
   document.getElementById("d-name").innerHTML=`<span class="dot" style="background:${CHEX[d.color]||'#888'};width:10px;height:10px;margin-right:5px"></span><span class="r-${d.rc}">${d.color.replace(/_/g," ").toUpperCase()}</span>`;
   document.getElementById("d-traits").innerHTML=`
     <div class="tc"><b>Color</b> <span class="r-${d.rc}">${d.color.replace(/_/g," ")}</span></div>
     <div class="tc"><b>Mancha</b> <span class="r-${d.rm}">${d.mancha.replace(/_/g," ")}</span></div>
     <div class="tc"><b>Vestido</b> <span class="r-${d.rv}">${d.vestido.replace(/_/g," ")}</span></div>
     <div class="gen-b">GEN ${d.gen}</div>
-    <div class="adn-b ${adni.cls}">${adni.icon} ${adni.name}</div>`;
+    <div class="adn-b ${adni.cls}">${adni.icon} ${adni.name}</div>
+    <div class="tc" style="color:var(--grn)">💰 +${incomeRate}/s</div>`;
   const cap=statCap();
-  const statTips={sal:"Salud — genera ingresos en el Rancho y CP en Arena",fue:"Fuerza — CP en Arena y combates de Jefes",vel:"Velocidad — desbloquea destinos de Exploración"};
+  const statTips={sal:currentLang==='en'?"Health — passive income & Arena CP":"Salud — ingresos pasivos y CP Arena",fue:currentLang==='en'?"Strength — Arena CP & Boss fights":"Fuerza — CP Arena y combates de Jefes",vel:currentLang==='en'?"Speed — unlocks Exploration destinations":"Velocidad — desbloquea destinos de Exploración"};
   document.getElementById("d-stats").innerHTML=
     [["sal","SAL"],["fue","FUE"],["vel","VEL"]].map(([k,l])=>`
       <div class="stat-block" title="${statTips[k]}"><div class="stat-lbl">${l}</div>
       <div class="stat-track"><div class="stat-fill" style="width:${(d[k]/cap)*100}%"></div></div>
       <div class="stat-val">${d[k]}/${cap}</div></div>`).join("");
   const wsb=document.getElementById("wsb");
-  if(d.isWorking||d.inRancho){wsb.style.display="";wsb.textContent=d.inRancho?"🏡 Rancho":"⚒ Trabajando";}else wsb.style.display="none";
-  // Ranch toggle button
-  let ranchBtn=document.getElementById("ranch-toggle-btn");
-  if(!ranchBtn){
-    ranchBtn=document.createElement("button");ranchBtn.id="ranch-toggle-btn";
-    ranchBtn.style.cssText="position:absolute;bottom:7px;left:7px;font-size:8px;padding:2px 7px;z-index:3;";
-    ranchBtn.className="btn";
-    const stage=document.getElementById("dino-stage");
-    if(stage)stage.appendChild(ranchBtn);
-  }
-  if(d.inRancho){
-    ranchBtn.textContent="🏡 Sacar del Rancho";ranchBtn.style.borderColor="var(--grn)";ranchBtn.style.color="var(--grn)";
-  } else {
-    ranchBtn.textContent="+ Rancho";ranchBtn.style.borderColor="";ranchBtn.style.color="";
-  }
-  ranchBtn.onclick=()=>toggleRancho(d.id);
-  ranchBtn.style.display="";
+  if(d.isWorking){wsb.style.display="";wsb.textContent=T('n_working_badge');}else wsb.style.display="none";
 }
 function renderBreedPanel(){
   for(let i=0;i<2;i++){
@@ -2152,7 +2173,7 @@ function renderMoney(){
   if(pt)pt.textContent=ascTokens;
 }
 function calcRanchoRate(){
-  const base=[...ranchoSet].reduce((s,id)=>{const d=misDinos.find(x=>x.id===id);return s+(d?d.ranchoEarn:0);},0);
+  const base=misDinos.reduce((s,d)=>s+d.passiveEarn,0);
   let mult=1;
   if(prestigeOwned.has("p_income1"))mult+=0.35;
   if(prestigeOwned.has("p_income2"))mult+=0.60;
@@ -2169,8 +2190,8 @@ function renderShop(){
     const btn=document.getElementById(`buy-${sfx}`);
     if(btn){btn.disabled=!ok||dinero<prices[rar];btn.textContent=!ok?"🔒":"BUY";}
     const sd=document.getElementById(`sd-${sfx}`);
-    if(sd&&!ok){const u=UPGRADES.find(x=>x.unlock===`shop_${rar}`);sd.textContent=`🔒 ${u?u.req_label:"Completa mejoras"}`;}
-    else if(sd&&ok)sd.textContent="✓ Desbloqueado";
+    if(sd&&!ok){const u=UPGRADES.find(x=>x.unlock===`shop_${rar}`);sd.textContent=`🔒 ${u?u.req_label:T('shop_locked').replace('🔒 ','')}`;}
+    else if(sd&&ok)sd.textContent=currentLang==='en'?"✓ Unlocked":"✓ Desbloqueado";
   });
   const slotBtn=document.getElementById("buy-slots");
   if(slotBtn)slotBtn.disabled=unlocked.has("extra_slots")||dinero<150;
@@ -2179,7 +2200,7 @@ function renderTareas(){
   const el=document.getElementById("tasks-list");if(!el)return;el.innerHTML="";
   const readyCount=UPGRADES.filter(u=>u.req()&&!unlocked.has(u.unlock)).length;
   const badge=document.getElementById("tasks-badge");
-  if(badge)badge.textContent=readyCount>0?`${readyCount} listas para reclamar ▲`:"";
+  if(badge)badge.textContent=readyCount>0?(currentLang==='en'?`${readyCount} ready to claim ▲`:`${readyCount} listas para reclamar ▲`):"";
   const cats=[...new Set(UPGRADES.map(u=>u.cat))];
   cats.forEach(cat=>{
     const catDiv=document.createElement("div");
@@ -2202,17 +2223,17 @@ function renderTareas(){
         ${!done?`<div class="task-prog-bar" style="margin-top:3px"><div class="task-prog-fill" style="width:${pct}%"></div></div>
         <div style="font-size:7px;color:var(--dm)">${prog}/${u.progMax}</div>`:""}`;
       el.appendChild(div);
-      if(ready&&!_notifiedUpgrades.has(u.id)){_notifiedUpgrades.add(u.id);notif(`✅ ¡${u.name} lista para reclamar!`);}
+      if(ready&&!_notifiedUpgrades.has(u.id)){_notifiedUpgrades.add(u.id);notif(currentLang==='en'?`✅ ${u.name} ready to claim!`:`✅ ¡${u.name} lista para reclamar!`);}
     });
   });
 }
 const _notifiedUpgrades=new Set();
 function claimUpgrade(id){
   const u=UPGRADES.find(x=>x.id===id);if(!u)return;
-  if(!u.req()){notif("Requisito no cumplido aún");return;}
-  if(unlocked.has(u.unlock)){notif("Ya desbloqueado");return;}
+  if(!u.req()){notif(T('n_req_not_met'));return;}
+  if(unlocked.has(u.unlock)){notif(T('n_already_unlocked'));return;}
   unlocked.add(u.unlock);
-  addLog(`🔓 Mejora: ${u.name}!`,"good");notif(`🔓 ¡${u.name} desbloqueada!`);
+  addLog(`🔓 Mejora: ${u.name}!`,"good");notif(currentLang==='en'?`🔓 ${u.name} unlocked!`:`🔓 ¡${u.name} desbloqueada!`);
   renderTareas();renderShop();renderAllTrabajo();checkAscension();renderTrainPanel();saveGame();
 }
 function renderDecos(){
@@ -2246,7 +2267,7 @@ function renderAltar(){
   const last=selects[selects.length-1],d=last!=null?misDinos[last]:null;
   if(!d){
     const hint=document.createElement("div");hint.style.cssText="font-size:9px;color:var(--a);padding:10px;text-align:center;border:1px dashed var(--b2);margin:8px 0;line-height:1.6";
-    hint.innerHTML="👆 Selecciona un dino<br>en Colección para ritualizarlo";
+    hint.innerHTML=currentLang==='en'?"👆 Select a dino<br>in Collection to ritualize it":"👆 Selecciona un dino<br>en Colección para ritualizarlo";
     el.appendChild(hint);return;
   }
   const ds=document.createElement("div");ds.style.cssText="display:flex;align-items:center;gap:8px;padding:8px;background:var(--p2);border:1px solid var(--b2);margin-bottom:8px;";
@@ -2266,8 +2287,8 @@ function renderAltar(){
 function doAltar(ritualId){
   const r=ALTAR_RITUALS.find(x=>x.id===ritualId);if(!r)return;
   const last=selects[selects.length-1],d=last!=null?misDinos[last]:null;
-  if(!d){notif("Selecciona un dino");return;}
-  if(esencias<r.cost){notif("Sin esencias");return;}
+  if(!d){notif(T('n_select_dino'));return;}
+  if(esencias<r.cost){notif(T('n_no_essences'));return;}
   esencias-=r.cost;
   if(r.stat==="all"){d.sal=Math.min(100,d.sal+r.val);d.fue=Math.min(100,d.fue+r.val);d.vel=Math.min(100,d.vel+r.val);notif(`⚗ +${r.val} a todos los stats!`);}
   else if(r.stat==="adn"){
@@ -2305,75 +2326,14 @@ function renderTrainPanel(){
 }
 function doTrain(stat){
   const last=selects[selects.length-1],d=last!=null?misDinos[last]:null;
-  if(!d){notif("Selecciona un dino");return;}
-  if(d[stat]>=100){notif("Estadística máxima");return;}
+  if(!d){notif(T('n_select_dino'));return;}
+  if(d[stat]>=100){notif(T('n_stat_max'));return;}
   const cost=Math.round(25*(1+d[stat]*0.04));
-  if(dinero<cost){notif(`Sin fondos (${cost}💰)`);return;}
+  if(dinero<cost){notif(T('n_no_funds',cost));return;}
   dinero-=cost;d[stat]=Math.min(100,d[stat]+1);
   renderTrainPanel();renderList();renderDetail();renderMoney();checkLogros();renderTareas();
 }
 
-// ═══ RANCHO ═══
-function renderRancho(){
-  const listEl=document.getElementById("rancho-dino-list");if(!listEl)return;listEl.innerHTML="";
-  const infoEl=document.getElementById("rancho-info-list");if(infoEl)infoEl.innerHTML="";
-  const cnt=ranchoSet.size;
-  document.getElementById("rancho-cnt").textContent=`(${misDinos.length} dinos)`;
-  let totalRate=0;
-  misDinos.forEach((d,i)=>{
-    const inRancho=ranchoSet.has(d.id);
-    const card=document.createElement("div");card.className="dino-card";
-    card.style.cursor="pointer";
-    card.style.borderLeft=inRancho?"2px solid var(--grn)":"2px solid transparent";
-    card.style.background=inRancho?"rgba(110,216,122,.06)":"";
-    card.onclick=()=>{
-      if(inRancho){ranchoSet.delete(d.id);notif(`${d.color} sacado del rancho`);}
-      else{if(d.isWorking){notif("Está trabajando");return;}ranchoSet.add(d.id);notif(`${d.color} añadido al rancho ✓`);}
-      renderRancho();
-    };
-    card.innerHTML=`<div class="cth">${dinoSVG(d)}</div>
-      <div style="flex:1;min-width:0">
-        <div class="cnm" style="font-size:9px"><span class="dot" style="background:${CHEX[d.color]||'#888'}"></span>#${i+1} G${d.gen}</div>
-        <div class="cst"><span class="cs">❤${d.sal}</span><span class="cs">⚔${d.fue}</span></div>
-      </div>
-      <div style="text-align:right;flex-shrink:0">
-        ${inRancho?`<div style="color:var(--grn);font-size:9px">+${d.ranchoEarn.toFixed(1)}💰/s</div><div style="font-size:8px;color:var(--grn)">✓ Rancho</div>`:`<div style="color:var(--dm);font-size:8px">+ Añadir</div>`}
-      </div>`;
-    listEl.appendChild(card);
-    if(inRancho)totalRate+=d.ranchoEarn;
-  });
-  if(misDinos.length===0){
-    const emp=document.createElement("div");emp.className="rancho-empty";
-    emp.innerHTML="<div style='font-size:28px;opacity:.15'>🦕</div>Sin dinos";
-    listEl.appendChild(emp);
-  }
-  if(infoEl){
-    [...ranchoSet].forEach(id=>{
-      const d=misDinos.find(x=>x.id===id);if(!d){ranchoSet.delete(id);return;}
-      const card=document.createElement("div");card.className="rancho-card";
-      card.innerHTML=`<div class="cth">${dinoSVG(d)}</div>
-        <div style="flex:1"><div class="cnm" style="font-size:9px">#${misDinos.indexOf(d)+1} G${d.gen}</div>
-        <div class="cst"><span class="cs">❤${d.sal}</span></div></div>
-        <div class="rancho-earn">${d.ranchoEarn.toFixed(1)}</div>
-        <button class="btn" style="font-size:8px;padding:2px 6px;margin-left:5px" onclick="ranchoRemove('${id}')">✕</button>`;
-      infoEl.appendChild(card);
-    });
-    if(cnt===0){
-      const emp=document.createElement("div");emp.className="rancho-empty";
-      emp.innerHTML="<div style='font-size:22px;opacity:.15;margin-bottom:5px'>🏡</div>Clic en un dino<br>de la izquierda<br>para añadirlo";
-      infoEl.appendChild(emp);
-    }
-  }
-  const rateEl=document.getElementById("rancho-rate");if(rateEl)rateEl.textContent=totalRate.toFixed(1);
-}
-function ranchoAddSelected(){
-  openDinoPick("Añadir al Rancho",d=>{
-    if(d.isWorking){notif("Está trabajando");return false;}
-    ranchoSet.add(d.id);renderRancho();renderList();notif(`${d.color} en rancho ✓`);return true;
-  });
-}
-function ranchoRemove(id){ranchoSet.delete(id);renderRancho();renderList();}
-function ranchoRemoveAll(){ranchoSet.clear();renderRancho();renderList();}
 
 // ═══ TRABAJOS — MINA ═══
 let minaTier="carbon";
@@ -2382,7 +2342,7 @@ function renderMina(){
     const btn=document.getElementById(`mt-${t}`);if(!btn)return;
     const def=MINAS_DEF[t];const locked=!unlocked.has(`mina_${t}`)&&t!=="carbon";
     btn.className=`mina-tier-btn ${locked?"locked":""} ${minaTier===t?"active":""}`;
-    if(!locked)btn.onclick=()=>switchMinaTier(t);else btn.onclick=()=>notif(`Requiere SAL≥${def.minSal} — Completa la tarea`);
+    if(!locked)btn.onclick=()=>switchMinaTier(t);else btn.onclick=()=>notif(T('n_req_not_completed',def.minSal));
   });
   const gg=document.getElementById("gems-grid");if(!gg)return;gg.innerHTML="";
   const tier=MINAS_DEF[minaTier];
@@ -2405,10 +2365,9 @@ function renderMina(){
 }
 function assignMiner(gemId,reqAdn,minSal){
   openDinoPick(`Asignar a ${MINAS_DEF[minaTier].gemas.find(g=>g.id===gemId)?.name||gemId} (ADN: ${ADN_INFO[reqAdn]?.name||reqAdn})`,d=>{
-    if(d.adn!==reqAdn&&!(d.adn==="oculto")){notif(`Necesita ADN ${ADN_INFO[reqAdn]?.name||reqAdn}`);return false;}
-    if(d.sal<minSal){notif(`Necesita SAL≥${minSal}`);return false;}
-    if(d.isWorking){notif("Ya está trabajando");return false;}
-    if(d.inRancho){notif("Está en el rancho");return false;}
+    if(d.adn!==reqAdn&&!(d.adn==="oculto")){notif(T('n_needs_adn',ADN_INFO[reqAdn]?.name||reqAdn));return false;}
+    if(d.sal<minSal){notif(T('n_needs_sal',minSal));return false;}
+    if(d.isWorking){notif(T('n_already_working'));return false;}
     workSlots.mina[gemId]={dinoId:d.id,startTime:Date.now(),duration:getMinaDuration()};
     addLog(`⛏ #${misDinos.indexOf(d)+1} (${d.adn}) → ${gemId}`,"warn");
     renderMina();return true;
@@ -2430,7 +2389,7 @@ function processMina(){
       if(Math.random()<0.03){
         inventario.gemas[gemId]+=4;stats.gemasMinadas+=4;
         addWorkMina(`⚡ ¡FILÓN! ${g?.name||gemId} ×${qty+4}!`,"win");
-        notif(`⛏ ¡FILÓN ESPECIAL! +${qty+4} ${g?.name||gemId}`);
+        notif(currentLang==='en'?`⛏ SPECIAL VEIN! +${qty+4} ${g?.name||gemId}`:`⛏ ¡FILÓN ESPECIAL! +${qty+4} ${g?.name||gemId}`);
       }else{
         if(g)addWorkMina(`⛏ ${g.name} ×${qty}`,"win");
       }
@@ -2445,7 +2404,7 @@ function processMina(){
       inventario.gemas[ocGem.id]=(inventario.gemas[ocGem.id]||0)+1;
       discovered.gemas.add(ocGem.id);
       addWorkMina(`👁 ¡GEMA OCULTA: ${ocGem.id}!`,"win");
-      notif(`👁 ¡Gema oculta ${ocGem.id}!`);
+      notif(currentLang==='en'?`👁 Hidden gem: ${ocGem.id}!`:`👁 ¡Gema oculta ${ocGem.id}!`);
       checkLogros();renderLab();
     }
   });
@@ -2481,7 +2440,7 @@ function renderExploracion(){
   const sl=document.getElementById("expl-slots");if(!sl)return;sl.innerHTML="";
   const dest=DESTINOS_DEF[explDest];
   if(!dest)return;
-  sl.innerHTML=`<div style="font-size:9px;color:var(--dm);margin-bottom:8px">Destino: <b style="color:var(--pur)">${dest.icon} ${dest.name}</b> — VEL mínima: ${dest.minVel}</div>`;
+  sl.innerHTML=`<div style="font-size:9px;color:var(--dm);margin-bottom:8px">${currentLang==='en'?'Destination':'Destino'}: <b style="color:var(--pur)">${dest.icon} ${dest.name}</b> — ${currentLang==='en'?'Min SPD':'VEL mínima'}: ${dest.minVel}</div>`;
   dest.manchas.forEach(m=>{
     const isOcu=m.rareza==="oculta";
     if(isOcu&&!misDinos.some(d=>d.adn==="oculto")&&ascLevel===0)return;
@@ -2505,10 +2464,9 @@ function renderExploracion(){
 }
 function assignExplorer(manchaId,reqAdn,minVel){
   openDinoPick(`Explorar: ${manchaId} (VEL≥${minVel}${reqAdn?", ADN "+ADN_INFO[reqAdn]?.name:""})`,d=>{
-    if(d.vel<minVel){notif(`Necesita VEL≥${minVel}`);return false;}
-    if(reqAdn&&d.adn!==reqAdn&&d.adn!=="oculto"){notif(`Necesita ADN ${ADN_INFO[reqAdn]?.name||reqAdn}`);return false;}
-    if(d.isWorking){notif("Ya trabajando");return false;}
-    if(d.inRancho){notif("Está en rancho");return false;}
+    if(d.vel<minVel){notif(T('n_needs_vel',minVel));return false;}
+    if(reqAdn&&d.adn!==reqAdn&&d.adn!=="oculto"){notif(T('n_needs_adn',ADN_INFO[reqAdn]?.name||reqAdn));return false;}
+    if(d.isWorking){notif(T('n_already_working'));return false;}
     workSlots.exploracion[manchaId]={dinoId:d.id,startTime:Date.now(),duration:60000};
     renderExploracion();return true;
   });
@@ -2562,7 +2520,13 @@ function renderArenaTrab(){
   }
   const sl=document.getElementById("arena-slots");if(!sl)return;sl.innerHTML="";
   const info=document.createElement("div");info.style.cssText="font-size:9px;color:var(--dm);background:var(--p2);border:1px solid var(--b1);padding:8px 10px;margin-bottom:8px;line-height:1.8";
-  info.innerHTML=`<b style="color:var(--a2)">⚔ Cómo funciona la Arena</b><br>
+  info.innerHTML=currentLang==='en'?`<b style="color:var(--a2)">⚔ How Arena Works</b><br>
+    • Assign dinos to combat slots. Each dino fights automatically.<br>
+    • Dino <b style="color:var(--a2)">STR</b> vs league level. Higher STR = more wins.<br>
+    • <b style="color:var(--fuego)">Fire DNA</b> gives +15% CP in combat.<br>
+    • On win: earn arena outfits (cosmetic, equip in Lab).<br>
+    • Current league: <b style="color:${tier.color||'var(--a2)'}">${tier.icon} ${tier.name}</b> — Req STR≥${tier.minFue}`
+  :`<b style="color:var(--a2)">⚔ Cómo funciona la Arena</b><br>
     • Asigna dinos a slots de combate. Cada dino pelea solo automáticamente.<br>
     • <b style="color:var(--a2)">FUE</b> del dino vs nivel de la liga. Dinos con más FUE ganan más.<br>
     • <b style="color:var(--fuego)">ADN Fuego</b> da +15% CP en combate.<br>
@@ -2590,9 +2554,8 @@ function renderArenaTrab(){
 }
 function assignArenaTrab(tier,slotIdx,minFue){
   openDinoPick(`Asignar a Arena ${ARENA_TIERS[tier].name} (FUE≥${minFue})`,d=>{
-    if(d.fue<minFue){notif(`Necesita FUE≥${minFue}`);return false;}
-    if(d.isWorking){notif("Ya trabajando");return false;}
-    if(d.inRancho){notif("Está en rancho");return false;}
+    if(d.fue<minFue){notif(T('n_needs_fue',minFue));return false;}
+    if(d.isWorking){notif(T('n_already_working'));return false;}
     if(!workSlots.arena_trab[tier])workSlots.arena_trab[tier]=[];
     workSlots.arena_trab[tier][slotIdx]={dinoId:d.id,startTime:Date.now(),duration:40000,wins:0,losses:0};
     renderArenaTrab();return true;
@@ -2671,8 +2634,7 @@ function removeGranja(i){workSlots.granja.splice(i,1);renderGranja();}
 function openAssignModal(zone){
   if(zone==="granja"){
     openDinoPick("Asignar a Granja",d=>{
-      if(d.isWorking){notif("Ya trabajando");return false;}
-      if(d.inRancho){notif("Está en rancho");return false;}
+      if(d.isWorking){notif(T('n_already_working'));return false;}
       workSlots.granja.push({dinoId:d.id,startTime:Date.now(),duration:50000});
       renderGranja();return true;
     });
@@ -2721,7 +2683,7 @@ function renderLab(){
     pv.innerHTML=dinoSVG(d,"lab");
     document.getElementById("lab-prev-name").textContent=`#${misDinos.indexOf(d)+1} ${d.color.replace(/_/g," ")}`;
     document.getElementById("lab-prev-stats").textContent=`❤${d.sal} ⚔${d.fue} ⚡${d.vel} · CP:${d.combatPower}`;
-    document.getElementById("lab-prev-equip").textContent=d.equippedVestido?`🎭 Vestido: ${d.equippedVestido}`:"Sin vestido de arena";
+    document.getElementById("lab-prev-equip").textContent=d.equippedVestido?`🎭 Vestido: ${d.equippedVestido}`:T('n_no_vestido');
   }else{
     pv.innerHTML=`<div style="color:var(--dm);text-align:center;margin-top:50px;font-family:'Crimson Pro',serif;font-style:italic;font-size:12px">Elige un dino</div>`;
     ["lab-prev-name","lab-prev-stats","lab-prev-equip"].forEach(id=>{const e=document.getElementById(id);if(e)e.textContent="";});
@@ -2777,7 +2739,7 @@ function renderLab(){
   }
   if(!hasGemas&&!hasManchas&&!hasArena){
     const emp=document.createElement("div");emp.style.cssText="padding:18px;color:var(--dm);font-size:10px;text-align:center;font-family:'Crimson Pro',serif;font-style:italic";
-    emp.textContent="Inventario vacío. Trabaja para obtener items.";invEl.appendChild(emp);
+    emp.textContent=currentLang==='en'?"Empty inventory. Work to get items.":"Inventario vacío. Trabaja para obtener items.";invEl.appendChild(emp);
   }
 }
 function doInject(){
@@ -2795,7 +2757,7 @@ function doInject(){
     notif(`🗺 Mancha ${selectedInvItem} aplicada`);addLog(`💉 Mancha aplicada`,"good");
   }else if(selectedInvType==="arena"){
     d.equippedVestido=selectedInvItem;
-    notif(`🎭 Vestido equipado (cosmético)`);addLog(`🎭 Vestido equipado`,"good");
+    notif(currentLang==='en'?`🎭 Outfit equipped (cosmetic)`:`🎭 Vestido equipado (cosmético)`);addLog(`🎭 Vestido equipado`,"good");
   }
   selectedInvItem=null;selectedInvType=null;
   discoverDino(d);renderLab();renderList();renderDetail();checkLogros();
@@ -2862,19 +2824,21 @@ function renderJardin(){
       rp.appendChild(div);
     });
     const div2=document.createElement("div");div2.className="recipe-item";
-    div2.innerHTML=`🌵 × 3 en <b>misma columna</b> maduras<br>→ <span class="combo-result">🎋 Bambú Titán</span> <span style="color:var(--dm)">(30%)</span>`;
+    div2.innerHTML=currentLang==='en'?`🌵 × 3 in <b>same column</b> mature<br>→ <span class="combo-result">🎋 Titan Bamboo</span> <span style="color:var(--dm)">(30%)</span>`:`🌵 × 3 en <b>misma columna</b> maduras<br>→ <span class="combo-result">🎋 Bambú Titán</span> <span style="color:var(--dm)">(30%)</span>`;
     rp.appendChild(div2);
     const div3=document.createElement("div");div3.className="recipe-item";
-    div3.innerHTML=`🪷 Orquídea + 🌺 Flor Alada <b>adyacentes</b><br>→ <span class="combo-result">💮 Loto Prisma</span> <span style="color:var(--dm)">(20%)</span>`;
+    div3.innerHTML=currentLang==='en'?`🪷 Orchid + 🌺 Wing Flower <b>adjacent</b><br>→ <span class="combo-result">💮 Prism Lotus</span> <span style="color:var(--dm)">(20%)</span>`:`🪷 Orquídea + 🌺 Flor Alada <b>adyacentes</b><br>→ <span class="combo-result">💮 Loto Prisma</span> <span style="color:var(--dm)">(20%)</span>`;
     rp.appendChild(div3);
   }
   const maturePlants=jardinGrid.filter(c=>c&&c.stage===1).length;
   const hint=document.getElementById("garden-status");
-  if(hint)hint.textContent=maturePlants?`✨ ${maturePlants} maduras — clic en verde para cosechar`:(semillaSeleccionada?`🌱 ${PLANTAS_DEF[semillaSeleccionada]?.name} — clic en celda vacía`:"← Selecciona semilla → clic en celda vacía del grid");
+  if(hint)hint.textContent=currentLang==='en'
+    ?(maturePlants?`✨ ${maturePlants} mature — click green to harvest`:(semillaSeleccionada?`🌱 ${PLANTAS_DEF[semillaSeleccionada]?.name} — click empty cell`:"← Select seed → click empty cell in grid"))
+    :(maturePlants?`✨ ${maturePlants} maduras — clic en verde para cosechar`:(semillaSeleccionada?`🌱 ${PLANTAS_DEF[semillaSeleccionada]?.name} — clic en celda vacía`:"← Selecciona semilla → clic en celda vacía del grid"));
 }
 function plantSeed(i){
-  if(!semillaSeleccionada||(inventario.semillas[semillaSeleccionada]||0)<=0){notif("Selecciona semilla");return;}
-  if(jardinGrid[i])return notif("Celda ocupada");
+  if(!semillaSeleccionada||(inventario.semillas[semillaSeleccionada]||0)<=0){notif(T('n_select_seed'));return;}
+  if(jardinGrid[i])return notif(T('n_cell_occupied'));
   inventario.semillas[semillaSeleccionada]--;
   jardinGrid[i]={type:semillaSeleccionada,planted:Date.now(),stage:0};
   discovered.plantas.add(semillaSeleccionada);
@@ -2923,7 +2887,7 @@ function checkPlantCombos(i){
       jardinGrid[target]={type:newPlant,planted:Date.now(),stage:0};
       discovered.plantas.add(newPlant);
       const pd=PLANTAS_DEF[newPlant];
-      notif(`🌺 ¡Mutación! ${pd?.icon} ${pd?.name}`);addLog(`🌺 Mutación: ${pd?.name}`,"good");
+      notif(currentLang==='en'?`🌺 Mutation! ${pd?.icon} ${pd?.name}`:`🌺 ¡Mutación! ${pd?.icon} ${pd?.name}`);addLog(`🌺 Mutación: ${pd?.name}`,"good");
       checkLogros();renderJardin();
     }
   }
@@ -2978,7 +2942,7 @@ function renderTeamSlots(){
 function removeTeam(i){bossTeam[i]=null;renderTeamSlots();}
 function teamSlotClick(i){
   openDinoPick("Elegir dino para el equipo",d=>{
-    if(bossTeam.includes(d.id)){notif("Ya está en el equipo");return false;}
+    if(bossTeam.includes(d.id)){notif(T('n_already_in_team'));return false;}
     bossTeam[i]=d.id;renderTeamSlots();return true;
   });
 }
@@ -2986,7 +2950,7 @@ function startFight(){
   const b=BOSSES_DEF.find(x=>x.id===selBoss);if(!b)return;
   const team=bossTeam.filter(Boolean).map(id=>misDinos.find(x=>x.id===id)).filter(Boolean);
   const totalCP=team.reduce((s,d)=>s+d.combatPower,0);
-  if(totalCP<b.reqCP){notif(`CP insuficiente (${totalCP}/${b.reqCP})`);return;}
+  if(totalCP<b.reqCP){notif(T('n_cp_insuf',totalCP,b.reqCP));return;}
   const logEl=document.getElementById("boss-log");logEl.innerHTML="";
   const log=(msg,cls="")=>{const r=document.createElement("div");r.className=`bl-row ${cls}`;r.textContent=msg;logEl.prepend(r);};
   log(`⚔ ${team.map(d=>`#${misDinos.indexOf(d)+1}(${d.combatPower}CP)`).join("+")} vs ${b.name}`,"hit");
@@ -3001,7 +2965,7 @@ function startFight(){
   if(won){
     b.defeated=true;
     log(`🏆 ¡VICTORIA en ${rounds} rondas!`,"won");
-    notif(`🏆 ¡${b.name} derrotado!`);addLog(`🏆 Jefe derrotado: ${b.name}`,"good");
+    notif(currentLang==='en'?`🏆 ${b.name} defeated!`:`🏆 ¡${b.name} derrotado!`);addLog(`🏆 Jefe derrotado: ${b.name}`,"good");
     document.getElementById("fight-result").textContent="¡Victoria!";
     checkLogros();checkAscension();renderBossList();
   }else{
@@ -3198,26 +3162,26 @@ function renderPrestige(){
       <div style="flex:1;min-width:0">
         <div class="pres-nm">${item.name}${owned?" ✓":""}</div>
         <div class="pres-desc">${item.desc}</div>
-        ${item.req&&!prestigeOwned.has(item.req)?`<div style="font-size:8px;color:var(--rar);margin-top:2px">🔒 Requiere: ${PRESTIGE_SHOP.find(x=>x.id===item.req)?.name||item.req}</div>`:""}
+        ${item.req&&!prestigeOwned.has(item.req)?`<div style="font-size:8px;color:var(--rar);margin-top:2px">🔒 ${currentLang==='en'?'Requires':'Requiere'}: ${PRESTIGE_SHOP.find(x=>x.id===item.req)?.name||item.req}</div>`:""}
       </div>
       ${owned?`<span style="font-size:16px;color:var(--grn)">✓</span>`:`<span class="pres-cost">${item.cost}</span>
-      <button class="pbuy" ${!canAfford||!reqMet?"disabled":""} onclick="buyPrestige('${item.id}')">${!reqMet?"🔒":!canAfford?"??":"COMPRAR"}</button>`}`;
+      <button class="pbuy" ${!canAfford||!reqMet?"disabled":""} onclick="buyPrestige('${item.id}')">${!reqMet?"🔒":!canAfford?"??":currentLang==='en'?"BUY":"COMPRAR"}</button>`}`;
     el.appendChild(div);
   });
   if(ascLevel===0){
     const hint=document.createElement("div");
     hint.style.cssText="font-size:9px;color:var(--a);padding:12px;text-align:center;border:1px dashed var(--b2);margin-top:8px;line-height:1.6";
-    hint.innerHTML="🔮 Los tokens se obtienen al <b style='color:var(--ocu)'>Ascender</b>.<br>Derrota al Gigante Rex para desbloquear la ascensión.";
+    hint.innerHTML=currentLang==='en'?"🔮 Tokens are earned by <b style='color:var(--ocu)'>Ascending</b>.<br>Defeat Giant Rex to unlock ascension.":"🔮 Los tokens se obtienen al <b style='color:var(--ocu)'>Ascender</b>.<br>Derrota al Gigante Rex para desbloquear la ascensión.";
     el.appendChild(hint);
   }
 }
 function buyPrestige(id){
   const item=PRESTIGE_SHOP.find(x=>x.id===id);if(!item)return;
-  if(prestigeOwned.has(item.id)){notif("Ya adquirido");return;}
-  if(item.req&&!prestigeOwned.has(item.req)){notif("Requisito no cumplido");return;}
-  if(ascTokens<item.cost){notif(`Sin tokens (necesitas ${item.cost}🔮)`);return;}
+  if(prestigeOwned.has(item.id)){notif(T('n_already_acquired'));return;}
+  if(item.req&&!prestigeOwned.has(item.req)){notif(T('n_req_not_met_prestige'));return;}
+  if(ascTokens<item.cost){notif(T('n_no_tokens',item.cost));return;}
   ascTokens-=item.cost;prestigeOwned.add(item.id);
-  notif(`🔮 ¡${item.name} adquirido!`);addLog(`🔮 Prestige: ${item.name}`,"good");
+  notif(currentLang==='en'?`🔮 ${item.name} acquired!`:`🔮 ¡${item.name} adquirido!`);addLog(`🔮 Prestige: ${item.name}`,"good");
   renderPrestige();renderMoney();
 }
 
@@ -3302,7 +3266,7 @@ function doAscension(){
   jardinGrid=Array(64).fill(null);
   inventario={gemas:{},manchas:{},semillas:{hierba:3,violeta:2}};
   workSlots={mina:{},exploracion:{},arena_trab:{},granja:[]};
-  ranchoSet=new Set();dinero=0;esencias=0;bossTeam=[null,null,null,null];selBoss=null;
+  dinero=0;esencias=0;bossTeam=[null,null,null,null];selBoss=null;
   stats.totalBreeds=0;stats.maxGen=1;stats.ocultaFound=0;
   // Re-add kept dinos
   keptDinos.forEach(d=>{misDinos.push(d);discoverDino(d);});
@@ -3315,7 +3279,7 @@ function doAscension(){
   document.getElementById("asc-overlay").classList.remove("show");
   const keepMsg=keepCount>0?` · Conservados: ${keptDinos.length} dino${keptDinos.length!==1?"s":""}`:""
   addLog(`⬆ ASCENSIÓN ${ascLevel}! +${Math.round(ascLevel*3)}% oculta · +${earned}🔮`,"oculta");
-  notif(`⬆ Ascensión ${ascLevel}! +${earned}🔮 Tokens${keepMsg}`);
+  notif(currentLang==='en'?`⬆ Ascension ${ascLevel}! +${earned}🔮 Tokens${keepMsg}`:`⬆ Ascensión ${ascLevel}! +${earned}🔮 Tokens${keepMsg}`);
   checkLogros();renderAll();renderPrestige();saveGame();
 }
 
@@ -3361,50 +3325,42 @@ function breedSlotClick(i){
 }
 function accionCriar(){
   const p=misDinos.find(x=>x.id===breedSlots[0]),m=misDinos.find(x=>x.id===breedSlots[1]);
-  if(!p||!m){notif("Selecciona Padre y Madre");return;}
+  if(!p||!m){notif(T('n_select_parents'));return;}
   const maxS=unlocked.has("extra_slots")?4:(prestigeOwned.has("p_slots3")?3:2);
-  if(huevos.length>=maxS){notif("Incubadora llena");return;}
+  if(huevos.length>=maxS){notif(T('n_incubator_full'));return;}
   huevos.push(new Huevo(p,m));
   stats.totalBreeds++;
-  addLog(`🥚 ${p.color} × ${m.color} → G${Math.max(p.gen,m.gen)+1}`,"warn");notif("🥚 ¡Huevo en incubación!");
+  addLog(`🥚 ${p.color} × ${m.color} → G${Math.max(p.gen,m.gen)+1}`,"warn");notif(currentLang==='en'?"🥚 Egg incubating!":"🥚 ¡Huevo en incubación!");
   renderEggs();renderBreedPanel();checkLogros();renderTareas();
 }
 function liberarDino(){
   const last=selects[selects.length-1];const d=last!=null?misDinos[last]:null;
-  if(!d){notif("Selecciona un dino");return;}
-  if(d.isWorking){notif("El dino está trabajando");return;}
-  if(d.inRancho){ranchoSet.delete(d.id);}
+  if(!d){notif(T('n_select_dino'));return;}
+  if(d.isWorking){notif(T('n_dino_working'));return;}
   const val=d.esenciaVal;esencias+=val;
   addLog(`🕊 Liberado ${d.color} (${d.rc}) → +${val}✨`,"good");
   if(breedSlots[0]===d.id)breedSlots[0]=null;
   if(breedSlots[1]===d.id)breedSlots[1]=null;
   misDinos.splice(misDinos.indexOf(d),1);
   selects=selects.filter(x=>x!==misDinos.indexOf(d)).map(x=>x>misDinos.indexOf(d)?x-1:x);
-  selects=[];renderAll();notif(`+${val}✨ Esencias`);
+  selects=[];renderAll();notif(currentLang==='en'?`+${val}✨ Essences`:`+${val}✨ Esencias`);
 }
 function comprar(rar){
   const prices={basica:20,media:60,rara:180,legendaria:500};
   const p=prices[rar];
-  if(!p){notif("Rareza inválida");return;}
-  if(dinero<p){notif(`Sin fondos (necesitas ${p}💰)`);return;}
+  if(!p){notif(T('n_invalid_rarity'));return;}
+  if(dinero<p){notif(T('n_no_funds',p));return;}
   dinero-=p;
   const d=crearDinoSalvaje(rar);misDinos.push(d);discoverDino(d);
   if(rar==="oculta"||d.hasOculta)notifOcu(`👁 ¡${d.color} OCULTO!`);
   else if(rar==="legendaria")notifLeg(`✨ Legendario: ${d.color}!`);
-  else notif(`Nuevo dino: ${d.color}`);
+  else notif(currentLang==='en'?`New dino: ${d.color}`:`Nuevo dino: ${d.color}`);
   addLog(`🛒 Comprado ${rar}: ${d.color}/${d.mancha}/${d.vestido}`,rar==="legendaria"?"legendary":"good");
   renderAll();checkLogros();
 }
-function buySlots(){
-  if(dinero<150){notif("Sin fondos");return;}
-  if(unlocked.has("extra_slots")){notif("Ya tienes 2ª incubadora");return;}
-  dinero-=150;unlocked.add("extra_slots");
-  notif("¡Segunda incubadora activada!");renderEggs();renderMoney();
-  document.getElementById("buy-slots").disabled=true;
-}
 function buyDeco(id){
   const d=DECOS.find(x=>x.id===id);if(!d)return;
-  if(dinero<d.cost){notif(`Sin fondos (necesitas ${d.cost}💰)`);return;}
+  if(dinero<d.cost){notif(T('n_no_funds',d.cost));return;}
   dinero-=d.cost;decos.add(id);
   renderEnv();renderDecos();renderMoney();notif(`✓ ${d.name}`);
 }
@@ -3417,12 +3373,12 @@ function openDinoPick(title,cb){
   document.getElementById("modal-title").textContent=title;
   const body=document.getElementById("modal-body");body.innerHTML="";
   misDinos.forEach((d,i)=>{
-    const unavail=d.isWorking||d.inRancho;
+    const unavail=d.isWorking;
     const div=document.createElement("div");div.className=`modal-drow ${unavail?"unavail":""}`;
     div.onclick=()=>{if(!unavail){const r=cb(d);if(r!==false)closeModal();}};
     div.innerHTML=`<div class="modal-dt">${dinoSVG(d)}</div>
       <div><div class="modal-dn">#${i+1} — ${d.color} G${d.gen}</div>
-      <div class="modal-ds">❤${d.sal} ⚔${d.fue} ⚡${d.vel} · CP:${d.combatPower} · ${ADN_INFO[d.adn]?.icon}${d.adn}${unavail?" · ⚒ Ocupado":""}</div></div>`;
+      <div class="modal-ds">❤${d.sal} ⚔${d.fue} ⚡${d.vel} · CP:${d.combatPower} · ${ADN_INFO[d.adn]?.icon}${d.adn}${unavail?` · ${T('n_working_badge')}`:""}</div></div>`;
     body.appendChild(div);
   });
   overlay.style.display="flex";
@@ -3447,7 +3403,6 @@ function switchPage(name,el){
   document.querySelectorAll(".nav-tab").forEach(t=>t.classList.remove("active"));
   document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
   el.classList.add("active");document.getElementById(`page-${name}`).classList.add("active");
-  if(name==="rancho")renderRancho();
   if(name==="trabajos")renderAllTrabajo();
   if(name==="lab")renderLab();
   if(name==="jardin")renderJardin();
@@ -3518,12 +3473,12 @@ function renderAll(){
 let lastTick=Date.now();
 function gameLoop(){
   const now=Date.now(),dt=(now-lastTick)/1000;lastTick=now;
-  // Rancho income
-  ranchoAccum+=dt;
-  if(ranchoAccum>=1){
+  // Passive income
+  incomeAccum+=dt;
+  if(incomeAccum>=1){
     const rate=calcRanchoRate();
-    const gained=Math.floor(rate*ranchoAccum);
-    dinero+=gained;if(gained>0)stats.totalEarned+=gained;ranchoAccum=0;
+    const gained=Math.floor(rate*incomeAccum);
+    dinero+=gained;if(gained>0)stats.totalEarned+=gained;incomeAccum=0;
     renderMoney();renderShop();
   }
   // Random events
@@ -3641,7 +3596,7 @@ function processExcavacion(){
     excavState.cells=null;excavState.fossils={};
     excavState.resetCount=(excavState.resetCount||0)+1;
     initExcavGrid();
-    notif("🏺 ¡Yacimiento agotado! Nuevo sitio abierto.");
+    notif(currentLang==='en'?"🏺 Site exhausted! New site opened.":"🏺 ¡Yacimiento agotado! Nuevo sitio abierto.");
   } else {
     const pos=unrevealed[Math.floor(Math.random()*unrevealed.length)];
     let type='empty',reward=null;
@@ -3705,7 +3660,7 @@ function renderExcavacion(){
         div.textContent='✨';div.title=`+${cell.reward}✨`;
       } else {
         div.style.background='rgba(100,80,50,.1)';div.style.border='1px solid var(--b1)';
-        div.style.opacity='0.4';div.textContent='🟫';div.title='Vacío';
+        div.style.opacity='0.4';div.textContent='🟫';div.title=currentLang==='en'?'Empty':'Vacío';
       }
       grid.appendChild(div);
     }
@@ -3714,8 +3669,8 @@ function renderExcavacion(){
   if(wi){
     if(excavState.worker){
       const d=misDinos.find(x=>x.id===excavState.worker.dinoId);
-      wi.textContent=d?`🦕 Excavando: ${d.color} G${d.gen}`:'❌ Dino no encontrado';
-    } else wi.textContent='💤 Sin excavador asignado';
+      wi.textContent=d?(currentLang==='en'?`🦕 Excavating: ${d.color} G${d.gen}`:`🦕 Excavando: ${d.color} G${d.gen}`):(currentLang==='en'?'❌ Dino not found':'❌ Dino no encontrado');
+    } else wi.textContent=currentLang==='en'?'💤 No excavator assigned':'💤 Sin excavador asignado';
   }
   const tb=document.getElementById('excav-timer-bar');
   if(tb){
@@ -3774,7 +3729,6 @@ function saveGame(){
     inventario:JSON.parse(JSON.stringify(inventario)),
     stats:{...stats},
     jardinGrid:[...jardinGrid],
-    ranchoSet:[...ranchoSet],
     workSlots:JSON.parse(JSON.stringify(workSlots)),
     activeEvent,eventEndTime,nextEventTime,
     excavState:JSON.parse(JSON.stringify(excavState)),
@@ -3787,20 +3741,20 @@ function saveGame(){
     if(ind){ind.style.opacity='1';setTimeout(()=>{ind.style.opacity='0';},1600);}
   }catch(e){console.warn('Save failed',e);}
 }
-function showOfflineModal(elapsed,ranchoEarned){
+function showOfflineModal(elapsed,earned){
   const mins=Math.floor(elapsed/60000);
   const hrs=Math.floor(mins/60),rmins=mins%60;
   const timeStr=hrs>0?`${hrs}h ${rmins}m`:`${rmins}m`;
   const ol=document.createElement('div');
   ol.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:600;display:flex;align-items:center;justify-content:center;';
   ol.innerHTML=`<div style="background:var(--p1);border:1px solid var(--a);padding:24px 28px;max-width:320px;width:calc(100vw - 32px);text-align:center;">
-    <div style="font-family:'Cinzel Decorative',serif;font-size:13px;color:var(--a2);letter-spacing:3px;margin-bottom:12px">🦕 MIENTRAS DORMÍAS</div>
-    <div style="font-size:10px;color:var(--dm);margin-bottom:14px;line-height:1.9">Estuviste fuera <b style="color:var(--tx)">${timeStr}</b>.<br>Tus dinos siguieron trabajando...</div>
+    <div style="font-family:'Cinzel Decorative',serif;font-size:13px;color:var(--a2);letter-spacing:3px;margin-bottom:12px">🦕 WHILE YOU WERE AWAY</div>
+    <div style="font-size:10px;color:var(--dm);margin-bottom:14px;line-height:1.9">You were gone <b style="color:var(--tx)">${timeStr}</b>.<br>Your dinos kept earning...</div>
     <div style="background:var(--p2);padding:12px;margin-bottom:14px;line-height:2.2;font-size:11px">
-      ${ranchoEarned>0?`<div>🏡 Rancho: <b style="color:var(--a2)">+${ranchoEarned.toLocaleString()} 💰</b></div>`:'<div style="color:var(--dm);font-size:9px">Pon dinos en el rancho para ganar monedas offline.</div>'}
-      <div style="font-size:9px;color:var(--dm);margin-top:4px">Los trabajos activos completaron sus ciclos.</div>
+      ${earned>0?`<div>💰 Passive income: <b style="color:var(--a2)">+${earned.toLocaleString()} 💰</b></div>`:'<div style="color:var(--dm);font-size:9px">Level up your dinos to earn more passive income.</div>'}
+      <div style="font-size:9px;color:var(--dm);margin-top:4px">Active jobs completed their cycles.</div>
     </div>
-    <button onclick="this.closest('[style*=fixed]').remove()" style="background:var(--a);color:#fff;border:none;padding:10px 24px;cursor:pointer;font-family:inherit;font-size:10px;letter-spacing:2px;width:100%">¡GENIAL!</button>
+    <button onclick="this.closest('[style*=fixed]').remove()" style="background:var(--a);color:#fff;border:none;padding:10px 24px;cursor:pointer;font-family:inherit;font-size:10px;letter-spacing:2px;width:100%">NICE!</button>
   </div>`;
   document.body.appendChild(ol);
 }
@@ -3835,7 +3789,6 @@ function loadGame(){
   if(save.inventario)inventario=save.inventario;
   if(save.stats)stats=Object.assign({totalBreeds:0,maxGen:1,ocultaFound:0,totalEarned:0,combatWins:0,explorations:0,gemasMinadas:0,plantsGrown:0},save.stats);
   if(save.jardinGrid)jardinGrid=save.jardinGrid;
-  ranchoSet=new Set(save.ranchoSet||[]);
   if(save.workSlots){
     workSlots=save.workSlots;
     if(!workSlots.granja)workSlots.granja=[];
@@ -3852,11 +3805,11 @@ function loadGame(){
     document.documentElement.classList.add('light');
     const btn=document.getElementById('theme-btn');if(btn)btn.textContent='☀️';
   }
-  // Offline rancho income
+  // Offline passive income
   if(elapsed>60000){
-    const ranchoEarned=Math.floor(calcRanchoRate()*(elapsed/1000));
-    if(ranchoEarned>0){dinero+=ranchoEarned;stats.totalEarned+=ranchoEarned;}
-    showOfflineModal(elapsed,ranchoEarned);
+    const offlineEarned=Math.floor(calcRanchoRate()*(elapsed/1000));
+    if(offlineEarned>0){dinero+=offlineEarned;stats.totalEarned+=offlineEarned;}
+    showOfflineModal(elapsed,offlineEarned);
   }
   return true;
 }
@@ -3919,7 +3872,6 @@ function _renderLogrosProg(){
     document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
     if(el)el.classList.add("active");
     const pg=document.getElementById(`page-${name}`);if(pg)pg.classList.add("active");
-    if(name==="rancho")renderRancho();
     if(name==="trabajos")renderAllTrabajo();
     if(name==="lab")renderLab();
     if(name==="jardin")renderJardin();
@@ -3947,9 +3899,9 @@ function toggleDinoForDelete(id){
   renderList();
 }
 function releaseSelected(){
-  const toRelease=misDinos.filter(d=>selectedForDelete.has(d.id)&&!d.isWorking&&!d.inRancho);
+  const toRelease=misDinos.filter(d=>selectedForDelete.has(d.id)&&!d.isWorking);
   const skipped=selectedForDelete.size-toRelease.length;
-  if(toRelease.length===0){notif('Sin dinos disponibles (todos ocupados)');return;}
+  if(toRelease.length===0){notif(T('n_no_dinos_avail'));return;}
   let total=0;
   toRelease.forEach(d=>{
     total+=d.esenciaVal;
@@ -3959,7 +3911,7 @@ function releaseSelected(){
   });
   esencias+=total;
   addLog(`🕊 Liberados ${toRelease.length} dinos → +${total}✨`,'good');
-  notif(`+${total}✨ · ${toRelease.length} dinos liberados${skipped>0?` (${skipped} omitidos)`:''}` );
+  notif(currentLang==='en'?`+${total}✨ · ${toRelease.length} dinos released${skipped>0?` (${skipped} skipped)`:''}`:`+${total}✨ · ${toRelease.length} dinos liberados${skipped>0?` (${skipped} omitidos)`:''}`);
   selectedForDelete.clear();selectMode=false;selects=[];renderAll();
 }
 // Override renderList to support select mode + rarity borders
@@ -3977,34 +3929,34 @@ window.renderList=function(){
     const btn=document.createElement("button");
     btn.className="btn sel-mode-btn";
     btn.style.cssText=`font-size:8px;padding:2px 7px;margin-left:8px;${selectMode?"color:var(--red);border-color:var(--red)":""}`;
-    btn.textContent=selectMode?"✕ Cancelar":"☑ Seleccionar";
+    btn.textContent=selectMode?(currentLang==='en'?"✕ Cancel":"✕ Cancelar"):(currentLang==='en'?"☑ Select":"☑ Seleccionar");
     btn.onclick=toggleSelectMode;
     secTitle.appendChild(btn);
   }
   if(selectMode&&selectedForDelete.size>0){
     selBar=document.createElement("div");selBar.id="sel-mode-bar";
     selBar.style.cssText="padding:8px 10px;background:rgba(224,80,80,.08);border-bottom:1px solid var(--red);display:flex;align-items:center;justify-content:space-between;";
-    selBar.innerHTML=`<span style="font-size:9px;color:var(--red)">${selectedForDelete.size} seleccionados</span><button class="btn danger" style="font-size:9px;padding:3px 8px" onclick="releaseSelected()">🕊 Liberar (${selectedForDelete.size})</button>`;
+    selBar.innerHTML=`<span style="font-size:9px;color:var(--red)">${selectedForDelete.size} ${currentLang==='en'?'selected':'seleccionados'}</span><button class="btn danger" style="font-size:9px;padding:3px 8px" onclick="releaseSelected()">🕊 ${currentLang==='en'?'Release':'Liberar'} (${selectedForDelete.size})</button>`;
     el.parentElement.insertBefore(selBar,el);
   }
   misDinos.forEach((d,i)=>{
     const div=document.createElement("div");
     if(selectMode){
       const sel=selectedForDelete.has(d.id);
-      const busy=d.isWorking||d.inRancho;
+      const busy=d.isWorking;
       div.className=`dino-card rar-${d.rc} ${sel?"sel1":""} ${busy?"working":""}`;
-      div.onclick=()=>{if(!busy)toggleDinoForDelete(d.id);else notif('⚒ Este dino está ocupado');};
+      div.onclick=()=>{if(!busy)toggleDinoForDelete(d.id);else notif(T('n_dino_busy'));};
       div.innerHTML=`<div style="width:18px;height:18px;border:1px solid var(--b2);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;${sel?"background:var(--a);border-color:var(--a);color:#fff":""}">${sel?"✓":""}</div>
         <div class="cth">${dinoSVG(d)}</div>
         <div style="flex:1;min-width:0">
           <div class="cnm">#${i+1} ${d.color} <span class="cgen">G${d.gen}</span></div>
           <div class="cst"><span class="cs">❤${d.sal}</span><span class="cs">⚔${d.fue}</span><span class="cs">⚡${d.vel}</span></div>
-          ${busy?'<div style="font-size:8px;color:var(--a)">⚒ Ocupado</div>':''}
+          ${busy?`<div style="font-size:8px;color:var(--a)">${T('n_working_badge')}</div>`:''}
         </div>
         <div class="rbadge r-${d.rc}">${d.rc==="oculta"?"??":d.rc.slice(0,3).toUpperCase()}</div>`;
     } else {
       const b0=breedSlots[0]===d.id,b1=breedSlots[1]===d.id;
-      div.className=`dino-card rar-${d.rc} ${b0?"sel1":b1?"sel2":""} ${(d.isWorking||d.inRancho)?"working":""}`;
+      div.className=`dino-card rar-${d.rc} ${b0?"sel1":b1?"sel2":""} ${d.isWorking?"working":""}`;
       div.onclick=()=>toggleSel(i);
       div.innerHTML=`<div class="cth">${dinoSVG(d)}</div>
         <div style="flex:1;min-width:0">
@@ -4048,17 +4000,6 @@ function confirmReset(){
   }
 }
 
-// ═══ RANCHO TOGGLE IN COLLECTION ═══
-function toggleRancho(id){
-  const d=misDinos.find(x=>x.id===id);if(!d)return;
-  if(ranchoSet.has(id)){
-    ranchoSet.delete(id);notif(`${d.color} sacado del rancho`);
-  } else {
-    if(d.isWorking){notif("El dino está trabajando");return;}
-    ranchoSet.add(id);notif(`${d.color} añadido al rancho ✓`);
-  }
-  renderList();renderDetail();saveGame();
-}
 
 // ═══ LAB TAB SWITCHING ═══
 function switchLabTab(idx){
