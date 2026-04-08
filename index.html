@@ -275,13 +275,13 @@ body{background:var(--bg);color:var(--tx);font-family:'Share Tech Mono',monospac
 .ws-rem{padding:2px 5px;border:1px solid var(--rar);background:transparent;color:var(--rar);cursor:pointer;font-family:'Share Tech Mono',monospace;font-size:8px;flex-shrink:0;}
 .assign-btn{width:100%;padding:6px;border:1px dashed var(--b2);background:transparent;color:var(--dm);cursor:pointer;font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:1px;transition:all .13s;margin-top:4px;}
 .assign-btn:hover{border-color:var(--a);color:var(--a2);}
-/* LAB */
-.page-lab{flex:1;display:flex;flex-direction:column;overflow:hidden;width:100%;}
-.lab-tab-bar{display:flex;flex-shrink:0;background:var(--p2);border-bottom:2px solid var(--b1);}
-.lab-tab-btn{flex:1;padding:9px 4px;font-size:9px;color:var(--dm);background:transparent;border:none;border-bottom:3px solid transparent;cursor:pointer;font-family:'Share Tech Mono',monospace;text-transform:uppercase;letter-spacing:.5px;transition:color .15s;}
-.lab-tab-btn.active{color:var(--a2);border-bottom-color:var(--pur);}
-.lab-col{display:none;flex:1;overflow:hidden;width:100%;}.lab-col.lab-active{display:flex;flex-direction:column;}
-.lab-col#lab-c0{overflow-y:auto;}.lab-col#lab-c1{overflow-y:auto;}.lab-col#lab-c2{overflow-y:auto;}
+/* LAB — 3-column Jobs-style */
+.page-lab-new{display:grid;grid-template-columns:180px 1fr 200px;height:100%;width:100%;overflow:hidden;}
+.lab-panel-l{display:flex;flex-direction:column;border-right:1px solid var(--b1);overflow:hidden;}
+.lab-panel-c{display:flex;flex-direction:column;border-right:1px solid var(--b1);overflow:hidden;}
+.lab-panel-r{display:flex;flex-direction:column;overflow:hidden;}
+/* keep old classes for any remaining refs */
+.lab-col{display:flex;flex-direction:column;overflow:hidden;}
 .lab-drow{display:flex;align-items:center;gap:7px;padding:7px 10px;border-bottom:1px solid var(--b1);cursor:pointer;transition:all .13s;}
 .lab-drow:hover{background:rgba(200,134,42,.04);}
 .lab-drow.sel-lab{background:rgba(176,96,255,.08);border-left:2px solid var(--pur);}
@@ -333,6 +333,9 @@ body{background:var(--bg);color:var(--tx);font-family:'Share Tech Mono',monospac
 .boss-hp-fill{height:100%;background:linear-gradient(90deg,var(--rar),#ff8888);transition:width .5s;}
 .boss-vs{font-family:'Cinzel Decorative',serif;font-size:16px;color:var(--a);text-shadow:0 0 12px var(--a);}
 .boss-ctrl{padding:10px 14px;border-bottom:1px solid var(--b1);background:var(--p1);flex-shrink:0;display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+.boss-cp-row{display:flex;align-items:center;gap:8px;font-size:10px;color:var(--dm);}
+.boss-cp-val{display:flex;align-items:center;gap:4px;}
+.boss-cp-sep{color:var(--b2);font-size:12px;}
 .fight-btn{padding:7px 18px;border:1px solid var(--rar);background:rgba(255,50,50,.07);color:var(--rar);cursor:pointer;font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:2px;transition:all .13s;}
 .fight-btn:hover{background:rgba(255,50,50,.16);}.fight-btn:disabled{opacity:.3;cursor:not-allowed;}
 .boss-log{flex:1;overflow-y:auto;padding:7px 12px;}
@@ -595,8 +598,10 @@ body{background:var(--bg);color:var(--tx);font-family:'Share Tech Mono',monospac
 <div class="main-area">
   <div class="nav-tabs">
     <div class="nav-tab active" onclick="switchPage('coleccion',this)" data-i18n="nav_collection">Colección</div>
+    <div class="nav-tab" onclick="switchPage('tienda',this)" data-i18n="nav_tienda">Tienda</div>
     <div class="nav-tab" onclick="switchPage('trabajos',this)" data-i18n="nav_jobs">Trabajos</div>
     <div class="nav-tab" onclick="switchPage('lab',this)" data-i18n="nav_lab">Laboratorio</div>
+    <div class="nav-tab" onclick="switchPage('jardin',this)" data-i18n="nav_garden">Jardín</div>
     <div class="nav-tab" onclick="switchPage('excavacion',this)" data-i18n="nav_excavation">⛏ Excavación</div>
     <div class="nav-tab" onclick="switchPage('arena',this)" data-i18n="nav_arena">Arena Jefes</div>
     <div class="nav-tab" onclick="switchPage('progreso',this)"><span data-i18n="nav_progress">Progreso</span> <span class="nbadge" id="logros-badge">!</span></div>
@@ -606,9 +611,8 @@ body{background:var(--bg);color:var(--tx);font-family:'Share Tech Mono',monospac
     <div class="mp-bar" id="col-bar">
       <button class="mp-btn active" onclick="mpSwitch('col-layout','col-bar',0)" data-i18n="mob_list">📋 Lista</button>
       <button class="mp-btn" onclick="mpSwitch('col-layout','col-bar',1)" data-i18n="mob_dino">🦕 Dino</button>
-      <button class="mp-btn" onclick="mpSwitch('col-layout','col-bar',2)" data-i18n="mob_shop">🛒 Tienda</button>
     </div>
-    <div class="col-layout" id="col-layout" data-show="0">
+    <div class="col-layout" id="col-layout" data-show="0" style="grid-template-columns:185px 1fr">
       <div class="col-panel mp-panel" id="col-list">
         <div class="sec-title"><span data-i18n="nav_collection">Colección</span> <span id="dino-count" style="color:var(--a2)"></span></div>
         <div id="dino-list"></div>
@@ -640,42 +644,46 @@ body{background:var(--bg);color:var(--tx);font-family:'Share Tech Mono',monospac
         </div>
         <div class="log-area" id="log-area"></div>
       </div>
-      <div class="col-panel mp-panel" id="col-shop" style="display:flex;flex-direction:column;">
-        <div class="shop-tabs">
-          <div class="shop-tab active" onclick="switchShopTab('tienda',this)" data-i18n="stab_shop">Tienda</div>
-          <div class="shop-tab" onclick="switchShopTab('altar',this)" data-i18n="stab_altar">Altar</div>
-          <div class="shop-tab" onclick="switchShopTab('prestige',this)">🔮 Prestige</div>
-          <div class="shop-tab" onclick="switchShopTab('deco',this)" data-i18n="stab_deco">Deco</div>
-          <div class="shop-tab" onclick="switchShopTab('info',this)" data-i18n="stab_info">Info</div>
-        </div>
-        <div class="tab-content active" id="stab-tienda">
+    </div>
+  </div>
+
+  <!-- ══ TIENDA PAGE ══ -->
+  <div class="page" id="page-tienda">
+    <div style="display:flex;flex-direction:column;height:100%;overflow:hidden;">
+      <div class="shop-tabs" style="flex-shrink:0">
+        <div class="shop-tab active" onclick="switchShopTab('tienda',this)" data-i18n="stab_shop">Tienda</div>
+        <div class="shop-tab" onclick="switchShopTab('altar',this)" data-i18n="stab_altar">Altar</div>
+        <div class="shop-tab" onclick="switchShopTab('prestige',this)">🔮 Prestige</div>
+        <div class="shop-tab" onclick="switchShopTab('deco',this)" data-i18n="stab_deco">Deco</div>
+        <div class="shop-tab" onclick="switchShopTab('info',this)" data-i18n="stab_info">Info</div>
+      </div>
+      <div style="flex:1;overflow:hidden;position:relative;">
+        <div class="tab-content active" id="stab-tienda" style="height:100%;overflow-y:auto;">
           <div class="sb">
             <div class="sbt" data-i18n="shop_eggs_title">HUEVOS (con 💰 Monedas)</div>
             <div class="shop-row"><span class="si">🥚</span><div class="sm"><div class="sn" style="color:var(--bas)" data-i18n="rar_basic">Básico</div><div class="sd" data-i18n="egg_basic_desc">Dino básico garantizado</div></div><span class="sp">20</span><button class="sbuy" onclick="comprar('basica')" data-i18n="btn_buy">BUY</button></div>
             <div class="shop-row" id="srow-media" style="opacity:.4"><span class="si">🥚</span><div class="sm"><div class="sn" style="color:var(--med)" data-i18n="rar_medium">Medio</div><div class="sd" id="sd-media" data-i18n="shop_locked">🔒 Completa mejoras</div></div><span class="sp">60</span><button class="sbuy" id="buy-media" disabled onclick="comprar('media')">🔒</button></div>
             <div class="shop-row" id="srow-rara" style="opacity:.4"><span class="si">🥚</span><div class="sm"><div class="sn" style="color:var(--rar)" data-i18n="rar_rare">Raro</div><div class="sd" id="sd-rara" data-i18n="shop_locked">🔒 Completa mejoras</div></div><span class="sp">180</span><button class="sbuy" id="buy-rara" disabled onclick="comprar('rara')">🔒</button></div>
             <div class="shop-row" id="srow-leg" style="opacity:.4"><span class="si">✨</span><div class="sm"><div class="sn" style="color:var(--leg)" data-i18n="rar_legendary">Legendario</div><div class="sd" id="sd-leg" data-i18n="shop_locked">🔒 Completa mejoras</div></div><span class="sp">500</span><button class="sbuy" id="buy-leg" disabled onclick="comprar('legendaria')">🔒</button></div>
-
             <div class="sbt" style="margin-top:10px"><span data-i18n="shop_incubator">INCUBADORA</span> <span id="egg-count" style="color:var(--a2);font-size:9px">(0)</span> <span id="slot-info" style="color:var(--dm);font-size:8px"></span></div>
             <div class="eggs-grid" id="eggs-grid" style="margin-bottom:4px"></div>
-            <div id="tasks-panel" style="margin-top:15px; border-top:1px solid var(--b1); padding-top:10px;">
+            <div id="tasks-panel" style="margin-top:15px;border-top:1px solid var(--b1);padding-top:10px;">
               <div class="sbt"><span data-i18n="shop_upgrades">MEJORAS</span> <span id="tasks-badge" style="color:var(--a2);font-size:8px;text-transform:none;margin-left:5px;"></span></div>
               <div id="tasks-list"></div>
             </div>
-
+          </div>
+        </div>
+        <div class="tab-content" id="stab-altar" style="height:100%;overflow-y:auto;">
+          <div class="sb">
+            <div class="sbt"><span data-i18n="altar_title">ALTAR DE EVOLUCIÓN</span> <span style="font-size:8px;color:var(--a2)" id="altar-esencias"></span></div>
+            <div style="font-size:8px;color:var(--dm);padding:4px 2px 8px;line-height:1.7" data-i18n="altar_desc">Gasta ✨ Esencias para potenciar un dino seleccionado de forma permanente.<br><b style="color:var(--a2)">Libera dinos para obtener esencias.</b><br>Selecciona un dino en Colección y elige un ritual.</div>
+            <div id="altar-panel"></div>
             <div class="sbt" style="margin-top:15px" data-i18n="shop_training">ENTRENAMIENTO 💰</div>
             <div style="font-size:8px;color:var(--dm);padding:4px 2px;line-height:1.6" data-i18n="shop_training_desc">Gasta monedas para entrenar un dino seleccionado directamente.<br>Selecciona un dino de Colección primero.</div>
             <div id="train-panel"></div>
           </div>
         </div>
-        <div class="tab-content" id="stab-altar">
-          <div class="sb">
-            <div class="sbt"><span data-i18n="altar_title">ALTAR DE EVOLUCIÓN</span> <span style="font-size:8px;color:var(--a2)" id="altar-esencias"></span></div>
-            <div style="font-size:8px;color:var(--dm);padding:4px 2px 8px;line-height:1.7" data-i18n="altar_desc">Gasta ✨ Esencias para potenciar un dino seleccionado de forma permanente.<br><b style="color:var(--a2)">Libera dinos para obtener esencias.</b><br>Selecciona un dino en Colección y elige un ritual.</div>
-            <div id="altar-panel"></div>
-          </div>
-        </div>
-        <div class="tab-content" id="stab-prestige">
+        <div class="tab-content" id="stab-prestige" style="height:100%;overflow-y:auto;">
           <div class="sb">
             <div class="sbt" data-i18n="prestige_shop_title">🔮 TIENDA DE PRESTIGE</div>
             <div style="font-size:9px;color:var(--dm);padding:4px 2px 8px;line-height:1.7" data-i18n="prestige_desc">Gasta <b style="color:#9090ff">🔮 Tokens</b> obtenidos al ascender.<br>Los bonos son <b style="color:var(--a2)">permanentes</b> — sobreviven a todas las ascensiones.<br>Ganas más tokens cuanto mejor seas antes de ascender.</div>
@@ -683,15 +691,15 @@ body{background:var(--bg);color:var(--tx);font-family:'Share Tech Mono',monospac
             <div id="prestige-shop-list"></div>
           </div>
         </div>
-        <div class="tab-content" id="stab-deco"><div class="sb"><div class="sbt" data-i18n="deco_title">AMBIENTE (con 💰 Monedas)</div><div id="deco-list"></div></div></div>
-        <div class="tab-content" id="stab-info">
+        <div class="tab-content" id="stab-deco" style="height:100%;overflow-y:auto;"><div class="sb"><div class="sbt" data-i18n="deco_title">AMBIENTE (con 💰 Monedas)</div><div id="deco-list"></div></div></div>
+        <div class="tab-content" id="stab-info" style="height:100%;overflow-y:auto;">
           <div class="sb" style="font-size:9px;color:var(--dm);line-height:1.9">
             <div class="sbt" data-i18n="info_rarity_hdr">HERENCIA DE RAREZA</div>
             B+B → 85%B 15%M<br>B+M → 65%B 30%M 5%R<br>M+M → 78%M 22%R<br>M+R → 60%M 35%R 5%L<br>R+R → 75%R 25%L<br>R+L → 40%R 60%L<br>L+L → 100%L<br>
             <div class="sbt" style="margin-top:8px" data-i18n="info_release_hdr">LIBERACIÓN → Esencias ✨</div>
             <span data-i18n="info_release_vals">Básico: 3✨ · Medio: 8✨ · Raro: 20✨ · Legendario: 60✨ · Oculto: 200✨</span><br>
             <div class="sbt" style="margin-top:8px" data-i18n="info_awakening_hdr">EL DESPERTAR 👁</div>
-            <span style="color:var(--a)" data-i18n="info_awakening_desc">Hay un 2% de probabilidad de que un dino nazca con <b>ADN Oculto</b>. Este ADN es especial: desbloquea contenido oculto en todos los trabajos. La probabilidad aumenta con cada Ascensión. Una vez que tienes un dino oculto, desbloquea los <b>huevos legendarios</b> en la pestaña Mejoras.</span><br>
+            <span style="color:var(--a)" data-i18n="info_awakening_desc">Hay un 2% de probabilidad de que un dino nazca con <b>ADN Oculto</b>.</span><br>
             <div class="sbt" style="margin-top:8px" data-i18n="info_adn_hdr">ADN</div>
             <span data-i18n="info_adn_vals">🌍 Tierra: mina básica<br>🔥 Fuego: CP arena +15%<br>💧 Agua: granja semillas<br>💨 Aire: exploración manchas<br>👁 Oculto: todo lo secreto</span>
             <div class="sbt" style="margin-top:12px;color:var(--rar)" data-i18n="info_reset_hdr">DATOS DE PARTIDA</div>
@@ -701,7 +709,6 @@ body{background:var(--bg);color:var(--tx);font-family:'Share Tech Mono',monospac
       </div>
     </div>
   </div>
-
 
   <div class="page" id="page-trabajos">
     <div class="page-trab">
@@ -716,7 +723,7 @@ body{background:var(--bg);color:var(--tx);font-family:'Share Tech Mono',monospac
           <div class="mina-tiers">
             <div class="sec-title" data-i18n="mine_types">Tipos</div>
             <div class="mina-tier-btn active" id="mt-carbon" onclick="switchMinaTier('carbon',this)">
-              <div class="mina-tier-nm">⚫ Carbón</div><div class="mina-tier-req">Cualquier dino</div>
+              <div class="mina-tier-nm">⚫ Carbón</div><div class="mina-tier-req" data-i18n="any_dino">Cualquier dino</div>
             </div>
             <div class="mina-tier-btn locked" id="mt-vapor" onclick="switchMinaTier('vapor',this)">
               <div class="mina-tier-nm">💨 Vapor</div><div class="mina-tier-req">SAL ≥ 20</div>
@@ -740,7 +747,7 @@ body{background:var(--bg);color:var(--tx);font-family:'Share Tech Mono',monospac
           <div class="expl-dests">
             <div class="sec-title" data-i18n="expl_dests">Destinos</div>
             <div class="dest-btn active" id="dest-jungla" onclick="switchDest('jungla',this)">
-              <div class="dest-nm">🌿 Jungla</div><div class="dest-req">Cualquier dino</div>
+              <div class="dest-nm">🌿 Jungla</div><div class="dest-req" data-i18n="any_dino">Cualquier dino</div>
             </div>
             <div class="dest-btn locked" id="dest-ciudad" onclick="switchDest('ciudad',this)">
               <div class="dest-nm">🏙 Ciudad</div><div class="dest-req">VEL ≥ 20</div>
@@ -767,7 +774,7 @@ body{background:var(--bg);color:var(--tx);font-family:'Share Tech Mono',monospac
           <div class="arena-tiers">
             <div class="sec-title" data-i18n="arena_leagues">Ligas</div>
             <div class="arena-tier-btn active" id="at-local" onclick="switchArenaTier('local',this)">
-              <div class="dest-nm" style="color:var(--bas)">⚔ Local</div><div class="dest-req">Cualquier dino</div>
+              <div class="dest-nm" style="color:var(--bas)">⚔ Local</div><div class="dest-req" data-i18n="any_dino">Cualquier dino</div>
             </div>
             <div class="arena-tier-btn locked" id="at-pais" onclick="switchArenaTier('pais',this)">
               <div class="dest-nm" style="color:var(--med)">⚔ País</div><div class="dest-req">FUE ≥ 20</div>
@@ -784,7 +791,7 @@ body{background:var(--bg);color:var(--tx);font-family:'Share Tech Mono',monospac
             <div class="vestidos-grid" id="vestidos-ganados"></div>
             <div id="arena-slots" class="arena-slot-area"></div>
           </div>
-          <div class="arena-log" style="width:200px;flex-shrink:0;border-left:1px solid var(--b1);overflow-y:auto;padding:8px;"><div class="mina-log-t">COMBATES</div><div id="arena-log"></div></div>
+          <div class="arena-log" style="width:200px;flex-shrink:0;border-left:1px solid var(--b1);overflow-y:auto;padding:8px;"><div class="mina-log-t" data-i18n="fights_title">COMBATES</div><div id="arena-log"></div></div>
         </div>
       </div>
       <div class="work-page" id="wp-granja">
@@ -793,11 +800,11 @@ body{background:var(--bg);color:var(--tx);font-family:'Share Tech Mono',monospac
             <div class="sec-title" data-i18n="assigned_label">Asignados</div>
             <div style="flex:1;overflow-y:auto;padding:8px 10px;" id="granja-slots"></div>
             <div style="padding:8px 10px;border-top:1px solid var(--b1);">
-              <button class="assign-btn" onclick="openAssignModal('granja')">+ Asignar dino</button>
+              <button class="assign-btn" onclick="openAssignModal('granja')" data-i18n="assign_dino_btn">+ Asignar dino</button>
             </div>
           </div>
           <div class="granja-r">
-            <div class="granja-rules">
+            <div class="granja-rules" data-i18n="farm_rules">
               <h4>REGLAS DE COSECHA</h4>
               🌿 Cualquier dino → Hierba, Musgo básico<br>
               💧 ADN Agua → Mejores semillas acuáticas<br>
@@ -809,7 +816,7 @@ body{background:var(--bg);color:var(--tx);font-family:'Share Tech Mono',monospac
               🪷 Vestido Alas → Flor Alada<br>
               👑 Vestido Corona → Musgo Noble
             </div>
-            <div style="margin-top:10px;font-size:9px;color:var(--dm)">Semillas cosechadas: <b id="seeds-total" style="color:var(--grn)">0</b></div>
+            <div style="margin-top:10px;font-size:9px;color:var(--dm)"><span data-i18n="seeds_harvested">Semillas cosechadas:</span> <b id="seeds-total" style="color:var(--grn)">0</b></div>
             <div id="semillas-list" style="margin-top:8px;display:grid;grid-template-columns:1fr 1fr;gap:5px"></div>
             <div style="margin-top:10px;max-height:120px;overflow-y:auto;" id="granja-log"></div>
           </div>
@@ -819,21 +826,17 @@ body{background:var(--bg);color:var(--tx);font-family:'Share Tech Mono',monospac
   </div>
 
   <div class="page" id="page-lab">
-    <div class="lab-tab-bar" id="lab-bar">
-      <button class="lab-tab-btn active" onclick="switchLabTab(0)">📋 Sujetos</button>
-      <button class="lab-tab-btn" onclick="switchLabTab(1)">🔬 Aplicar</button>
-      <button class="lab-tab-btn" onclick="switchLabTab(2)">🧪 Inventario</button>
-      <button class="lab-tab-btn" onclick="switchLabTab(3)">🌿 Jardín</button>
-    </div>
-    <div class="page-lab" id="lab-layout">
-      <div class="lab-col lab-active" id="lab-c0">
-        <div class="sec-title">Elige Sujeto</div>
-        <div id="lab-dino-list"></div>
+    <div class="page-lab-new">
+      <!-- Left: subject list -->
+      <div class="lab-panel-l" id="lab-c0">
+        <div class="sec-title" data-i18n="lab_sujetos">📋 Sujetos</div>
+        <div id="lab-dino-list" style="overflow-y:auto;flex:1"></div>
       </div>
-      <div class="lab-col" id="lab-c1">
-        <div class="sec-title">Sujeto de Prueba</div>
+      <!-- Center: apply panel -->
+      <div class="lab-panel-c" id="lab-c1">
+        <div class="sec-title" data-i18n="lab_aplicar">🔬 Aplicar</div>
         <div class="lab-pw">
-          <div class="lab-prev" id="lab-preview"><div style="color:var(--dm);text-align:center;margin-top:50px;font-family:'Crimson Pro',serif;font-style:italic;font-size:12px">Elige un dino</div></div>
+          <div class="lab-prev" id="lab-preview"><div style="color:var(--dm);text-align:center;margin-top:50px;font-family:'Crimson Pro',serif;font-style:italic;font-size:12px" data-i18n="lab_pick_hint">Elige un dino</div></div>
           <div id="lab-prev-name" style="font-family:'Cinzel Decorative';font-size:9px;color:var(--a2);text-align:center;letter-spacing:2px"></div>
           <div id="lab-prev-stats" style="font-size:9px;color:var(--dm);text-align:center"></div>
           <div id="lab-prev-equip" style="font-size:9px;color:var(--fo);text-align:center;margin-top:2px"></div>
@@ -841,26 +844,10 @@ body{background:var(--bg);color:var(--tx);font-family:'Share Tech Mono',monospac
           <div id="lab-result-txt" style="font-size:9px;color:var(--dm);text-align:center;max-width:180px;line-height:1.5;margin-top:3px"></div>
         </div>
       </div>
-      <div class="lab-col" id="lab-c2">
-        <div class="sec-title">Inventario</div>
-        <div id="lab-inventory"></div>
-      </div>
-      <!-- Garden panel inside Lab -->
-      <div class="lab-col" id="lab-c3">
-        <div class="page-jard">
-          <div class="jard-l">
-            <div class="sec-title">Semillas <span id="seed-total-lab" style="color:var(--a2)"></span></div>
-            <div style="overflow-y:auto;flex:0 0 auto;max-height:35%;padding:6px 8px;" id="seed-panel-lab"></div>
-            <div style="border-top:1px solid var(--b1);padding:7px 10px;font-size:8px;letter-spacing:3px;color:var(--fo);text-transform:uppercase;flex-shrink:0">Recetario</div>
-            <div class="recipe-panel" id="recipe-panel-lab"></div>
-          </div>
-          <div class="jard-r">
-            <div style="font-family:'Cinzel Decorative',serif;font-size:10px;color:var(--a2);letter-spacing:3px;margin-bottom:3px">JARDÍN BOTÁNICO 8×8</div>
-            <div style="font-size:9px;color:var(--dm);margin-bottom:8px" id="garden-hint-lab">Selecciona semilla → clic celda</div>
-            <div class="garden-grid" id="garden-grid-lab"></div>
-            <div id="garden-status-lab" style="font-size:9px;color:var(--dm);margin-top:5px;text-align:center"></div>
-          </div>
-        </div>
+      <!-- Right: inventory -->
+      <div class="lab-panel-r" id="lab-c2">
+        <div class="sec-title" data-i18n="lab_inventario">🧪 Inventario</div>
+        <div id="lab-inventory" style="overflow-y:auto;flex:1"></div>
       </div>
     </div>
   </div>
@@ -868,9 +855,9 @@ body{background:var(--bg);color:var(--tx);font-family:'Share Tech Mono',monospac
   <div class="page" id="page-jardin">
     <div class="page-jard">
       <div class="jard-l">
-        <div class="sec-title">Semillas <span id="seed-total" style="color:var(--a2)"></span></div>
+        <div class="sec-title"><span data-i18n="seeds_title">Semillas</span> <span id="seed-total" style="color:var(--a2)"></span></div>
         <div style="overflow-y:auto;flex:0 0 auto;max-height:35%;padding:6px 8px;" id="seed-panel"></div>
-        <div style="border-top:1px solid var(--b1);padding:7px 10px;font-size:8px;letter-spacing:3px;color:var(--fo);text-transform:uppercase;flex-shrink:0">Recetario</div>
+        <div style="border-top:1px solid var(--b1);padding:7px 10px;font-size:8px;letter-spacing:3px;color:var(--fo);text-transform:uppercase;flex-shrink:0" data-i18n="recipes_title">Recetario</div>
         <div class="recipe-panel" id="recipe-panel"></div>
       </div>
       <div class="jard-r">
@@ -889,8 +876,17 @@ body{background:var(--bg);color:var(--tx);font-family:'Share Tech Mono',monospac
         <div id="boss-list"></div>
       </div>
       <div class="boss-center">
+        <!-- Boss display top -->
         <div class="boss-vis">
-          <div style="text-align:center">
+          <div style="text-align:center;flex:1">
+            <div id="boss-display-name" style="font-family:'Cinzel Decorative',serif;font-size:9px;color:var(--rar);margin-bottom:4px" data-i18n="boss_choose">Elige un jefe</div>
+            <div id="boss-sprite" class="boss-sprite"></div>
+            <div class="boss-hp-bar"><div class="boss-hp-fill" id="boss-hp-fill" style="width:100%"></div></div>
+            <div id="boss-hp-text" style="font-size:8px;color:var(--dm)"></div>
+          </div>
+          <div class="boss-vs">VS</div>
+          <!-- Team slots -->
+          <div style="text-align:center;flex:1">
             <div style="font-size:8px;color:var(--dm);margin-bottom:5px;letter-spacing:2px" data-i18n="boss_team">EQUIPO</div>
             <div class="boss-team-col" id="team-slots">
               <div class="boss-slot" id="bs0" onclick="teamSlotClick(0)">+</div>
@@ -899,18 +895,16 @@ body{background:var(--bg);color:var(--tx);font-family:'Share Tech Mono',monospac
               <div class="boss-slot" id="bs3" onclick="teamSlotClick(3)">+</div>
             </div>
           </div>
-          <div class="boss-vs">VS</div>
-          <div style="text-align:center">
-            <div id="boss-display-name" style="font-family:'Cinzel Decorative',serif;font-size:9px;color:var(--rar);margin-bottom:4px" data-i18n="boss_choose">Elige un jefe</div>
-            <div id="boss-sprite" class="boss-sprite"></div>
-            <div class="boss-hp-bar"><div class="boss-hp-fill" id="boss-hp-fill" style="width:100%"></div></div>
-            <div id="boss-hp-text" style="font-size:8px;color:var(--dm)"></div>
-          </div>
         </div>
+        <!-- CP + fight -->
         <div class="boss-ctrl">
-          <div style="font-size:9px;color:var(--dm)"><span data-i18n="boss_team_cp">CP Equipo:</span> <b id="team-power" style="color:var(--a2)">0</b> / <span data-i18n="boss_req">Req:</span> <b id="boss-req-power" style="color:var(--rar)">-</b></div>
+          <div class="boss-cp-row">
+            <div class="boss-cp-val"><span data-i18n="boss_team_cp">CP Equipo:</span> <b id="team-power" style="color:var(--a2)">0</b></div>
+            <div class="boss-cp-sep">/</div>
+            <div class="boss-cp-val"><span data-i18n="boss_req">Req:</span> <b id="boss-req-power" style="color:var(--rar)">-</b></div>
+          </div>
           <button class="fight-btn" id="fight-btn" onclick="startFight()" disabled data-i18n="btn_fight">⚔ COMBATIR</button>
-          <div id="fight-result" style="font-size:9px;color:var(--dm)"></div>
+          <div id="fight-result" style="font-size:9px;color:var(--dm);margin-top:4px"></div>
         </div>
         <div class="boss-log" id="boss-log"></div>
       </div>
@@ -1184,9 +1178,18 @@ const TRANSLATIONS = {
     log_tip: "💡 Consejo: los dinos tienen atributos 1-100. ¡Cría para mejorarlos!",
     notif_dest_locked: "Destino bloqueado",
     notif_league_locked: "Liga bloqueada",
+    nav_tienda: "Tienda",
     nav_excavation: "⛏ Excavación",
     nav_arena: "Arena Jefes",
     nav_progress: "Progreso",
+    lab_pick_hint: "Elige un dino",
+    any_dino: "Cualquier dino",
+    fights_title: "COMBATES",
+    assign_dino_btn: "+ Asignar dino",
+    seeds_harvested: "Semillas cosechadas:",
+    seeds_title: "Semillas",
+    recipes_title: "Recetario",
+    farm_rules: `<h4>REGLAS DE COSECHA</h4>🌿 Cualquier dino → Hierba, Musgo básico<br>💧 ADN Agua → Mejores semillas acuáticas<br>🔥 ADN Fuego → Semillas ardientes y cactus<br>🌍 ADN Tierra → Semillas de bosque<br>💨 ADN Aire → Semillas aladas y etéreas<br>👁 ADN Oculto → Semillas ocultas raras<br>✨ Rareza legendaria → Orquídea<br>🪷 Vestido Alas → Flor Alada<br>👑 Vestido Corona → Musgo Noble`,
     info_release_vals: "Básico: 3✨ · Medio: 8✨ · Raro: 20✨ · Legendario: 60✨ · Oculto: 200✨",
     info_adn_vals: "🌍 Tierra: mina básica<br>🔥 Fuego: CP arena +15%<br>💧 Agua: granja semillas<br>💨 Aire: exploración manchas<br>👁 Oculto: todo lo secreto",
     arena_wins: "Victorias:", arena_outfits_won: "Vestidos ganados:",
@@ -1353,9 +1356,18 @@ const TRANSLATIONS = {
     log_tip: "💡 Tip: dinos have attributes 1-100. Breed to improve them!",
     notif_dest_locked: "Destination locked",
     notif_league_locked: "League locked",
+    nav_tienda: "Shop",
     nav_excavation: "⛏ Excavation",
     nav_arena: "Boss Arena",
     nav_progress: "Progress",
+    lab_pick_hint: "Pick a dino",
+    any_dino: "Any dino",
+    fights_title: "FIGHTS",
+    assign_dino_btn: "+ Assign dino",
+    seeds_harvested: "Seeds harvested:",
+    seeds_title: "Seeds",
+    recipes_title: "Recipes",
+    farm_rules: `<h4>HARVEST RULES</h4>🌿 Any dino → Grass, Basic Moss<br>💧 Water DNA → Better aquatic seeds<br>🔥 Fire DNA → Burning seeds and cactus<br>🌍 Earth DNA → Forest seeds<br>💨 Air DNA → Winged and ethereal seeds<br>👁 Hidden DNA → Rare hidden seeds<br>✨ Legendary rarity → Orchid<br>🪷 Wings Outfit → Wing Flower<br>👑 Crown Outfit → Noble Moss`,
     info_release_vals: "Basic: 3✨ · Medium: 8✨ · Rare: 20✨ · Legendary: 60✨ · Hidden: 200✨",
     info_adn_vals: "🌍 Earth: basic mine<br>🔥 Fire: Arena CP +15%<br>💧 Water: farm seeds<br>💨 Air: exploration patterns<br>👁 Hidden: all secrets",
     arena_wins: "Wins:", arena_outfits_won: "Outfits won:",
@@ -2685,7 +2697,7 @@ function renderLab(){
     document.getElementById("lab-prev-stats").textContent=`❤${d.sal} ⚔${d.fue} ⚡${d.vel} · CP:${d.combatPower}`;
     document.getElementById("lab-prev-equip").textContent=d.equippedVestido?`🎭 Vestido: ${d.equippedVestido}`:T('n_no_vestido');
   }else{
-    pv.innerHTML=`<div style="color:var(--dm);text-align:center;margin-top:50px;font-family:'Crimson Pro',serif;font-style:italic;font-size:12px">Elige un dino</div>`;
+    pv.innerHTML=`<div style="color:var(--dm);text-align:center;margin-top:50px;font-family:'Crimson Pro',serif;font-style:italic;font-size:12px">${T('lab_pick_hint')}</div>`;
     ["lab-prev-name","lab-prev-stats","lab-prev-equip"].forEach(id=>{const e=document.getElementById(id);if(e)e.textContent="";});
   }
   document.getElementById("inject-btn").disabled=!d||!selectedInvItem;
@@ -3403,6 +3415,7 @@ function switchPage(name,el){
   document.querySelectorAll(".nav-tab").forEach(t=>t.classList.remove("active"));
   document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
   el.classList.add("active");document.getElementById(`page-${name}`).classList.add("active");
+  if(name==="tienda"){renderShop();renderEggs();renderTareas();renderAltar();renderTrainPanel();renderPrestige();renderDecos();}
   if(name==="trabajos")renderAllTrabajo();
   if(name==="lab")renderLab();
   if(name==="jardin")renderJardin();
@@ -3872,6 +3885,7 @@ function _renderLogrosProg(){
     document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
     if(el)el.classList.add("active");
     const pg=document.getElementById(`page-${name}`);if(pg)pg.classList.add("active");
+    if(name==="tienda"){renderShop();renderEggs();renderTareas();renderAltar();renderTrainPanel();renderPrestige();renderDecos();}
     if(name==="trabajos")renderAllTrabajo();
     if(name==="lab")renderLab();
     if(name==="jardin")renderJardin();
@@ -4002,53 +4016,8 @@ function confirmReset(){
 
 
 // ═══ LAB TAB SWITCHING ═══
-function switchLabTab(idx){
-  // Update button highlights
-  const bar=document.getElementById('lab-bar');
-  if(bar)bar.querySelectorAll('.lab-tab-btn').forEach((b,i)=>b.classList.toggle('active',i===idx));
-  // Hide all lab panels
-  ['lab-c0','lab-c1','lab-c2','lab-c3'].forEach(id=>{
-    const e=document.getElementById(id);if(e)e.classList.remove('lab-active');
-  });
-  // Show selected panel
-  const panelId='lab-c'+idx;
-  const panel=document.getElementById(panelId);
-  if(panel)panel.classList.add('lab-active');
-  // If garden tab, render garden content
-  if(idx===3)_renderGardenInLab();
-}
-// Keep old names for backwards compat
-function switchToLabGarden(){switchLabTab(3);}
-function switchFromLabGarden(idx){switchLabTab(idx);}
-
-function _renderGardenInLab(){
-  // Render garden content into lab-c3 using -lab suffixed IDs
-  const gg=document.getElementById('garden-grid-lab');
-  const sp=document.getElementById('seed-panel-lab');
-  const rp=document.getElementById('recipe-panel-lab');
-  const st=document.getElementById('seed-total-lab');
-  const gh=document.getElementById('garden-hint-lab');
-  const gs=document.getElementById('garden-status-lab');
-  if(!gg)return;
-  // Temporarily swap IDs
-  const swaps=[
-    ['garden-grid','garden-grid-lab'],
-    ['seed-panel','seed-panel-lab'],
-    ['recipe-panel','recipe-panel-lab'],
-    ['seed-total','seed-total-lab'],
-    ['garden-hint','garden-hint-lab'],
-    ['garden-status','garden-status-lab'],
-  ];
-  swaps.forEach(([a,b])=>{
-    const ea=document.getElementById(a),eb=document.getElementById(b);
-    if(ea&&eb){ea.id='_'+a;eb.id=a;}
-  });
-  renderJardin();
-  swaps.forEach(([a,b])=>{
-    const ea=document.getElementById('_'+a),eb=document.getElementById(a);
-    if(ea)ea.id=a;if(eb)eb.id=b;
-  });
-}
+// Lab now uses permanent 3-column layout — no tab switching needed
+function switchLabTab(idx){} // kept for any lingering calls
 
 </script>
 </body>
