@@ -314,11 +314,12 @@ body{background:var(--bg);color:var(--tx);font-family:'Share Tech Mono',monospac
 .recipe-item{padding:6px 10px;border-bottom:1px solid var(--b1);font-size:9px;color:var(--dm);line-height:1.6;}
 .recipe-item .combo-result{color:var(--grn);font-weight:bold;}
 /* ARENA JEFES */
-.page-arena{flex:1;display:flex;overflow:hidden;width:100%;}
-.boss-lc{width:190px;flex-shrink:0;border-right:1px solid var(--b1);overflow-y:auto;}
-.boss-card{padding:8px 10px;border-bottom:1px solid var(--b1);cursor:pointer;transition:all .13s;border-left:3px solid transparent;}
-.boss-card:hover{background:rgba(200,134,42,.04);}.boss-card.sel-boss{background:rgba(200,134,42,.08);border-left-color:var(--a);}
-.boss-card.def-boss{background:rgba(110,216,122,.03);border-left-color:var(--grn);}
+.page-arena{flex:1;display:flex;flex-direction:column;overflow:hidden;width:100%;}
+.boss-lc{width:100%;flex-shrink:0;border-bottom:1px solid var(--b1);display:flex;flex-direction:row;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;}
+.boss-lc .sec-title{display:none;}
+.boss-card{flex-shrink:0;width:120px;padding:8px 10px;border-right:1px solid var(--b1);border-bottom:3px solid transparent;cursor:pointer;transition:all .13s;}
+.boss-card:hover{background:rgba(200,134,42,.04);}.boss-card.sel-boss{background:rgba(200,134,42,.08);border-bottom-color:var(--a);}
+.boss-card.def-boss{background:rgba(110,216,122,.03);border-bottom-color:var(--grn);}
 .boss-nm{font-family:'Cinzel Decorative',serif;font-size:9px;color:var(--a2);letter-spacing:1px;margin-bottom:2px;}
 .boss-diff{font-size:8px;margin-bottom:1px;}.boss-inf{font-size:8px;color:var(--dm);}
 .boss-center{flex:1;display:flex;flex-direction:column;overflow:hidden;}
@@ -492,8 +493,10 @@ body{background:var(--bg);color:var(--tx);font-family:'Share Tech Mono',monospac
   /* Colección: 3 columnas → apiladas con scroll */
   .col-layout{display:flex!important;flex-direction:column!important;
               grid-template-columns:unset!important;overflow-y:auto;}
-  .col-panel,.center-col{border-right:none;border-bottom:1px solid var(--b1);
-                          width:100%!important;min-height:200px;overflow-y:auto;}
+  .col-panel{border-right:none;border-bottom:1px solid var(--b1);
+              width:100%!important;max-height:130px;flex-shrink:0!important;overflow-y:auto;}
+  .center-col{border-right:none;border-bottom:1px solid var(--b1);
+              width:100%!important;flex:1!important;min-height:150px;overflow-y:auto;}
   .col-panel:last-child{border-bottom:none;}
   .showcase{flex:0 0 170px!important;}
   .dino-main{width:105px!important;height:105px!important;}
@@ -543,7 +546,10 @@ body{background:var(--bg);color:var(--tx);font-family:'Share Tech Mono',monospac
   .granja-rules{padding:7px 10px!important;font-size:8px!important;line-height:1.6!important;}
 
   /* Laboratorio: 3 columnas → apiladas */
-  /* Lab uses tab-based layout on all screens, nothing to override */
+  .page-lab-new{display:flex!important;flex-direction:column!important;}
+  .lab-panel-l{border-right:none!important;border-bottom:1px solid var(--b1)!important;max-height:130px!important;flex-shrink:0!important;}
+  .lab-panel-c{border-right:none!important;border-bottom:1px solid var(--b1)!important;flex:1!important;min-height:150px!important;}
+  .lab-panel-r{max-height:180px!important;flex-shrink:0!important;}
   .lab-tab-btn{padding:10px 4px;font-size:9px;}
   .lab-col.lab-active{overflow-y:auto;}
 
@@ -558,15 +564,7 @@ body{background:var(--bg);color:var(--tx);font-family:'Share Tech Mono',monospac
   .gc{width:36px!important;height:36px!important;font-size:13px!important;}
 
   /* Arena Jefes */
-  .page-arena{flex-direction:column!important;}
-  .boss-lc{width:100%!important;height:auto!important;
-            border-right:none!important;border-bottom:1px solid var(--b1)!important;
-            flex-shrink:0!important;display:flex!important;
-            flex-direction:row!important;overflow-x:auto!important;overflow-y:hidden!important;}
-  .boss-lc .sec-title{display:none!important;}
-  .boss-card{flex-shrink:0!important;width:115px!important;
-              border-bottom:none!important;border-right:1px solid var(--b1)!important;}
-  .boss-center{flex:1;overflow-y:auto;min-height:0;}
+  .boss-card{width:100px!important;}
   .boss-vis{height:145px!important;}
   .boss-explain{display:none!important;}
 
@@ -587,14 +585,13 @@ body{background:var(--bg);color:var(--tx);font-family:'Share Tech Mono',monospac
     <div class="curr-disp curr-esen" title="Esencias — libera dinos para obtener"><span>✨</span><span id="esen-display">0</span></div>
     <div class="curr-disp curr-tokens" id="tokens-disp" style="display:none" title="Tokens de Ascensión — gástalos en la tienda de Prestige"><span>🔮</span><span id="tokens-display">0</span></div>
     <span id="save-indicator" style="font-size:8px;color:var(--grn);opacity:0;transition:opacity .5s;letter-spacing:1px">💾 GUARDADO</span>
+    <button id="event-btn" class="btn" onclick="showActiveEvent()" style="display:none;font-size:10px;padding:4px 8px;border-color:var(--a);color:var(--a2);" title="Active Event"></button>
     <button class="btn" id="support-btn" onclick="showSupport()" style="border-color:#c060ff;color:#c060ff;background:rgba(192,96,255,.07);font-size:8px;padding:4px 8px;" data-i18n="btn_support">☕ SUPPORT</button>
     <button class="btn" id="theme-btn" onclick="toggleTheme()" style="font-size:9px;padding:4px 8px;" title="Toggle light/dark mode">🌙</button>
     <button class="btn" id="lang-btn" onclick="toggleLang()" style="font-size:9px;padding:4px 8px;letter-spacing:1px;" title="Toggle language">🌐 EN/ES</button>
     <button class="asc-btn" id="asc-btn" onclick="showAscension()" data-i18n="btn_ascend">⬆ ASCENDER</button>
   </div>
 </div>
-<div class="event-banner" id="event-banner"></div>
-<div class="event-active-badge" id="event-active-badge"></div>
 <div class="main-area">
   <div class="nav-tabs">
     <div class="nav-tab active" onclick="switchPage('coleccion',this)" data-i18n="nav_collection">Colección</div>
@@ -649,7 +646,7 @@ body{background:var(--bg);color:var(--tx);font-family:'Share Tech Mono',monospac
 
   <!-- ══ TIENDA PAGE ══ -->
   <div class="page" id="page-tienda">
-    <div style="display:flex;flex-direction:column;height:100%;overflow:hidden;">
+    <div style="display:flex;flex-direction:column;flex:1;width:100%;overflow:hidden;">
       <div class="shop-tabs" style="flex-shrink:0">
         <div class="shop-tab active" onclick="switchShopTab('tienda',this)" data-i18n="stab_shop">Tienda</div>
         <div class="shop-tab" onclick="switchShopTab('altar',this)" data-i18n="stab_altar">Altar</div>
@@ -676,11 +673,8 @@ body{background:var(--bg);color:var(--tx);font-family:'Share Tech Mono',monospac
         <div class="tab-content" id="stab-altar" style="height:100%;overflow-y:auto;">
           <div class="sb">
             <div class="sbt"><span data-i18n="altar_title">ALTAR DE EVOLUCIÓN</span> <span style="font-size:8px;color:var(--a2)" id="altar-esencias"></span></div>
-            <div style="font-size:8px;color:var(--dm);padding:4px 2px 8px;line-height:1.7" data-i18n="altar_desc">Gasta ✨ Esencias para potenciar un dino seleccionado de forma permanente.<br><b style="color:var(--a2)">Libera dinos para obtener esencias.</b><br>Selecciona un dino en Colección y elige un ritual.</div>
+            <div style="font-size:8px;color:var(--dm);padding:4px 2px 8px;line-height:1.7" data-i18n="altar_desc">Gasta ✨ Esencias para potenciar un dino de forma permanente.<br><b style="color:var(--a2)">Libera dinos para obtener esencias.</b><br>Selecciona un dino abajo para ritualizarlo.</div>
             <div id="altar-panel"></div>
-            <div class="sbt" style="margin-top:15px" data-i18n="shop_training">ENTRENAMIENTO 💰</div>
-            <div style="font-size:8px;color:var(--dm);padding:4px 2px;line-height:1.6" data-i18n="shop_training_desc">Gasta monedas para entrenar un dino seleccionado directamente.<br>Selecciona un dino de Colección primero.</div>
-            <div id="train-panel"></div>
           </div>
         </div>
         <div class="tab-content" id="stab-prestige" style="height:100%;overflow-y:auto;">
@@ -1117,7 +1111,7 @@ const TRANSLATIONS = {
     shop_training: "ENTRENAMIENTO 💰",
     shop_training_desc: "Gasta monedas para entrenar un dino seleccionado directamente.<br>Selecciona un dino de Colección primero.",
     altar_title: "ALTAR DE EVOLUCIÓN",
-    altar_desc: "Gasta ✨ Esencias para potenciar un dino seleccionado de forma permanente.<br><b style=\"color:var(--a2)\">Libera dinos para obtener esencias.</b><br>Selecciona un dino en Colección y elige un ritual.",
+    altar_desc: "Gasta ✨ Esencias para potenciar un dino de forma permanente.<br><b style=\"color:var(--a2)\">Libera dinos para obtener esencias.</b><br>Selecciona un dino abajo para ritualizarlo.",
     deco_title: "AMBIENTE (con 💰 Monedas)",
     ranch_sec_title: "Dinos en Rancho",
     ranch_title: "RANCHO PREHISTÓRICO",
@@ -1295,7 +1289,7 @@ const TRANSLATIONS = {
     shop_training: "TRAINING 💰",
     shop_training_desc: "Spend coins to directly train a selected dino.<br>Select a dino from Collection first.",
     altar_title: "EVOLUTION ALTAR",
-    altar_desc: "Spend ✨ Essences to permanently boost a selected dino.<br><b style=\"color:var(--a2)\">Release dinos to get essences.</b><br>Select a dino in Collection and choose a ritual.",
+    altar_desc: "Spend ✨ Essences to permanently boost a dino.<br><b style=\"color:var(--a2)\">Release dinos to get essences.</b><br>Select a dino below to ritualize it.",
     deco_title: "ENVIRONMENT (with 💰 Coins)",
     ranch_sec_title: "Ranch Dinos",
     ranch_title: "PREHISTORIC RANCH",
@@ -1722,52 +1716,52 @@ const UPGRADES=[
 ];
 
 const BOSSES_DEF=[
-  {id:"raptor",   name:"Raptus Veloz",    icon:"⚡",color:"#4fc87a",reqCP:60,  maxHp:500,  diff:"Fácil",     money:0, logro:"boss_raptor", desc:"Primer combate real.",defeated:false},
-  {id:"trikron",  name:"Trikrón Cornudo", icon:"🔱",color:"#f0a840",reqCP:150, maxHp:1200, diff:"Medio",     money:0, logro:"boss_trikron",desc:"Tres cuernos letales.",defeated:false},
-  {id:"rex_magno",name:"Rex Magno",       icon:"🦖",color:"#ff5555",reqCP:320, maxHp:3000, diff:"Difícil",   money:0, logro:"boss_rex",    desc:"El rey clásico.",defeated:false},
-  {id:"criogerus",name:"Criogénus",       icon:"❄️",color:"#a8e8ff",reqCP:600, maxHp:6000, diff:"Épico",     money:0, logro:"boss_crio",   desc:"Ser de hielo primordial.",defeated:false},
-  {id:"gigrex",   name:"Gigante Rex",     icon:"👑",color:"#ffd700",reqCP:850, maxHp:15000,diff:"Legendario",money:0, logro:"boss_gigrex", desc:"El coloso definitivo.",defeated:false},
-  {id:"devorador",name:"El Devorador",    icon:"👁",color:"#ff88ff",reqCP:750, maxHp:15000,diff:"OCULTO",    money:0, logro:"boss_devorador",desc:"Solo visible con dino oculto.",defeated:false,hidden:true},
+  {id:"raptor",   name:"Raptus Veloz",    en_name:"Swift Raptor",   icon:"⚡",color:"#4fc87a",reqCP:60,  maxHp:500,  diff:"Fácil",     en_diff:"Easy",      money:0, logro:"boss_raptor",   desc:"Primer combate real.",           en_desc:"Your first real fight.",          defeated:false},
+  {id:"trikron",  name:"Trikrón Cornudo", en_name:"Triple Horn",    icon:"🔱",color:"#f0a840",reqCP:150, maxHp:1200, diff:"Medio",     en_diff:"Medium",    money:0, logro:"boss_trikron",  desc:"Tres cuernos letales.",          en_desc:"Three lethal horns.",             defeated:false},
+  {id:"rex_magno",name:"Rex Magno",       en_name:"Rex Magno",      icon:"🦖",color:"#ff5555",reqCP:320, maxHp:3000, diff:"Difícil",   en_diff:"Hard",      money:0, logro:"boss_rex",      desc:"El rey clásico.",                en_desc:"The classic king.",               defeated:false},
+  {id:"criogerus",name:"Criogénus",       en_name:"Cryogerus",      icon:"❄️",color:"#a8e8ff",reqCP:600, maxHp:6000, diff:"Épico",     en_diff:"Epic",      money:0, logro:"boss_crio",     desc:"Ser de hielo primordial.",       en_desc:"Primordial ice being.",           defeated:false},
+  {id:"gigrex",   name:"Gigante Rex",     en_name:"Gigante Rex",    icon:"👑",color:"#ffd700",reqCP:850, maxHp:15000,diff:"Legendario", en_diff:"Legendary", money:0, logro:"boss_gigrex",  desc:"El coloso definitivo.",          en_desc:"The ultimate colossus.",          defeated:false},
+  {id:"devorador",name:"El Devorador",    en_name:"The Devourer",   icon:"👁",color:"#ff88ff",reqCP:750, maxHp:15000,diff:"OCULTO",    en_diff:"HIDDEN",    money:0, logro:"boss_devorador",desc:"Solo visible con dino oculto.",  en_desc:"Only visible with hidden dino.", defeated:false,hidden:true},
 ];
 
 const LOGROS_DEF=[
-  {cat:"coleccion",id:"first_dino", name:"El Primero",       icon:"🦕",desc:"Tu primer dinosaurio.",       how:"Empieza el juego.",          check:()=>misDinos.length>=1?1:0,max:1},
-  {cat:"coleccion",id:"dino5",      name:"Pequeña Manada",   icon:"🦕",desc:"5 dinosaurios.",               how:"Cría o libera y compra.",     check:()=>misDinos.length,max:5},
-  {cat:"coleccion",id:"dino10",     name:"Manada",           icon:"🦖",desc:"10 dinosaurios.",              how:"Sigue criando.",              check:()=>misDinos.length,max:10},
-  {cat:"coleccion",id:"dino25",     name:"Colonia",          icon:"🌍",desc:"25 dinosaurios.",              how:"Cría sin parar.",             check:()=>misDinos.length,max:25},
-  {cat:"crianza",  id:"breed5",     name:"Primer Cruce",     icon:"💞",desc:"Cría 5 descendientes.",        how:"Selecciona 2 dinos → Criar.", check:()=>stats.totalBreeds,max:5},
-  {cat:"crianza",  id:"breed25",    name:"Criador",          icon:"🔬",desc:"25 descendientes.",            how:"Sigue criando.",              check:()=>stats.totalBreeds,max:25},
-  {cat:"crianza",  id:"breed100",   name:"Maestro Criador",  icon:"🧬",desc:"100 descendientes.",           how:"Mucha crianza.",              check:()=>stats.totalBreeds,max:100},
-  {cat:"crianza",  id:"gen5",       name:"5ª Gen",           icon:"🌿",desc:"Gen 5.",                       how:"Cría varias veces.",          check:()=>stats.maxGen>=5?1:0,max:1},
-  {cat:"crianza",  id:"gen10",      name:"10ª Gen",          icon:"🧬",desc:"Gen 10.",                      how:"Muchas generaciones.",        check:()=>stats.maxGen>=10?1:0,max:1},
-  {cat:"crianza",  id:"gen20",      name:"Linaje Eterno",    icon:"👑",desc:"Gen 20.",                      how:"20 generaciones.",            hint:"Cría sin parar generaciones encadenadas...",         check:()=>stats.maxGen>=20?1:0,max:1,secret:true},
-  {cat:"rareza",   id:"first_media",name:"Media Rareza",     icon:"💫",desc:"Tu primer dino medio.",        how:"Cría básicos repetidamente.", check:()=>misDinos.filter(d=>RORD[d.rc]>=1).length,max:1},
-  {cat:"rareza",   id:"first_rara", name:"Rareza",           icon:"⭐",desc:"Tu primer dino raro.",         how:"Cría medios.",                check:()=>misDinos.filter(d=>RORD[d.rc]>=2).length,max:1},
-  {cat:"rareza",   id:"first_leg",  name:"Legendario",       icon:"✨",desc:"Tu primer legendario.",        how:"Cría raros.",                 check:()=>misDinos.filter(d=>RORD[d.rc]>=3).length,max:1},
-  {cat:"rareza",   id:"first_ocu",  name:"El Despertar",     icon:"👁",desc:"Tu primer dino oculto.",       how:"Cría legendarios repetidamente. Hay un 2% de probabilidad de ADN Oculto al nacer. La ascensión aumenta la probabilidad.",        hint:"Dicen que en lo más profundo de la genética... hay algo que no debería existir. Cría muchos legendarios.",        check:()=>stats.ocultaFound,max:1,secret:true},
-  {cat:"rareza",   id:"max_stat",   name:"Perfecto",         icon:"💯",desc:"Un dino con 100 en un stat.",  how:"Muchas generaciones.",        check:()=>misDinos.some(d=>d.sal>=100||d.fue>=100||d.vel>=100)?1:0,max:1},
-  {cat:"rareza",   id:"full100",    name:"Máximo Potencial", icon:"🌟",desc:"3 stats a 100.",               how:"~15 gen con ADN óptimo.",     hint:"Cría selectivamente priorizando siempre los stats más altos. Muchas generaciones...", check:()=>misDinos.filter(d=>d.sal>=100&&d.fue>=100&&d.vel>=100).length,max:1,secret:true},
-  {cat:"trabajo",  id:"mine5",      name:"Minero",           icon:"⛏",desc:"5 gemas minadas.",             how:"Asigna dino en Trabajos→Mina.",check:()=>stats.gemasMinadas,max:5},
-  {cat:"trabajo",  id:"mine25",     name:"Minero Experto",   icon:"⛏",desc:"25 gemas.",                    how:"Sigue minando.",              check:()=>stats.gemasMinadas,max:25},
-  {cat:"trabajo",  id:"expl5",      name:"Explorador",       icon:"🗺",desc:"5 manchas descubiertas.",     how:"Exploración en Trabajos.",    check:()=>discovered.manchasExpl.size,max:5},
-  {cat:"trabajo",  id:"expl_all",   name:"Cartógrafo",       icon:"🌍",desc:"Descubre todas las manchas.",  how:"Explora todos los destinos.", hint:"Hay destinos ocultos en la exploración. Algunos requieren VEL muy alta...", check:()=>discovered.manchasExpl.size,max:18,secret:true},
-  {cat:"trabajo",  id:"arena_w5",   name:"Guerrero",         icon:"⚔",desc:"5 victorias en arena.",        how:"Asigna dino en Arena.",       check:()=>stats.combatWins,max:5},
-  {cat:"trabajo",  id:"arena_w25",  name:"Campeón",          icon:"🏆",desc:"25 victorias.",               how:"Sigue combatiendo.",          check:()=>stats.combatWins,max:25},
-  {cat:"trabajo",  id:"all_gems",   name:"Gema Coleccionista",icon:"💎",desc:"Obtén todas las gemas básicas.",how:"Mina con distintos ADN.",  check:()=>["rubi","zafiro","topacio","esmeralda"].filter(g=>(inventario.gemas[g]||0)>0).length,max:4},
-  {cat:"jefes",    id:"boss_raptor",name:"Cazador",          icon:"⚡",desc:"Derrota a Raptus.",            how:"Arena Jefes. CP≥60.",        check:()=>BOSSES_DEF.find(b=>b.id==="raptor")?.defeated?1:0,max:1},
-  {cat:"jefes",    id:"boss_trikron",name:"Cornudo",         icon:"🔱",desc:"Derrota a Trikrón.",           how:"CP≥150.",                    check:()=>BOSSES_DEF.find(b=>b.id==="trikron")?.defeated?1:0,max:1},
-  {cat:"jefes",    id:"boss_rex",   name:"Regicida",         icon:"🦖",desc:"Derrota al Rex Magno.",        how:"CP≥320.",                    check:()=>BOSSES_DEF.find(b=>b.id==="rex_magno")?.defeated?1:0,max:1},
-  {cat:"jefes",    id:"boss_crio",  name:"El Deshielo",      icon:"❄️",desc:"Derrota a Criogénus.",         how:"CP≥600.",                    check:()=>BOSSES_DEF.find(b=>b.id==="criogerus")?.defeated?1:0,max:1},
-  {cat:"jefes",    id:"boss_gigrex",name:"Titan Slayer",     icon:"👑",desc:"Derrota al Gigante Rex.",      how:"4 dinos CP≥850 total.",       hint:"El rey de reyes duerme en la Arena Jefes. Necesitarás 4 guerreros de élite.", check:()=>BOSSES_DEF.find(b=>b.id==="gigrex")?.defeated?1:0,max:1,secret:true},
-  {cat:"jefes",    id:"boss_devo",  name:"Más Allá del Velo",icon:"👁",desc:"Derrota al Devorador.",       how:"Dino oculto requerido.",       hint:"Hay algo que acecha en las sombras... solo el ADN prohibido puede verlo.", check:()=>BOSSES_DEF.find(b=>b.id==="devorador")?.defeated?1:0,max:1,secret:true},
-  {cat:"jardin",   id:"plant3",     name:"Jardinero",        icon:"🌿",desc:"Cultiva 3 plantas.",           how:"Planta semillas en el Jardín.",check:()=>stats.plantsGrown,max:3},
-  {cat:"jardin",   id:"plant15",    name:"Botánico",         icon:"🌻",desc:"Cultiva 15 plantas.",          how:"Sigue cultivando.",           check:()=>stats.plantsGrown,max:15},
-  {cat:"jardin",   id:"plant_loto", name:"Loto Místico",     icon:"💮",desc:"Cultiva el Loto Prisma.",      how:"Orquídea + Flor Alada adj.",  hint:"Dos flores de rareza alta, juntas en el jardín...", check:()=>discovered.plantas.has("loto")?1:0,max:1,secret:true},
-  {cat:"jardin",   id:"plant_void", name:"El Vacío Florece", icon:"🖤",desc:"Cultiva la Raíz del Vacío.",   how:"Granja: ADN Oculto.",         hint:"El jardín guarda un secreto oscuro. Necesitas un dino que no debería existir.", check:()=>discovered.plantas.has("raiz_void")?1:0,max:1,secret:true},
-  {cat:"adn",      id:"adn_all",    name:"Genética Completa",icon:"🧪",desc:"Ten los 5 tipos de ADN.",     how:"Cría muchos dinos.",          check:()=>new Set(misDinos.map(d=>d.adn)).size,max:5},
-  {cat:"adn",      id:"adn_ocu",    name:"ADN Forbidden",    icon:"👁",desc:"Obtén ADN Oculto.",           how:"2% al nacer. Muy raro.",      hint:"Cría muchos dinos legendarios. Hay un 2% de probabilidad oculta al nacer...", check:()=>misDinos.some(d=>d.adn==="oculto")?1:0,max:1,secret:true},
-  {cat:"ascension",id:"asc1",       name:"Primera Ascensión",icon:"⬆",desc:"Asciende por primera vez.",   how:"Derrota al Gigante Rex.",     hint:"El fin es el principio. Hay algo más allá del Gigante Rex...", check:()=>ascLevel>=1?1:0,max:1,secret:true},
-  {cat:"ascension",id:"asc3",       name:"El Ciclo",         icon:"🔄",desc:"Asciende 3 veces.",           how:"Sigue ascendiendo.",          hint:"La verdadera fuerza se forja en los reintentos.", check:()=>ascLevel,max:3,secret:true},
+  {cat:"coleccion",id:"first_dino", name:"El Primero",        en_name:"The First",          icon:"🦕",desc:"Tu primer dinosaurio.",         en_desc:"Your first dinosaur.",             how:"Empieza el juego.",          check:()=>misDinos.length>=1?1:0,max:1},
+  {cat:"coleccion",id:"dino5",      name:"Pequeña Manada",    en_name:"Small Herd",         icon:"🦕",desc:"5 dinosaurios.",                 en_desc:"5 dinosaurs.",                     how:"Cría o libera y compra.",     check:()=>misDinos.length,max:5},
+  {cat:"coleccion",id:"dino10",     name:"Manada",            en_name:"Herd",               icon:"🦖",desc:"10 dinosaurios.",                en_desc:"10 dinosaurs.",                    how:"Sigue criando.",              check:()=>misDinos.length,max:10},
+  {cat:"coleccion",id:"dino25",     name:"Colonia",           en_name:"Colony",             icon:"🌍",desc:"25 dinosaurios.",                en_desc:"25 dinosaurs.",                    how:"Cría sin parar.",             check:()=>misDinos.length,max:25},
+  {cat:"crianza",  id:"breed5",     name:"Primer Cruce",      en_name:"First Cross",        icon:"💞",desc:"Cría 5 descendientes.",          en_desc:"Breed 5 offspring.",               how:"Selecciona 2 dinos → Criar.", check:()=>stats.totalBreeds,max:5},
+  {cat:"crianza",  id:"breed25",    name:"Criador",           en_name:"Breeder",            icon:"🔬",desc:"25 descendientes.",              en_desc:"25 offspring.",                    how:"Sigue criando.",              check:()=>stats.totalBreeds,max:25},
+  {cat:"crianza",  id:"breed100",   name:"Maestro Criador",   en_name:"Master Breeder",     icon:"🧬",desc:"100 descendientes.",             en_desc:"100 offspring.",                   how:"Mucha crianza.",              check:()=>stats.totalBreeds,max:100},
+  {cat:"crianza",  id:"gen5",       name:"5ª Gen",            en_name:"5th Gen",            icon:"🌿",desc:"Gen 5.",                         en_desc:"Gen 5.",                           how:"Cría varias veces.",          check:()=>stats.maxGen>=5?1:0,max:1},
+  {cat:"crianza",  id:"gen10",      name:"10ª Gen",           en_name:"10th Gen",           icon:"🧬",desc:"Gen 10.",                        en_desc:"Gen 10.",                          how:"Muchas generaciones.",        check:()=>stats.maxGen>=10?1:0,max:1},
+  {cat:"crianza",  id:"gen20",      name:"Linaje Eterno",     en_name:"Eternal Lineage",    icon:"👑",desc:"Gen 20.",                        en_desc:"Gen 20.",                          how:"20 generaciones.",            hint:"Cría sin parar generaciones encadenadas...",         check:()=>stats.maxGen>=20?1:0,max:1,secret:true},
+  {cat:"rareza",   id:"first_media",name:"Media Rareza",      en_name:"Medium Rarity",      icon:"💫",desc:"Tu primer dino medio.",          en_desc:"Your first medium dino.",          how:"Cría básicos repetidamente.", check:()=>misDinos.filter(d=>RORD[d.rc]>=1).length,max:1},
+  {cat:"rareza",   id:"first_rara", name:"Rareza",            en_name:"Rare",               icon:"⭐",desc:"Tu primer dino raro.",           en_desc:"Your first rare dino.",            how:"Cría medios.",                check:()=>misDinos.filter(d=>RORD[d.rc]>=2).length,max:1},
+  {cat:"rareza",   id:"first_leg",  name:"Legendario",        en_name:"Legendary",          icon:"✨",desc:"Tu primer legendario.",          en_desc:"Your first legendary.",            how:"Cría raros.",                 check:()=>misDinos.filter(d=>RORD[d.rc]>=3).length,max:1},
+  {cat:"rareza",   id:"first_ocu",  name:"El Despertar",      en_name:"The Awakening",      icon:"👁",desc:"Tu primer dino oculto.",         en_desc:"Your first hidden dino.",          how:"Cría legendarios repetidamente. Hay un 2% de probabilidad de ADN Oculto al nacer. La ascensión aumenta la probabilidad.",        hint:"Dicen que en lo más profundo de la genética... hay algo que no debería existir. Cría muchos legendarios.",        check:()=>stats.ocultaFound,max:1,secret:true},
+  {cat:"rareza",   id:"max_stat",   name:"Perfecto",          en_name:"Perfect",            icon:"💯",desc:"Un dino con 100 en un stat.",    en_desc:"A dino with 100 in one stat.",     how:"Muchas generaciones.",        check:()=>misDinos.some(d=>d.sal>=100||d.fue>=100||d.vel>=100)?1:0,max:1},
+  {cat:"rareza",   id:"full100",    name:"Máximo Potencial",  en_name:"Max Potential",      icon:"🌟",desc:"3 stats a 100.",                 en_desc:"3 stats at 100.",                  how:"~15 gen con ADN óptimo.",     hint:"Cría selectivamente priorizando siempre los stats más altos. Muchas generaciones...", check:()=>misDinos.filter(d=>d.sal>=100&&d.fue>=100&&d.vel>=100).length,max:1,secret:true},
+  {cat:"trabajo",  id:"mine5",      name:"Minero",            en_name:"Miner",              icon:"⛏",desc:"5 gemas minadas.",               en_desc:"5 gems mined.",                    how:"Asigna dino en Trabajos→Mina.",check:()=>stats.gemasMinadas,max:5},
+  {cat:"trabajo",  id:"mine25",     name:"Minero Experto",    en_name:"Expert Miner",       icon:"⛏",desc:"25 gemas.",                      en_desc:"25 gems.",                         how:"Sigue minando.",              check:()=>stats.gemasMinadas,max:25},
+  {cat:"trabajo",  id:"expl5",      name:"Explorador",        en_name:"Explorer",           icon:"🗺",desc:"5 manchas descubiertas.",       en_desc:"5 spots discovered.",              how:"Exploración en Trabajos.",    check:()=>discovered.manchasExpl.size,max:5},
+  {cat:"trabajo",  id:"expl_all",   name:"Cartógrafo",        en_name:"Cartographer",       icon:"🌍",desc:"Descubre todas las manchas.",    en_desc:"Discover all spots.",              how:"Explora todos los destinos.", hint:"Hay destinos ocultos en la exploración. Algunos requieren VEL muy alta...", check:()=>discovered.manchasExpl.size,max:18,secret:true},
+  {cat:"trabajo",  id:"arena_w5",   name:"Guerrero",          en_name:"Warrior",            icon:"⚔",desc:"5 victorias en arena.",          en_desc:"5 arena victories.",               how:"Asigna dino en Arena.",       check:()=>stats.combatWins,max:5},
+  {cat:"trabajo",  id:"arena_w25",  name:"Campeón",           en_name:"Champion",           icon:"🏆",desc:"25 victorias.",                 en_desc:"25 victories.",                    how:"Sigue combatiendo.",          check:()=>stats.combatWins,max:25},
+  {cat:"trabajo",  id:"all_gems",   name:"Gema Coleccionista",en_name:"Gem Collector",      icon:"💎",desc:"Obtén todas las gemas básicas.", en_desc:"Get all basic gems.",              how:"Mina con distintos ADN.",     check:()=>["rubi","zafiro","topacio","esmeralda"].filter(g=>(inventario.gemas[g]||0)>0).length,max:4},
+  {cat:"jefes",    id:"boss_raptor",name:"Cazador",           en_name:"Hunter",             icon:"⚡",desc:"Derrota a Raptus.",              en_desc:"Defeat Swift Raptor.",             how:"Arena Jefes. CP≥60.",        check:()=>BOSSES_DEF.find(b=>b.id==="raptor")?.defeated?1:0,max:1},
+  {cat:"jefes",    id:"boss_trikron",name:"Cornudo",          en_name:"Horned",             icon:"🔱",desc:"Derrota a Trikrón.",             en_desc:"Defeat Triple Horn.",              how:"CP≥150.",                    check:()=>BOSSES_DEF.find(b=>b.id==="trikron")?.defeated?1:0,max:1},
+  {cat:"jefes",    id:"boss_rex",   name:"Regicida",          en_name:"Regicide",           icon:"🦖",desc:"Derrota al Rex Magno.",          en_desc:"Defeat Rex Magno.",                how:"CP≥320.",                    check:()=>BOSSES_DEF.find(b=>b.id==="rex_magno")?.defeated?1:0,max:1},
+  {cat:"jefes",    id:"boss_crio",  name:"El Deshielo",       en_name:"The Thaw",           icon:"❄️",desc:"Derrota a Criogénus.",           en_desc:"Defeat Cryogerus.",                how:"CP≥600.",                    check:()=>BOSSES_DEF.find(b=>b.id==="criogerus")?.defeated?1:0,max:1},
+  {cat:"jefes",    id:"boss_gigrex",name:"Titan Slayer",      en_name:"Titan Slayer",       icon:"👑",desc:"Derrota al Gigante Rex.",        en_desc:"Defeat Gigante Rex.",              how:"4 dinos CP≥850 total.",       hint:"El rey de reyes duerme en la Arena Jefes. Necesitarás 4 guerreros de élite.", check:()=>BOSSES_DEF.find(b=>b.id==="gigrex")?.defeated?1:0,max:1,secret:true},
+  {cat:"jefes",    id:"boss_devo",  name:"Más Allá del Velo", en_name:"Beyond the Veil",   icon:"👁",desc:"Derrota al Devorador.",         en_desc:"Defeat the Devourer.",             how:"Dino oculto requerido.",       hint:"Hay algo que acecha en las sombras... solo el ADN prohibido puede verlo.", check:()=>BOSSES_DEF.find(b=>b.id==="devorador")?.defeated?1:0,max:1,secret:true},
+  {cat:"jardin",   id:"plant3",     name:"Jardinero",         en_name:"Gardener",           icon:"🌿",desc:"Cultiva 3 plantas.",             en_desc:"Grow 3 plants.",                   how:"Planta semillas en el Jardín.",check:()=>stats.plantsGrown,max:3},
+  {cat:"jardin",   id:"plant15",    name:"Botánico",          en_name:"Botanist",           icon:"🌻",desc:"Cultiva 15 plantas.",            en_desc:"Grow 15 plants.",                  how:"Sigue cultivando.",           check:()=>stats.plantsGrown,max:15},
+  {cat:"jardin",   id:"plant_loto", name:"Loto Místico",      en_name:"Mystic Lotus",       icon:"💮",desc:"Cultiva el Loto Prisma.",        en_desc:"Grow the Prism Lotus.",            how:"Orquídea + Flor Alada adj.",  hint:"Dos flores de rareza alta, juntas en el jardín...", check:()=>discovered.plantas.has("loto")?1:0,max:1,secret:true},
+  {cat:"jardin",   id:"plant_void", name:"El Vacío Florece",  en_name:"The Void Blooms",    icon:"🖤",desc:"Cultiva la Raíz del Vacío.",     en_desc:"Grow the Void Root.",              how:"Granja: ADN Oculto.",         hint:"El jardín guarda un secreto oscuro. Necesitas un dino que no debería existir.", check:()=>discovered.plantas.has("raiz_void")?1:0,max:1,secret:true},
+  {cat:"adn",      id:"adn_all",    name:"Genética Completa", en_name:"Complete Genetics",  icon:"🧪",desc:"Ten los 5 tipos de ADN.",       en_desc:"Have all 5 DNA types.",            how:"Cría muchos dinos.",          check:()=>new Set(misDinos.map(d=>d.adn)).size,max:5},
+  {cat:"adn",      id:"adn_ocu",    name:"ADN Forbidden",     en_name:"Forbidden DNA",      icon:"👁",desc:"Obtén ADN Oculto.",             en_desc:"Obtain Hidden DNA.",               how:"2% al nacer. Muy raro.",      hint:"Cría muchos dinos legendarios. Hay un 2% de probabilidad oculta al nacer...", check:()=>misDinos.some(d=>d.adn==="oculto")?1:0,max:1,secret:true},
+  {cat:"ascension",id:"asc1",       name:"Primera Ascensión", en_name:"First Ascension",    icon:"⬆",desc:"Asciende por primera vez.",     en_desc:"Ascend for the first time.",       how:"Derrota al Gigante Rex.",     hint:"El fin es el principio. Hay algo más allá del Gigante Rex...", check:()=>ascLevel>=1?1:0,max:1,secret:true},
+  {cat:"ascension",id:"asc3",       name:"El Ciclo",          en_name:"The Cycle",          icon:"🔄",desc:"Asciende 3 veces.",             en_desc:"Ascend 3 times.",                  how:"Sigue ascendiendo.",          hint:"La verdadera fuerza se forja en los reintentos.", check:()=>ascLevel,max:3,secret:true},
 ];
 // ═══ PRESTIGE SHOP ═══
 const PRESTIGE_SHOP=[
@@ -2276,10 +2270,25 @@ function renderAltar(){
   const e=document.getElementById("altar-esencias");
   if(e)e.textContent=`${Math.floor(esencias)}✨`;
   const el=document.getElementById("altar-panel");if(!el)return;el.innerHTML="";
+  // Inline dino picker
+  if(misDinos.length>0){
+    const curIdx=selects[selects.length-1];
+    const picker=document.createElement("div");
+    picker.style.cssText="display:flex;flex-wrap:wrap;gap:4px;padding:6px 0 8px;border-bottom:1px solid var(--b1);margin-bottom:8px;max-height:88px;overflow-y:auto;";
+    misDinos.forEach((d,i)=>{
+      const sel=(curIdx===i);
+      const chip=document.createElement("div");
+      chip.style.cssText=`display:flex;align-items:center;gap:3px;padding:2px 6px;border:1px solid ${sel?"var(--pur)":"var(--b1)"};background:${sel?"rgba(176,96,255,.08)":"var(--p2)"};cursor:pointer;font-size:8px;transition:all .13s;`;
+      chip.innerHTML=`<div style="width:16px;height:16px">${dinoSVG(d,"ap"+i)}</div><span class="r-${d.rc}">#${i+1}</span>`;
+      chip.onclick=()=>{selects=[i];renderAltar();renderDetail();};
+      picker.appendChild(chip);
+    });
+    el.appendChild(picker);
+  }
   const last=selects[selects.length-1],d=last!=null?misDinos[last]:null;
   if(!d){
     const hint=document.createElement("div");hint.style.cssText="font-size:9px;color:var(--a);padding:10px;text-align:center;border:1px dashed var(--b2);margin:8px 0;line-height:1.6";
-    hint.innerHTML=currentLang==='en'?"👆 Select a dino<br>in Collection to ritualize it":"👆 Selecciona un dino<br>en Colección para ritualizarlo";
+    hint.innerHTML=currentLang==='en'?"👆 Select a dino above to ritualize it":"👆 Selecciona un dino arriba para ritualizarlo";
     el.appendChild(hint);return;
   }
   const ds=document.createElement("div");ds.style.cssText="display:flex;align-items:center;gap:8px;padding:8px;background:var(--p2);border:1px solid var(--b2);margin-bottom:8px;";
@@ -2909,14 +2918,17 @@ function checkPlantCombos(i){
 function renderBossList(){
   const el=document.getElementById("boss-list");if(!el)return;el.innerHTML="";
   const hasOcu=bossTeam.some(id=>{const d=misDinos.find(x=>x.id===id);return d&&d.hasOculta;});
+  const en=currentLang==='en';
   BOSSES_DEF.forEach(b=>{
     if(b.hidden&&!hasOcu)return;
+    const bname=en&&b.en_name?b.en_name:b.name;
+    const bdiff=en&&b.en_diff?b.en_diff:b.diff;
     const div=document.createElement("div");
     div.className=`boss-card ${selBoss===b.id?"sel-boss":""} ${b.defeated?"def-boss":""}`;
     div.onclick=()=>selectBoss(b.id);
-    const diffColors={Fácil:"var(--grn)",Medio:"var(--a2)",Difícil:"var(--rar)",Épico:"var(--pur)",Legendario:"var(--leg)",OCULTO:"var(--ocu)"};
-    div.innerHTML=`<div class="boss-nm">${b.icon} ${b.name}${b.defeated?" ✓":""}</div>
-      <div class="boss-diff" style="color:${diffColors[b.diff]||'var(--dm)'}">${b.diff}</div>
+    const diffColors={Fácil:"var(--grn)",Easy:"var(--grn)",Medio:"var(--a2)",Medium:"var(--a2)",Difícil:"var(--rar)",Hard:"var(--rar)",Épico:"var(--pur)",Epic:"var(--pur)",Legendario:"var(--leg)",Legendary:"var(--leg)",OCULTO:"var(--ocu)",HIDDEN:"var(--ocu)"};
+    div.innerHTML=`<div class="boss-nm">${b.icon} ${bname}${b.defeated?" ✓":""}</div>
+      <div class="boss-diff" style="color:${diffColors[bdiff]||'var(--dm)'}">${bdiff}</div>
       <div class="boss-inf">Req CP: ${b.reqCP.toLocaleString()}</div>`;
     el.appendChild(div);
   });
@@ -2924,10 +2936,13 @@ function renderBossList(){
 function selectBoss(id){
   selBoss=id;renderBossList();
   const b=BOSSES_DEF.find(x=>x.id===id);if(!b)return;
-  document.getElementById("boss-display-name").textContent=`${b.icon} ${b.name}`;
+  const en=currentLang==='en';
+  const bname=en&&b.en_name?b.en_name:b.name;
+  const bdesc=en&&b.en_desc?b.en_desc:b.desc;
+  document.getElementById("boss-display-name").textContent=`${b.icon} ${bname}`;
   document.getElementById("boss-sprite").innerHTML=bossSVG(b);
   document.getElementById("boss-hp-fill").style.width="100%";
-  document.getElementById("boss-hp-text").textContent=`HP: ${b.maxHp.toLocaleString()} · ${b.desc}`;
+  document.getElementById("boss-hp-text").textContent=`HP: ${b.maxHp.toLocaleString()} · ${bdesc}`;
   document.getElementById("boss-req-power").textContent=b.reqCP.toLocaleString();
   document.getElementById("fight-result").textContent="";
   updateFightBtn();
@@ -2998,13 +3013,16 @@ function renderLogrosCats(){
 function renderLogros(){
   const el=document.getElementById("logros-grid");if(!el)return;el.innerHTML="";
   const toShow=LOGROS_DEF.filter(l=>logrosCat==="all"||l.cat===logrosCat);
+  const en=currentLang==='en';
   toShow.forEach(l=>{
     const done=logrosUnlocked.has(l.id);
     const val=typeof l.check==="function"?l.check():0;const prog=Math.min(1,val/(l.max||1));
+    const nm=en&&l.en_name?l.en_name:l.name;
+    const dc=en&&l.en_desc?l.en_desc:l.desc;
     const div=document.createElement("div");div.className=`logro-card ${done?"unlocked":""} ${l.secret&&!done?"sec-card":""}`;
     div.innerHTML=`<div class="logro-icon">${l.icon}</div>
-      <div class="logro-nm">${l.secret&&!done?"???":l.name}</div>
-      <div class="logro-desc">${l.secret&&!done?T('logro_secret'):l.desc}</div>
+      <div class="logro-nm">${l.secret&&!done?"???":nm}</div>
+      <div class="logro-desc">${l.secret&&!done?T('logro_secret'):dc}</div>
       ${l.secret&&!done&&l.hint?`<div class="logro-how" style="color:var(--a);font-style:italic">🔍 ${l.hint}</div>`:""}
       ${!l.secret||done?`<div class="logro-how">💡 ${l.how}</div>`:""}
       ${!done?`<div class="logro-prog"><div class="logro-bar"><div class="logro-bar-f" style="width:${prog*100}%"></div></div><div class="logro-bar-t">${val}/${l.max}</div></div>`:""}`;
@@ -3019,7 +3037,7 @@ function checkLogros(){
   LOGROS_DEF.forEach(l=>{
     if(logrosUnlocked.has(l.id))return;
     const val=typeof l.check==="function"?l.check():0;
-    if(val>=(l.max||1)){logrosUnlocked.add(l.id);showLogroPopup(l.name);addLog(`🏆 Logro: ${l.name}`,"good");any=true;}
+    if(val>=(l.max||1)){const nm=currentLang==='en'&&l.en_name?l.en_name:l.name;logrosUnlocked.add(l.id);showLogroPopup(nm);addLog(`🏆 ${currentLang==='en'?'Achievement':'Logro'}: ${nm}`,"good");any=true;}
   });
   if(any){const b=document.getElementById("logros-badge");if(b)b.style.display="";}
 }
@@ -3201,39 +3219,44 @@ function buyPrestige(id){
 function triggerRandomEvent(){
   nextEventTime=Date.now()+(420000+Math.random()*480000); // 7-15 min cooldown
   const evt=rnd(EVENTS_DEF);
-  const banner=document.getElementById("event-banner");
-  const badge=document.getElementById("event-active-badge");
   if(evt.instant){
     // Apply instant effect
     if(evt.id==="migration"){
       const d=crearDinoSalvaje("basica");misDinos.push(d);discoverDino(d);
       renderList();renderDetail();checkLogros();
-      showEventBanner(`${evt.name} — Un ${d.color} se une a tu manada!`,evt.cls||"");
+      notif(`${evt.name} — Un ${d.color} se une a tu manada!`);
     }else if(evt.id==="fossil"){
       const coins=Math.floor(80+Math.random()*200)*(1+ascLevel*0.5);
       dinero+=coins;stats.totalEarned+=coins;renderMoney();renderShop();
-      showEventBanner(`${evt.name} — +${Math.floor(coins)}💰 encontrados!`,evt.cls||"");
+      notif(`${evt.name} — +${Math.floor(coins)}💰 encontrados!`);
     }else if(evt.id==="pulse"){
       bonusRarityNextEgg=true;
-      showEventBanner(`${evt.name} — ¡El próximo huevo será especial!`,evt.cls||"");
+      notif(`${evt.name} — ¡El próximo huevo será especial!`);
     }
     addLog(`✨ Evento: ${evt.name}`,"good");
   }else{
     activeEvent={id:evt.id};
     eventEndTime=Date.now()+evt.duration;
-    showEventBanner(`${evt.name} — ${evt.desc}`,evt.cls||"");
-    if(badge){
-      badge.textContent=`${evt.icon} ${evt.name.split(" ").slice(1,3).join(" ")} — activo`;
-      badge.className="event-active-badge show";
-    }
+    notif(`${evt.name} — ${evt.desc}`);
+    const evtBtn=document.getElementById("event-btn");
+    if(evtBtn){evtBtn.textContent=`${evt.icon} ${evt.name.split(" ").slice(1,3).join(" ")}`;evtBtn.style.display="";}
     addLog(`✨ Evento activo: ${evt.name} (${Math.round(evt.duration/1000)}s)`,"good");
   }
 }
-function showEventBanner(msg,cls){
-  const el=document.getElementById("event-banner");if(!el)return;
-  el.textContent=msg;
-  el.className=`event-banner show ${cls}`;
-  setTimeout(()=>{el.classList.remove("show");setTimeout(()=>{el.textContent="";el.className="event-banner";},400);},5000);
+function showActiveEvent(){
+  if(!activeEvent)return;
+  const evt=EVENTS_DEF.find(e=>e.id===activeEvent.id);if(!evt)return;
+  const secs=Math.max(0,Math.round((eventEndTime-Date.now())/1000));
+  const title=document.getElementById("modal-title");
+  const body=document.getElementById("modal-body");
+  const overlay=document.getElementById("modal-overlay");
+  if(!title||!body||!overlay)return;
+  title.textContent=currentLang==='en'?'Active Event':'Evento Activo';
+  body.innerHTML=`<div style="text-align:center;padding:12px;font-size:28px">${evt.icon}</div>
+    <div style="font-size:11px;color:var(--a2);text-align:center;margin-bottom:6px">${evt.name}</div>
+    <div style="font-size:9px;color:var(--dm);text-align:center;line-height:1.6">${evt.desc}</div>
+    <div style="font-size:8px;color:var(--fo);text-align:center;margin-top:8px">${currentLang==='en'?'Time remaining:':'Tiempo restante:'} ${secs}s</div>`;
+  overlay.style.display="flex";
 }
 
 // ═══ ASCENSIÓN ═══
@@ -3499,8 +3522,8 @@ function gameLoop(){
   // Active event cleanup
   if(activeEvent&&eventEndTime>0&&Date.now()>=eventEndTime){
     activeEvent=null;eventEndTime=0;
-    const badge=document.getElementById("event-active-badge");
-    if(badge){badge.classList.remove("show");badge.textContent="";}
+    const evtBtn=document.getElementById("event-btn");
+    if(evtBtn)evtBtn.style.display="none";
     notif("✓ Evento terminado");
   }
   // Egg hatching
@@ -3812,6 +3835,11 @@ function loadGame(){
   activeEvent=save.activeEvent||null;
   eventEndTime=save.eventEndTime||0;
   nextEventTime=save.nextEventTime||Date.now()+420000+(Math.random()*480000);
+  if(activeEvent&&eventEndTime>Date.now()){
+    const evt=EVENTS_DEF.find(e=>e.id===activeEvent.id);
+    const evtBtn=document.getElementById("event-btn");
+    if(evtBtn&&evt){evtBtn.textContent=`${evt.icon} ${evt.name.split(" ").slice(1,3).join(" ")}`;evtBtn.style.display="";}
+  }
   if(save.excavState)Object.assign(excavState,JSON.parse(JSON.stringify(save.excavState)));
   bonusRarityNextEgg=save.bonusRarityNextEgg||false;
   if(save.lightMode){
